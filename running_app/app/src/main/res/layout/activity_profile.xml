@@ -114,7 +114,7 @@
                     android:id="@+id/averPaceNum"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="00 : 00"
+                    android:text="00&apos; 00&quot;"
                     android:textSize="50sp"
                     android:textStyle="bold"/>
 
