@@ -24,7 +24,7 @@ public class activity_signup extends AppCompatActivity {
     String[] activity_locations = {"강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구",
     "도봉구","동대문구","동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구",
     "종로구","중구","중랑구"};
-    Button pwcheck, submit;
+    Button pwcheckButton, submitButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,18 +68,18 @@ public class activity_signup extends AppCompatActivity {
         });
 
         //비밀번호 학인 버튼
-        pwcheck = findViewById(R.id.pwcheckbutton);
-        pwcheck.setOnClickListener(v -> {
+        pwcheckButton = findViewById(R.id.pwcheckbutton);
+        pwcheckButton.setOnClickListener(v -> {
             if(pw.getText().toString().equals(pw2.getText().toString())){
-                pwcheck.setText("일치");
+                pwcheckButton.setText("일치");
             } else {
                 Toast.makeText(activity_signup.this,"비밀번호가 다릅니다.", Toast.LENGTH_LONG).show();
             }
         });
         //회원가입 완료 버튼
-        submit = findViewById(R.id.signupbutton);
-        submit.setOnClickListener(v -> {
-            Intent intent = new Intent(this, Login.class);
+        submitButton = findViewById(R.id.signupbutton);
+        submitButton.setOnClickListener(v -> {
+            Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         });
 
