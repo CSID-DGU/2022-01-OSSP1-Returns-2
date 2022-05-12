@@ -17,13 +17,19 @@
             android:value="AIzaSyBKlD9wjWz6785hLZfj08TEpIfixkmuyeM" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".activity_signup"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+
         </activity>
     </application>
 
