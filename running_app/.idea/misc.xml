@@ -12,9 +12,13 @@
         <entry key="..\:/Users/JIHO/Documents/GitHub/2022-01-OSSP1-Returns-2/running_app/app/src/main/res/drawable/checkbox_unchecked.xml" value="0.107" />
         <entry key="..\:/Users/JIHO/Documents/GitHub/2022-01-OSSP1-Returns-2/running_app/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/JIHO/Documents/GitHub/2022-01-OSSP1-Returns-2/running_app/app/src/main/res/layout/activity_signup.xml" value="0.33" />
-        <entry key="..\:/Users/ygh40/AndroidStudioProjects/2022-01-OSSP1-Returns-2/running_app/app/src/main/res/layout/activity_login.xml" value="0.25" />
-        <entry key="..\:/Users/ygh40/AndroidStudioProjects/2022-01-OSSP1-Returns-2/running_app/app/src/main/res/layout/activity_main.xml" value="0.33" />
-        <entry key="..\:/Users/ygh40/AndroidStudioProjects/2022-01-OSSP1-Returns-2/running_app/app/src/main/res/layout/activity_signup.xml" value="0.33" />
+        <entry key="app/src/main/res/drawable/box_login.xml" value="0.2625" />
+        <entry key="app/src/main/res/drawable/check_box.xml" value="0.2625" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.32061767578125" />
+        <entry key="app/src/main/res/layout/activity_mainform.xml" value="0.3365966796875" />
+        <entry key="app/src/main/res/layout/activity_profile.xml" value="0.2256668090820314" />
+        <entry key="app/src/main/res/layout/activity_signup.xml" value="0.26260986328125" />
+        <entry key="app/src/main/res/menu/search_menu.xml" value="0.4036458333333333" />
       </map>
     </option>
   </component>

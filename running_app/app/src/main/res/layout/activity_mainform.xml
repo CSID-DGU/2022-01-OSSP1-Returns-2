@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="808dp"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="top"
     tools:context=".MainActivity">
@@ -22,7 +22,13 @@
             app:iconifiedByDefault="false"
             app:queryHint="검색어를 입력하시오"
             android:layout_weight=".80"/>
-
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_margin="10dp"
+            android:text="Myloc"
+            android:textColor="@color/white" />
     </LinearLayout>
 
     <fragment
@@ -33,50 +39,51 @@
         tools:context=".MainActivity"
         >
     </fragment>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="135dp"
+        android:layout_height="wrap_content"
         >
 
         <ListView
             android:id="@+id/MachingUserList"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="170dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
     </LinearLayout>
-
-
     <!--  하단 바 구성 요소  -->
     <LinearLayout
-
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal">
+
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1">
 
         <Button
             android:id="@+id/homeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Home" />
+            android:text="Home"
+            />
 
         <Button
             android:id="@+id/matchingButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Matching" />
+            android:text="Matching"/>
 
         <Button
             android:id="@+id/profileButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Profile" />
+            android:text="Profile"/>
 
     </LinearLayout>
 
