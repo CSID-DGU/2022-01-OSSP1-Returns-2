@@ -1,5 +1,6 @@
 package com.example.running_app;
 
+import android.content.Intent;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -55,8 +56,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         matchingButton = findViewById(R.id.matchingButton);
         matchingButton.setOnClickListener(v -> onBackPressed() );
 
+        //프로필 버튼
         profileButton = findViewById(R.id.profileButton);
-        profileButton.setOnClickListener(v -> onBackPressed() );
+        profileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), activity_profile.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
