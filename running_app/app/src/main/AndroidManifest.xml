@@ -17,7 +17,7 @@
             android:value="AIzaSyBKlD9wjWz6785hLZfj08TEpIfixkmuyeM" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".activity_signup"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,6 +26,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity_profile" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+        </activity>
+
     </application>
 
 </manifest>

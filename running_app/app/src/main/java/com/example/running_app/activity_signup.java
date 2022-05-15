@@ -76,13 +76,13 @@ public class activity_signup extends AppCompatActivity {
                 Toast.makeText(activity_signup.this,"비밀번호가 다릅니다.", Toast.LENGTH_LONG).show();
             }
         });
+
         //회원가입 완료 버튼
         submitButton = findViewById(R.id.signupbutton);
         submitButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         });
-
 
     }
 }
