@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
@@ -26,7 +27,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    static final String[] MachingProfileList = {"UserList","Userface","CourceInfo","CourseName","DepartureTime"};
+    static final String[] MachingProfileList = {"해당 매칭 정보"};
     private GoogleMap googleMap;
     Button homeButton, matchingButton, profileButton;
     @Override
@@ -50,13 +51,31 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
         homeButton = findViewById(R.id.homeButton);
-        homeButton.setOnClickListener(v -> onBackPressed() );
+        homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
         matchingButton = findViewById(R.id.matchingButton);
-        matchingButton.setOnClickListener(v -> onBackPressed() );
+        matchingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
         profileButton = findViewById(R.id.profileButton);
-        profileButton.setOnClickListener(v -> onBackPressed() );
+        profileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),activity_profile.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
