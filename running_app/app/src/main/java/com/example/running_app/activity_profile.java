@@ -1,5 +1,6 @@
 package com.example.running_app;
 
+import android.content.Intent;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,14 +31,32 @@ public class activity_profile extends AppCompatActivity{
         introduce = (EditText) findViewById(R.id.introduce);
         introduce.setText("EditText is changed.");
 
+
         //하단 버튼
         homeButton = findViewById(R.id.homeButton);
-        homeButton.setOnClickListener(v -> onBackPressed() );
-
+        homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(intent);
+            }
+        });
+        // 아직 매칭 페이지는 구현 안해서 경로 MainActivity로 잡아놓음.
         matchingButton = findViewById(R.id.matchingButton);
-        matchingButton.setOnClickListener(v -> onBackPressed() );
+        matchingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
         profileButton = findViewById(R.id.profileButton);
-        profileButton.setOnClickListener(v -> onBackPressed() );
+        profileButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(getApplicationContext(), activity_profile.class);
+            }
+        });
     }
 }
