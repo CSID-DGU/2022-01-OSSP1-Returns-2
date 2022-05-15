@@ -20,9 +20,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:iconifiedByDefault="false"
-            app:queryHint="검색어를 입력하시오"
+            app:queryHint="해당 지역"
             android:layout_weight=".80"/>
-
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="login" />
     </LinearLayout>
 
     <fragment
