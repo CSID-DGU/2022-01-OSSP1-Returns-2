@@ -99,7 +99,7 @@
             android:layout_marginLeft="160dp"
             android:layout_marginTop="10dp"
             android:text="회원가입"
-            android:textSize="8sp"
+            android:textSize="11sp"
             app:layout_constraintEnd_toEndOf="@+id/btn_login"
             app:layout_constraintStart_toEndOf="@+id/btn_findPW"
             app:layout_constraintTop_toBottomOf="@+id/btn_login" />
