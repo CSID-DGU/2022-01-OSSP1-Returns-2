@@ -80,7 +80,7 @@ public class activity_signup extends AppCompatActivity {
         //회원가입 완료 버튼
         submitButton = findViewById(R.id.signupbutton);
         submitButton.setOnClickListener(v -> {
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, activity_login.class);
             startActivity(intent);
         });
 
