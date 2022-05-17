@@ -71,6 +71,48 @@ app.post("/user/join", function (req, res) {
   });
 });
 
+//로그인
+app.post("/user/login", function (req, res) {
+  var id = req.body.id;
+  var password = req.body.password;
+  var sql = "select * from Users where id = ? AND password = ?";
+  var params = [id, password];
+  connection.query(sql, params, function (err, result) {
+    if (err) console.log(err);
+    else {
+      if (result.length === 0) {
+        res.json({
+          result: false,
+          msg: "존재하지 않는 계정입니다!",
+        });
+      } else if (password !== result[0].password) {
+        res.json({
+          result: false,
+          msg: "비밀번호가 틀렸습니다!",
+        });
+      } else {
+        res.json({
+          result: true,
+          msg: "로그인 성공!",
+          nickname: result[0].nickname,
+          email: result[0].email,
+          password: result[0].password,
+          user_location_latitude: result[0].user_location_latitude,
+          user_location_longitude: result[0].user_location_longitude,
+          gender: result[0].gender,
+          career: result[0].career,
+          activity_place: result[0].activity_place,
+          average_face: result[0].average_face,
+          running_type: result[0].running_type,
+          match_with_course: result[0].match_with_course,
+          match_with_track: result[0].match_with_track,
+          id: result[0].id,
+        });
+      }
+    }
+  });
+});
+
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
