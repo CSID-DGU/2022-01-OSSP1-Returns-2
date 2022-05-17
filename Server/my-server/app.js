@@ -26,6 +26,51 @@ var connection = mysql.createConnection({
   port: 3306,
 });
 
+//회원가입
+app.post("/user/join", function (req, res) {
+  var nickname = req.body.nickname;
+  var email = req.body.email;
+  var password = req.body.password;
+  var user_location_latitude = null;
+  var user_location_longitude = null;
+  var gender = req.body.gender;
+  var career = req.body.career;
+  var activity_place = req.body.activity_place;
+  var average_face = null;
+  var running_type = null;
+  var match_with_course = null;
+  var match_with_track = null;
+  var id = req.body.id;
+
+  var sql =
+    "INSERT INTO Users (nickname, email, password, user_location_latitude, user_location_longitude, gender, career, activity_place, average_face, running_type, match_with_course, match_with_track, id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+  var params = [
+    nickname,
+    email,
+    password,
+    user_location_latitude,
+    user_location_longitude,
+    gender,
+    career,
+    activity_place,
+    average_face,
+    running_type,
+    match_with_course,
+    match_with_track,
+    id,
+  ];
+
+  connection.query(sql, params, function (err, result) {
+    if (err) console.log(err);
+    else {
+      res.json({
+        result: true,
+        msg: "회원가입에 성공했습니다.",
+      });
+    }
+  });
+});
+
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
