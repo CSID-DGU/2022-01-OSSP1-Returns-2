@@ -18,7 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class activity_signup extends AppCompatActivity {
     TextView back;
-    EditText id,nickname,pw,pw2,age,career,email;
+    EditText id,nickname,pw,pw2,career,email;
     CheckBox man,woman;
     String activity_location;
     String[] activity_locations = {"강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구",
@@ -40,7 +40,6 @@ public class activity_signup extends AppCompatActivity {
         nickname = findViewById(R.id.signNickName);
         pw = findViewById(R.id.signPW);
         pw2 = findViewById(R.id.signPW2);
-        age = findViewById(R.id.signAge);
         career = findViewById(R.id.signCareer);
         email = findViewById(R.id.signmail);
         man = findViewById(R.id.signMan);

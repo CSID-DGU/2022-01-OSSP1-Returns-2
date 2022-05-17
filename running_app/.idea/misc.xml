@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/2022-01-OSSP1-Returns-2/running_app/app/src/main/res/drawable/box_login.xml" value="0.2165" />
+        <entry key="..\:/2022-01-OSSP1-Returns-2/running_app/app/src/main/res/drawable/check_box.xml" value="0.2165" />
+        <entry key="..\:/2022-01-OSSP1-Returns-2/running_app/app/src/main/res/layout/activity_login.xml" value="0.3435185185185185" />
         <entry key="..\:/2022-01-OSSP1-Returns-2/running_app/app/src/main/res/layout/activity_main.xml" value="0.24895833333333334" />
         <entry key="..\:/2022-01-OSSP1-Returns-2/running_app/app/src/main/res/layout/activity_signup.xml" value="0.24895833333333334" />
         <entry key="..\:/Users/JIHO/Documents/GitHub/2022-01-OSSP1-Returns-2/running_app/app/src/main/res/drawable/box_id.xml" value="0.308" />

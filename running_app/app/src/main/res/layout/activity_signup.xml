@@ -154,35 +154,6 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/signBirthtext"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:text="나이"
-                    android:textColor="@color/black"
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <EditText
-                        android:id="@+id/signAge"
-                        android:layout_width="100dp"
-                        android:layout_height="40dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginBottom="20dp"
-                        android:background="@drawable/box_id"
-                        android:ems="10"
-                        android:hint=" 나이"
-                        android:inputType="textPersonName"
-                        android:text="" />
-
-                </LinearLayout>
-
-                <TextView
                     android:id="@+id/signgendertext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
