@@ -17,12 +17,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //DB연결
 var mysql = require("mysql");
+//import dotenv from 'dotenv'
+require("dotenv").config();
 
 var connection = mysql.createConnection({
-  host: "database-1.cx2za6xyjcju.ap-northeast-2.rds.amazonaws.com",
-  user: "admin",
-  database: "RunningApp",
-  password: "rlawlgh1234",
+  host: process.env.HOST_NAME,
+  user: process.env.USER_NAME,
+  database: process.env.DATABASE_NAME,
+  password: process.env.DATABASE_PASSWORD,
   port: 3306,
 });
 
