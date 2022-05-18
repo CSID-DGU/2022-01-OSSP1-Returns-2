@@ -52,6 +52,17 @@
 
     </LinearLayout>
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/newRunningButton"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:background="@drawable/box_login"
+        android:text="새로운 러닝 일정 만들기"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
 
     <!--  하단 바 구성 요소  -->
     <LinearLayout
