@@ -37,16 +37,16 @@ public class activity_profile extends AppCompatActivity{
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                Intent intent = new Intent(getApplicationContext(),activity_home.class);
                 startActivity(intent);
             }
         });
-        // 아직 매칭 페이지는 구현 안해서 경로 MainActivity로 잡아놓음.
+        // 아직 매칭 페이지는 구현 안해서 경로 activity_home으로 잡아놓음.
         matchingButton = findViewById(R.id.matchingButton);
         matchingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                Intent intent = new Intent(getApplicationContext(),activity_home.class);
                 startActivity(intent);
             }
         });

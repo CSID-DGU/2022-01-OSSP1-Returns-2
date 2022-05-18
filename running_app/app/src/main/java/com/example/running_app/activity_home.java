@@ -30,7 +30,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
 
     static final String[] MachingProfileList = {"해당 매칭 정보"};
     private GoogleMap googleMap;
-    Button homeButton, matchingButton, profileButton;
+    Button newRunningButton, homeButton, matchingButton, profileButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +51,17 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
                 String strText = (String) parent.getItemAtPosition(position);
             }
         });
+
+        //아직 새로운 매칭 버튼 누르면 페이지 열리는 거 구현 못함.
+        newRunningButton = findViewById(R.id.newRunningButton);
+        newRunningButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), activity_home.class);
+                startActivity(intent);
+            }
+        });
+
         homeButton = findViewById(R.id.homeButton);
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
