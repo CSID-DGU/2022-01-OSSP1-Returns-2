@@ -17,7 +17,7 @@
             android:value="AIzaSyBKlD9wjWz6785hLZfj08TEpIfixkmuyeM" />
 
         <activity
-            android:name=".activity_login"
+            android:name=".MainActivity"
             android:exported="true">
 
             <intent-filter>
@@ -32,9 +32,17 @@
             android:exported="true">
 
         </activity>
-        <activity android:name=".activity_profile" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activity_profile"
+            android:exported="true">
+
+        </activity>
+        <activity
+            android:name=".activity_home"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".activity_login"
             android:exported="true">
         </activity>
 
