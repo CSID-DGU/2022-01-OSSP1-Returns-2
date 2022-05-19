@@ -3,18 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#1D272F">
-    <LinearLayout
+
+    <ImageView
+        android:id="@+id/logo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center">
+        android:scaleType="center"
+        android:src="@mipmap/logo">
 
-        <ImageView
-            android:id="@+id/logo"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@mipmap/logo"
-            android:scaleType="center">
+    </ImageView>
 
-        </ImageView>
-    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
