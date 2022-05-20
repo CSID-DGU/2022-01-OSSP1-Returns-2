@@ -67,7 +67,6 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(),activity_home.class);
-                startActivity(intent);
             }
         });
 
