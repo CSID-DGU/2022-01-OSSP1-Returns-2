@@ -175,8 +175,12 @@ public class activity_signup extends AppCompatActivity {
                 SignupResponse result = response.body();
                 Toast.makeText(activity_signup.this, result.getMsg(), Toast.LENGTH_SHORT).show();
                 showProgress(false);
+//                if(result.getResult()){
+//                    Log.e("test", "test");
+//                    finish();
+//                }
                 if(result.getResult()){
-                    finish();
+                    Log.e("test", result.getMsg());
                 }
             }
             //통신 실패시 호출

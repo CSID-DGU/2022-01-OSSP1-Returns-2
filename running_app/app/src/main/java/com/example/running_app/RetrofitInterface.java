@@ -8,9 +8,11 @@ import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 
 public interface RetrofitInterface {
+    @POST("/user/login")
+    Call<LoginResponse> Login(@Body LoginData data);
+
     @POST("/user/join")
     Call<SignupResponse> Signup(@Body SignupData data);
 
-//    @POST("/user/login")
-//    Call<LoginResponse> Login(@Body LoginData data);
+
 }
