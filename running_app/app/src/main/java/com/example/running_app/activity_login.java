@@ -76,11 +76,10 @@ public class activity_login extends AppCompatActivity {
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response){
                 LoginResponse result = response.body();
                 Toast.makeText(activity_login.this, result.getMsg(), Toast.LENGTH_SHORT).show();
-                if (result.getResult()){
-                    Intent intent = new Intent(getApplicationContext(),activity_home.class);
+                if (result.getResult()) {
+                    Intent intent = new Intent(getApplicationContext(), activity_home.class);
                     startActivity(intent);
                 }
-                finish();
             }
 
             @Override
