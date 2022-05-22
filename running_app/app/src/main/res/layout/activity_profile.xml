@@ -14,46 +14,44 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:text="user_id"
-        android:textSize="30sp"
+        android:textColor="@color/black"
+        android:textSize="40sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/runCountKr"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:background="#2B45D3"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
         android:text="달린 횟수"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="30sp"
+        android:textColor="@color/white"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/introduce" />
 
     <TextView
         android:id="@+id/runCountNum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:layout_marginTop="5dp"
         android:text="0회"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="50sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/runCountKr"
-        app:layout_constraintStart_toStartOf="@+id/runCountKr"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/runCountKr" />
 
     <EditText
         android:id="@+id/introduce"
         android:layout_width="0dp"
-        android:layout_height="54dp"
-        android:layout_marginTop="5dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/box_id"
         android:hint="자기소개 하기"
         android:inputType="text"
@@ -61,21 +59,22 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/runCountNum" />
+        app:layout_constraintTop_toBottomOf="@+id/userID" />
 
     <TextView
         android:id="@+id/averPaceKr"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
         android:layout_marginTop="40dp"
-        android:layout_marginEnd="140dp"
+        android:background="#2B45D3"
         android:text="평균 페이스"
-        android:textSize="50sp"
+        android:textColor="@color/white"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/introduce" />
+        app:layout_constraintTop_toBottomOf="@+id/runCountNum" />
 
     <TextView
         android:id="@+id/averPaceNum"
@@ -83,6 +82,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text="00&apos; 00&quot;"
+        android:textColor="@color/black"
         android:textSize="50sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/averPaceKr"
@@ -90,12 +90,15 @@
 
     <TextView
         android:id="@+id/averKmKr"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
+        android:background="#2B45D3"
         android:text="평균 달린 거리"
-        android:textSize="50sp"
+        android:textColor="@color/white"
+        android:textSize="20sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/averPaceNum"
         app:layout_constraintTop_toBottomOf="@+id/averPaceNum" />
 
@@ -105,6 +108,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="0.0 KM"
+        android:textColor="@color/black"
         android:textSize="50sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/averKmKr"

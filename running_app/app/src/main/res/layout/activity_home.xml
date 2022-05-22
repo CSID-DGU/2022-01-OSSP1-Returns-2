@@ -27,8 +27,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
-        android:text="login"
-        android:textSize="12sp"
+        android:backgroundTint="#2B45D3"
+        android:text="로그인"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -41,6 +42,18 @@
         app:layout_constraintTop_toBottomOf="@+id/search_view"
         tools:context=".MainActivity"
         tools:layout_editor_absoluteX="-16dp"></fragment>
+
+    <ListView
+        android:id="@+id/MachingUserList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/newRunningButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/map">
+
+    </ListView>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/newRunningButton"
@@ -59,18 +72,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/MachingUserList" />
 
-    <ListView
-        android:id="@+id/MachingUserList"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/newRunningButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/map">
-
-    </ListView>
-
     <Button
         android:id="@+id/matchingButton"
         android:layout_width="120dp"
@@ -79,6 +80,7 @@
         android:layout_marginBottom="10dp"
         android:backgroundTint="#2B45D3"
         android:text="Matching"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -89,6 +91,7 @@
         android:layout_marginBottom="10dp"
         android:backgroundTint="#2B45D3"
         android:text="Home"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/profileButton"
         app:layout_constraintHorizontal_bias="0.5"
@@ -102,9 +105,9 @@
         android:layout_marginBottom="10dp"
         android:backgroundTint="#2B45D3"
         android:text="Profile"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
 
     <!--  하단 바 구성 요소  -->
 

@@ -27,13 +27,13 @@
         android:id="@+id/button3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="left"
         android:layout_margin="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:backgroundTint="#2B45D3"
-        android:text="Myloc"
+        android:text="현위치"
         android:textColor="@color/white"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -50,7 +50,7 @@
 
     <ListView
         android:id="@+id/MachingUserList"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toTopOf="@+id/homeButton"
@@ -67,6 +67,7 @@
         android:layout_marginBottom="10dp"
         android:backgroundTint="#2B45D3"
         android:text="Home"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/profileButton"
         app:layout_constraintHorizontal_bias="0.5"
@@ -80,6 +81,7 @@
         android:layout_marginBottom="10dp"
         android:backgroundTint="#2B45D3"
         android:text="Matching"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/homeButton"
         app:layout_constraintStart_toStartOf="parent" />
@@ -92,6 +94,7 @@
         android:layout_marginBottom="10dp"
         android:backgroundTint="#2B45D3"
         android:text="Profile"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/homeButton" />
