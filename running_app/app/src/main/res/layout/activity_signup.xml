@@ -265,9 +265,17 @@
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
+                <ProgressBar
+                    android:id="@+id/join_progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="gone" />
             </LinearLayout>
 
         </ScrollView>
+
+
 
     </LinearLayout>
 
