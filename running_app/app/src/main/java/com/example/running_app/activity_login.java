@@ -41,7 +41,7 @@ public class activity_login extends AppCompatActivity {
         id = findViewById(R.id.tv_id);
         pw = findViewById(R.id.tv_pw);
 
-        RetrofitInterface service = RetrofitClient.getClient().create(RetrofitInterface.class);
+        service = RetrofitClient.getClient().create(RetrofitInterface.class);
 
         // 회원가입 버튼
         signup = findViewById(R.id.btn_signup);
@@ -68,8 +68,6 @@ public class activity_login extends AppCompatActivity {
         String mid = id.getText().toString();
         String mpassword = pw.getText().toString();
         startLogin(new LoginData(mid, mpassword));
-        Intent intent = new Intent(this, activity_home.class);
-        startActivity(intent);
     }
 
     private void startLogin(LoginData data){
@@ -78,6 +76,9 @@ public class activity_login extends AppCompatActivity {
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response){
                 LoginResponse result = response.body();
                 Toast.makeText(activity_login.this, result.getMsg(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(),activity_home.class);
+                startActivity(intent);
+                finish();
             }
 
             @Override

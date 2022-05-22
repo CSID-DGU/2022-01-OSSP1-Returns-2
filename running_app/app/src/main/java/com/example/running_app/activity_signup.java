@@ -57,7 +57,7 @@ public class activity_signup extends AppCompatActivity {
         woman = findViewById(R.id.signWoman);
         mProgressView = (ProgressBar) findViewById(R.id.join_progress);
 
-        RetrofitInterface service = RetrofitClient.getClient().create(RetrofitInterface.class);
+        service = RetrofitClient.getClient().create(RetrofitInterface.class);
 
         //드롭다운 박스
         @SuppressLint("WrongViewCast") Spinner spinner = findViewById(R.id.sign_activate_location);
@@ -175,13 +175,11 @@ public class activity_signup extends AppCompatActivity {
                 SignupResponse result = response.body();
                 Toast.makeText(activity_signup.this, result.getMsg(), Toast.LENGTH_SHORT).show();
                 showProgress(false);
-//                if(result.getResult()){
-//                    Log.e("test", "test");
-//                    finish();
-//                }
                 if(result.getResult()){
-                    Log.e("test", result.getMsg());
+                    Log.e("test", "test");
+                    finish();
                 }
+
             }
             //통신 실패시 호출
             @Override
