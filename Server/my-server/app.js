@@ -153,6 +153,27 @@ app.post("/matching/join", function (req, res) {
     }
   });
 });
+
+// 프로필 조회
+app.post("/user/profile", function (req, res) {
+  var id = req.body.id;
+  var sql = "select * from Users where id = ?";
+  var params = [id];
+  connection.query(sql, params, function (err, result) {
+    if (err) console.log(err);
+    else {
+      res.json({
+        result: true,
+        msg: "프로필 조회",
+        nickname: result[0].nickname,
+        running_count: result[0].running_count,
+        average_face: result[0].average_face,
+        average_distance: result[0].average_distance,
+      });
+    }
+  });
+});
+
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
