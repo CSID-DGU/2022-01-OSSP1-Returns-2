@@ -43,9 +43,11 @@ app.post("/user/join", function (req, res) {
   var match_with_course = null;
   var match_with_track = null;
   var id = req.body.id;
+  var running_count = 0;
+  var average_distance = 0.0;
 
   var sql =
-    "INSERT INTO Users (nickname, email, password, user_location_latitude, user_location_longitude, gender, career, activity_place, average_face, running_type, match_with_course, match_with_track, id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    "INSERT INTO Users (nickname, email, password, user_location_latitude, user_location_longitude, gender, career, activity_place, average_face, running_type, match_with_course, match_with_track, id, running_count, average_distance) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
   var params = [
     nickname,
     email,
@@ -60,6 +62,8 @@ app.post("/user/join", function (req, res) {
     match_with_course,
     match_with_track,
     id,
+    running_count,
+    average_distance,
   ];
 
   connection.query(sql, params, function (err, result) {
@@ -109,13 +113,15 @@ app.post("/user/login", function (req, res) {
           match_with_course: result[0].match_with_course,
           match_with_track: result[0].match_with_track,
           id: result[0].id,
+          running_count: result[0].running_count,
+          average_distance: result[0].average_distance,
         });
       }
     }
   });
 });
 
-//매칭방 생성 
+//매칭방 생성
 app.post("/matching/join", function (req, res) {
   var nickname = req.body.nickname;
   var departure_time = req.body.departure_time;
@@ -124,8 +130,9 @@ app.post("/matching/join", function (req, res) {
   var mate_level = req.body.mate_level;
   var start_latitude = req.body.start_latitude;
   var start_longitude = req.body.start_longitude;
-  
-  var sql = "INSERT INTO Activating_Room (room_id, nickname, departure_time, running_time, mate_gender, mate_level, start_latitude, start_longitude) VALUES ((SELECT IFNULL(MAX(Room_id)+1,1) FROM Activating_Room a), ?, ?, ?, ?, ?, ?, ?)";
+
+  var sql =
+    "INSERT INTO Activating_Room (room_id, nickname, departure_time, running_time, mate_gender, mate_level, start_latitude, start_longitude) VALUES ((SELECT IFNULL(MAX(Room_id)+1,1) FROM Activating_Room a), ?, ?, ?, ?, ?, ?, ?)";
 
   var params = [
     nickname,
