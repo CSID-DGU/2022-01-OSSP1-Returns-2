@@ -52,16 +52,16 @@ public class activity_login extends AppCompatActivity {
 
         // 로그인 버튼
         login = findViewById(R.id.btn_login);
-//        login.setOnClickListener(v -> {
-//            Intent intent = new Intent(this, activity_home.class);
-//            startActivity(intent);
-//        });
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptLogin();
-            }
+        login.setOnClickListener(v -> {
+            Intent intent = new Intent(this, activity_home.class);
+            startActivity(intent);
         });
+//        login.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                attemptLogin();
+//            }
+//        });
     }
 
     private void attemptLogin(){

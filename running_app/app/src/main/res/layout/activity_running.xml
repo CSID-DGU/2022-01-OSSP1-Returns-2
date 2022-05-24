@@ -4,80 +4,49 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".activity_running">
 
     <TextView
-        android:id="@+id/userID"
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:text="user_id"
+        android:layout_marginEnd="10dp"
+        android:text="Running"
         android:textColor="@color/black"
         android:textSize="40sp"
-        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <fragment
+        android:id="@+id/running"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/runningTime"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:layout_editor_absoluteX="0dp"></fragment>
+
     <TextView
-        android:id="@+id/runCountKr"
+        android:id="@+id/runningTime"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="200dp"
         android:background="#2B45D3"
-        android:layout_marginTop="10dp"
-        android:text="달린 횟수"
+        android:text=" 달린 시간"
         android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/runningStart"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/introduce" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/runCountNum"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="0회"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="50sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/runCountKr" />
-
-    <EditText
-        android:id="@+id/introduce"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/box_id"
-        android:hint="자기소개 하기"
-        android:inputType="text"
-        android:text=""
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userID" />
-
-    <TextView
-        android:id="@+id/averPaceKr"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:background="#2B45D3"
-        android:text="평균 페이스"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/runCountNum" />
-
-    <TextView
-        android:id="@+id/averPaceNum"
+        android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -85,25 +54,25 @@
         android:textColor="@color/black"
         android:textSize="50sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/averPaceKr"
-        app:layout_constraintTop_toBottomOf="@+id/averPaceKr" />
+        app:layout_constraintStart_toStartOf="@+id/runningTime"
+        app:layout_constraintTop_toBottomOf="@+id/runningTime" />
 
     <TextView
-        android:id="@+id/averKmKr"
+        android:id="@+id/runningDistance"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:background="#2B45D3"
-        android:text="평균 달린 거리"
+        android:text=" 달린 거리"
         android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/averPaceNum"
-        app:layout_constraintTop_toBottomOf="@+id/averPaceNum" />
+        app:layout_constraintStart_toStartOf="@+id/time"
+        app:layout_constraintTop_toBottomOf="@+id/time" />
 
     <TextView
-        android:id="@+id/averKmNum"
+        android:id="@+id/distance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -111,8 +80,34 @@
         android:textColor="@color/black"
         android:textSize="50sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/averKmKr"
-        app:layout_constraintTop_toBottomOf="@+id/averKmKr" />
+        app:layout_constraintStart_toStartOf="@+id/runningDistance"
+        app:layout_constraintTop_toBottomOf="@+id/runningDistance" />
+
+    <Button
+        android:id="@+id/runningStart"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="88dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="#2B45D3"
+        android:text="달리기 시작"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/home_btn"
+        app:layout_constraintEnd_toStartOf="@+id/runningEnd"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/runningEnd"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:backgroundTint="#2B45D3"
+        android:text="달리기 종료"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/runningStart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/runningStart" />
 
     <Button
         android:id="@+id/running_btn"
@@ -122,6 +117,7 @@
         android:layout_marginBottom="10dp"
         android:backgroundTint="#2B45D3"
         android:text="Running"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -132,6 +128,7 @@
         android:layout_marginBottom="10dp"
         android:backgroundTint="#2B45D3"
         android:text="Home"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/profile_btn"
         app:layout_constraintHorizontal_bias="0.5"
@@ -145,10 +142,9 @@
         android:layout_marginBottom="10dp"
         android:backgroundTint="#2B45D3"
         android:text="Profile"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
-    <!--  하단 바 구성 요소  -->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

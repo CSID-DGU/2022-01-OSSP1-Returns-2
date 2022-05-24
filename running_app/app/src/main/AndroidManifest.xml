@@ -48,6 +48,11 @@
             android:name=".activity_login"
             android:exported="true">
         </activity>
+        <activity
+            android:name=".activity_running"
+            android:exported="true">
+
+        </activity>
 
     </application>
 

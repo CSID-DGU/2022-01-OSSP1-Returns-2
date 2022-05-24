@@ -1,35 +1,22 @@
 package com.example.running_app;
 
 import android.content.Intent;
-import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class activity_profile extends AppCompatActivity{
-    TextView userID, runCountKr, runCountNum, averPaceKr, averPaceNum, averKmKr, averKmNum;
-    EditText introduce;
-    Button running_btn, home_btn, profile_btn;
+public class activity_running extends AppCompatActivity {
+    TextView runningTime, runningDistance;
+    Button start_btn, end_btn, running_btn, home_btn, profile_btn;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
-
-        //기입 항목
-        introduce = (EditText) findViewById(R.id.introduce);
-        introduce.setText("EditText is changed.");
+    protected void onCreate(@Nullable Bundle savedInstaceState) {
+        super.onCreate(savedInstaceState);
+        setContentView(R.layout.activity_running);
 
 
         // 하단 버튼 구성
@@ -62,5 +49,6 @@ public class activity_profile extends AppCompatActivity{
                 startActivity(intent);
             }
         });
+
     }
 }
