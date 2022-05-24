@@ -24,7 +24,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-
 public class activity_signup extends AppCompatActivity {
     TextView back;
     EditText id,nickname,pw,pw2,career,email;

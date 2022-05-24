@@ -1,5 +1,6 @@
 package com.example.running_app;
 
+import android.app.Activity;
 import android.content.Intent;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -10,6 +11,7 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
@@ -30,7 +32,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
 
     static final String[] MachingProfileList = {"해당 매칭 정보"};
     private GoogleMap googleMap;
-    Button newRunningButton, homeButton, matchingButton, profileButton;
+    Button logoutButton, newRunningButton, homeButton, matchingButton, profileButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +51,24 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
             public void onItemClick(AdapterView parent, View v, int position, long id) {
 
                 String strText = (String) parent.getItemAtPosition(position);
+            }
+        });
+
+        //logout버튼 구현
+        logoutButton = findViewById(R.id.logoutButton);
+        logoutButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(activity_home.this, activity_login.class);
+                startActivity(intent);
+
+                SharedPreferences auto = getSharedPreferences("auto", Activity.MODE_PRIVATE);
+                SharedPreferences.Editor editor = auto.edit();
+                editor.clear();
+                editor.commit();
+
+                Toast.makeText(activity_home.this, "로그아웃", Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
 
