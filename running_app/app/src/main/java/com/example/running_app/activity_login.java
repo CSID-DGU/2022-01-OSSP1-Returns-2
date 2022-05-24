@@ -46,7 +46,7 @@ public class activity_login extends AppCompatActivity {
         SharedPreferences auto = getSharedPreferences("auto", Activity.MODE_PRIVATE);
         //처음에는 SharedPreferences에 아무런 정보도 없으므로 값을 저장할 키들을 생성.
         // getString의 첫 번째 인자는 저장될 키, 두 번쨰 인자는 값.
-        // 첨엔 값이 없으므로 키값은 원하는 것으로 하시고 값을 null을 줌.
+        // 첨엔 값이 없으므로 키값은 원하는 것으로 하고 값을 null을 줌.
         loginId = auto.getString("inputId", null);
         loginPw = auto.getString("inputPw", null);
 

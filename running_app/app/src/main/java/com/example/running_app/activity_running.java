@@ -20,15 +20,16 @@ public class activity_running extends AppCompatActivity {
 
 
         // 하단 버튼 구성
-        // running 탭 버튼
-        running_btn = findViewById(R.id.running_btn);
-        running_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),activity_running.class);
-                startActivity(intent);
-            }
-        });
+        //본인 자신은 안 떠도 됨.
+//        // running 탭 버튼
+//        running_btn = findViewById(R.id.running_btn);
+//        running_btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(getApplicationContext(),activity_running.class);
+//                startActivity(intent);
+//            }
+//        });
 
         // home 버튼
         home_btn = findViewById(R.id.home_btn);
@@ -37,6 +38,7 @@ public class activity_running extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(),activity_home.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -47,6 +49,7 @@ public class activity_running extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), activity_profile.class);
                 startActivity(intent);
+                finish();
             }
         });
 
