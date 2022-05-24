@@ -24,7 +24,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-
 public class activity_signup extends AppCompatActivity {
     TextView back;
     EditText id,nickname,pw,pw2,career,email;
@@ -35,7 +34,6 @@ public class activity_signup extends AppCompatActivity {
     "종로구","중구","중랑구"};
     Button pwcheckButton, submitButton;
     RetrofitInterface service;
-    private ProgressBar mProgressView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,7 +53,6 @@ public class activity_signup extends AppCompatActivity {
         email = findViewById(R.id.signmail);
         man = findViewById(R.id.signMan);
         woman = findViewById(R.id.signWoman);
-        mProgressView = (ProgressBar) findViewById(R.id.join_progress);
 
         service = RetrofitClient.getClient().create(RetrofitInterface.class);
 
@@ -163,7 +160,6 @@ public class activity_signup extends AppCompatActivity {
             focusView.requestFocus();
         } else{
             startSignup(new SignupData(mid, mnickname, memail, mpw, gender, Integer.parseInt(mcareer),activity_location));
-            showProgress(true);
         }
     }
 
@@ -174,7 +170,7 @@ public class activity_signup extends AppCompatActivity {
             public void onResponse(Call<SignupResponse> call, Response<SignupResponse> response){
                 SignupResponse result = response.body();
                 Toast.makeText(activity_signup.this, result.getMsg(), Toast.LENGTH_SHORT).show();
-                showProgress(false);
+
                 if(result.getResult()){
                     Log.e("test", "test");
                     finish();
@@ -186,14 +182,11 @@ public class activity_signup extends AppCompatActivity {
             public void onFailure(Call<SignupResponse> call, Throwable t) {
                 Toast.makeText(activity_signup.this, "회원가입 에러 발생", Toast.LENGTH_SHORT).show();
                 Log.e("회원가입 에러 발생", t.getMessage());
-                showProgress(false);
+
             }
         });
     }
     private boolean isEmailValid(String memail){
         return memail.contains("@");
-    }
-    private void showProgress(boolean show) {
-        mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 }

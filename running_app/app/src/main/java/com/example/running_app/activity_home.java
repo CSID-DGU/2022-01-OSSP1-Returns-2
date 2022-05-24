@@ -1,6 +1,7 @@
 package com.example.running_app;
 
 import android.app.Dialog;
+import android.app.Activity;
 import android.content.Intent;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -11,6 +12,7 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
@@ -37,6 +39,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
     Button matchingButton, newRunningButton, running_btn, home_btn, profile_btn;
     Dialog dialog01;
 
+    Button logoutButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +62,25 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
             }
         });
 
+        //logout버튼 구현
+        logoutButton = findViewById(R.id.logoutButton);
+        logoutButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(activity_home.this, activity_login.class);
+                startActivity(intent);
+
+                SharedPreferences auto = getSharedPreferences("auto", Activity.MODE_PRIVATE);
+                SharedPreferences.Editor editor = auto.edit();
+                editor.clear();
+                editor.commit();
+
+                Toast.makeText(activity_home.this, "로그아웃", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
+
+        //아직 새로운 매칭 버튼 누르면 페이지 열리는 거 구현 못함.
  */
 
         // dialog 생성

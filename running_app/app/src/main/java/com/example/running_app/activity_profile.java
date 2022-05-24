@@ -18,7 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class activity_profile extends AppCompatActivity{
-    TextView userID, runCountKr, runCountNum, averPaceKr, averPaceNum, averKmKr, averKmNum;
+    TextView userNickname, runCountKr, runCountNum, averPaceKr, averPaceNum, averKmKr, averKmNum;
     EditText introduce;
     Button running_btn, home_btn, profile_btn;
 
