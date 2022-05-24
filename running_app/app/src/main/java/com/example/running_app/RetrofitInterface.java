@@ -14,5 +14,6 @@ public interface RetrofitInterface {
     @POST("/user/join")
     Call<SignupResponse> Signup(@Body SignupData data);
 
-
+    @POST("/user/profile")
+    Call<ProfileResponse> Profile(@Body ProfileData data);
 }

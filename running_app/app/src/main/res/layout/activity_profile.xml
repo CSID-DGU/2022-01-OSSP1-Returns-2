@@ -13,7 +13,7 @@
         android:layout_gravity="center"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:text="user_Nickname"
+        android:text="user_nickname"
         android:textColor="@color/black"
         android:textSize="40sp"
         android:textStyle="bold"
@@ -32,7 +32,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/introduce" />
+        app:layout_constraintTop_toBottomOf="@+id/userNickname" />
 
     <TextView
         android:id="@+id/runCountNum"
@@ -47,19 +47,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/runCountKr" />
 
-    <EditText
-        android:id="@+id/introduce"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/box_id"
-        android:hint="자기소개 하기"
-        android:inputType="text"
-        android:text=""
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userNickname" />
+<!--    <EditText-->
+<!--        android:id="@+id/introduce"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="48dp"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:background="@drawable/box_id"-->
+<!--        android:hint="자기소개 하기"-->
+<!--        android:inputType="text"-->
+<!--        android:text=""-->
+<!--        android:textSize="18sp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/userNickname" />-->
 
     <TextView
         android:id="@+id/averPaceKr"

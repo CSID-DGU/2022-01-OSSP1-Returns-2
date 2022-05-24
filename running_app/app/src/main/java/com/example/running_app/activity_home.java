@@ -61,7 +61,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
                 String strText = (String) parent.getItemAtPosition(position);
             }
         });
-
+*/
         //logout버튼 구현
         logoutButton = findViewById(R.id.logoutButton);
         logoutButton.setOnClickListener(new View.OnClickListener(){
@@ -81,7 +81,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         });
 
         //아직 새로운 매칭 버튼 누르면 페이지 열리는 거 구현 못함.
- */
+
 
         // dialog 생성
         dialog01 = new Dialog(activity_home.this);
@@ -116,18 +116,20 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(),activity_running.class);
                 startActivity(intent);
+                finish();
             }
         });
 
-        // home 버튼
-        home_btn = findViewById(R.id.home_btn);
-        home_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),activity_home.class);
-                startActivity(intent);
-            }
-        });
+        //자기 자신 누르면 안 떠도 됨.
+//        // home 버튼
+//        home_btn = findViewById(R.id.home_btn);
+//        home_btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(getApplicationContext(),activity_home.class);
+//                startActivity(intent);
+//            }
+//        });
 
         //프로필 버튼
         profile_btn = findViewById(R.id.profile_btn);
@@ -136,6 +138,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), activity_profile.class);
                 startActivity(intent);
+                finish();
             }
         });
     }
@@ -203,7 +206,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
             @Override
             public void onClick(View view) {
                 //여기에 기능 구현
-                finish();
+                dialog01.dismiss();
             }
         });
 
