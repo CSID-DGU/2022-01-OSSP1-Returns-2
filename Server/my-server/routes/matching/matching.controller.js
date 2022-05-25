@@ -29,8 +29,10 @@ module.exports.create = (req,res) =>{
   ];
 
   conn.query(sql, params, function (err, result) {
-    if (err) console.log(err);
-    else {
+    if (err) {
+      console.log(err);
+      db.conn();
+    }else {
       res.json({
         result: true,
         msg: "매칭방 생성 완료",
