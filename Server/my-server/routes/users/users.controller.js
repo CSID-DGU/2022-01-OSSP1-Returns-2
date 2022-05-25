@@ -1,21 +1,20 @@
-var db = require('../../db/connect');
+var db = require("../../db/connect");
 
 /**
- * 
+ *
  * 로그인 API
  */
 module.exports.login = (req, res) => {
-    var conn = db.conn();
+  var conn = db.conn();
   var id = req.body.id;
   var password = req.body.password;
   var sql = "select * from Users where id = ? AND password = ?";
   var params = [id, password];
-  conn.query(sql, params,(err, result) => {
+  conn.query(sql, params, (err, result) => {
     if (err) {
       console.log(err);
       conn.end();
-    }
-    else {
+    } else {
       if (result.length === 0) {
         res.json({
           result: false,
@@ -47,12 +46,12 @@ module.exports.login = (req, res) => {
       }
     }
   });
-}
+};
 
 /**
- * 
+ *
  * 회원가입 API
- * 
+ *
  */
 module.exports.join = (req, res) => {
   const conn = db.conn();
@@ -93,30 +92,28 @@ module.exports.join = (req, res) => {
     if (err) {
       console.log(err);
       conn.end();
-    }
-    else {
+    } else {
       res.json({
         result: true,
         msg: "회원가입에 성공했습니다.",
       });
     }
   });
-}
+};
 
 /**
  * 프로필 api
  */
-module.exports.profile = (req,res) => {
+module.exports.profile = (req, res) => {
   const conn = db.conn();
   var id = req.body.id;
   var sql = "select * from Users where id = ?";
   var params = [id];
-  connection.query(sql, params, function (err, result) {
+  conn.query(sql, params, function (err, result) {
     if (err) {
       console.log(err);
       conn.end();
-    }
-    else {
+    } else {
       res.json({
         result: true,
         msg: "프로필 조회",
@@ -127,4 +124,4 @@ module.exports.profile = (req,res) => {
       });
     }
   });
-}
+};
