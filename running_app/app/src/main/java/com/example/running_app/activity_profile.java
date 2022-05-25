@@ -52,7 +52,7 @@ public class activity_profile extends AppCompatActivity{
                 Toast.makeText(activity_profile.this, result.getNickname(), Toast.LENGTH_SHORT).show();
                 userNickname.setText(result.getNickname());
                 runCountNum.setText(result.getRunning_count()+" 회");
-                averPaceNum.setText(result.getAverage_face()+" 초");
+                averPaceNum.setText(result.getAverage_face());
                 averKmNum.setText(result.getAverage_distance()+" Km");
             }
             //통신 실패시 호출
