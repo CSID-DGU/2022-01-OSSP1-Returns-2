@@ -50,9 +50,13 @@ public class activity_profile extends AppCompatActivity{
             public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response){
                 ProfileResponse result = response.body();
                 Toast.makeText(activity_profile.this, result.getNickname(), Toast.LENGTH_SHORT).show();
+                SharedPreferences.Editor autoLogin = auto.edit();
+                autoLogin.putString("inputNickname", result.getNickname());
+                autoLogin.commit();
+
                 userNickname.setText(result.getNickname());
                 runCountNum.setText(result.getRunning_count()+" 회");
-                averPaceNum.setText(result.getAverage_face()+" 초");
+                averPaceNum.setText(result.getAverage_face());
                 averKmNum.setText(result.getAverage_distance()+" Km");
             }
             //통신 실패시 호출
@@ -60,7 +64,6 @@ public class activity_profile extends AppCompatActivity{
             public void onFailure(Call<ProfileResponse> call, Throwable t) {
                 Toast.makeText(activity_profile.this, "프로필 뷰 에러 발생", Toast.LENGTH_SHORT).show();
                 Log.e("프로필 뷰 에러 발생", t.getMessage());
-
             }
         });
 
