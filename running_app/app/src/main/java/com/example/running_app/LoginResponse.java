@@ -48,6 +48,12 @@ public class LoginResponse {
     @SerializedName("id")
     private String id;
 
+    @SerializedName("running_count")
+    private String running_count;
+
+    @SerializedName("average_distance")
+    private String average_distance;
+
     public String getMsg(){return msg;}
     public Boolean getResult(){return result;}
 }
