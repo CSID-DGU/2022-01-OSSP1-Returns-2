@@ -102,3 +102,29 @@ module.exports.join = (req, res) => {
     }
   });
 }
+
+/**
+ * 프로필 api
+ */
+module.exports.profile = (req,res) => {
+  const conn = db.conn();
+  var id = req.body.id;
+  var sql = "select * from Users where id = ?";
+  var params = [id];
+  connection.query(sql, params, function (err, result) {
+    if (err) {
+      console.log(err);
+      conn.end();
+    }
+    else {
+      res.json({
+        result: true,
+        msg: "프로필 조회",
+        nickname: result[0].nickname,
+        running_count: result[0].running_count,
+        average_face: result[0].average_face,
+        average_distance: result[0].average_distance,
+      });
+    }
+  });
+}
