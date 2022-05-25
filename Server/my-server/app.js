@@ -5,8 +5,17 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 
-var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
+const routes = require('./routes/index');
+
+/**
+ * var indexRouter = require("./routes/index");
+ * var usersRouter = require("./routes/users");
+ */
+
+
+//const db = require('./db/connect');
+
+//conn = db.conn();
 
 var app = express();
 
@@ -15,21 +24,12 @@ app.use(bodyParser.json({ extended: true }));
 // json이 아닌 post형식으로 올때 파서
 app.use(bodyParser.urlencoded({ extended: true }));
 
-//DB연결
-var mysql = require("mysql");
-//import dotenv from 'dotenv'
-require("dotenv").config();
-
-var connection = mysql.createConnection({
-  host: process.env.HOST_NAME,
-  user: process.env.USER_NAME,
-  database: process.env.DATABASE_NAME,
-  password: process.env.DATABASE_PASSWORD,
-  port: 3306,
-});
 
 //회원가입
+/** 
 app.post("/user/join", function (req, res) {
+  const conn = db.conn();
+
   var nickname = req.body.nickname;
   var email = req.body.email;
   var password = req.body.password;
@@ -66,8 +66,11 @@ app.post("/user/join", function (req, res) {
     average_distance,
   ];
 
-  connection.query(sql, params, function (err, result) {
-    if (err) console.log(err);
+  conn.query(sql, params, function (err, result) {
+    if (err) {
+      console.log(err);
+      conn.end();
+    }
     else {
       res.json({
         result: true,
@@ -78,13 +81,18 @@ app.post("/user/join", function (req, res) {
 });
 
 //로그인
+/** 
 app.post("/user/login", function (req, res) {
+  var conn = db.conn();
   var id = req.body.id;
   var password = req.body.password;
   var sql = "select * from Users where id = ? AND password = ?";
   var params = [id, password];
-  connection.query(sql, params, function (err, result) {
-    if (err) console.log(err);
+  conn.query(sql, params, function (err, result) {
+    if (err) {
+      console.log(err);
+      conn.end();
+    }
     else {
       if (result.length === 0) {
         res.json({
@@ -123,6 +131,7 @@ app.post("/user/login", function (req, res) {
 
 //매칭방 생성
 app.post("/matching/join", function (req, res) {
+  const conn = db.conn();
   var nickname = req.body.nickname;
   var departure_time = req.body.departure_time;
   var running_time = req.body.running_time;
@@ -143,7 +152,8 @@ app.post("/matching/join", function (req, res) {
     start_latitude,
     start_longitude,
   ];
-  connection.query(sql, params, function (err, result) {
+
+  conn.query(sql, params, function (err, result) {
     if (err) console.log(err);
     else {
       res.json({
@@ -184,8 +194,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/", indexRouter);
-app.use("/users", usersRouter);
+/**
+ * 
+ * app.use("/", indexRouter);
+ * app.use("/users", usersRouter);
+ */
+
+app.use('/',routes);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
