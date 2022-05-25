@@ -16,4 +16,7 @@ public interface RetrofitInterface {
 
     @POST("/user/profile")
     Call<ProfileResponse> Profile(@Body ProfileData data);
+
+    @POST("/matching/create")
+    Call<MakeMatchingRoomResponse> Create(@Body MakeMatchingRoomData data);
 }

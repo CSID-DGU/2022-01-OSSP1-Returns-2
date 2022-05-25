@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -23,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -32,6 +34,12 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.sql.Timestamp;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class activity_home extends AppCompatActivity implements OnMapReadyCallback {
 
     static final String[] MachingProfileList = {"해당 매칭 정보"};
@@ -40,6 +48,10 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
     Dialog dialog01;
 
     Button logoutButton;
+    String inputNickname;
+    RetrofitInterface service;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +59,9 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        SharedPreferences auto = getSharedPreferences("auto", Activity.MODE_PRIVATE);
+        inputNickname = auto.getString("inputNickname", null);
 /*
         // home 화면 리스트 삭제
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1,MachingProfileList);
@@ -200,7 +215,27 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         dialog01.show();
         // 기능 구현하기
 
-
+//        SharedPreferences auto = getSharedPreferences("auto", Activity.MODE_PRIVATE);
+//        inputNickname = auto.getString("inputNickname", null);
+//
+//        service = RetrofitClient.getClient().create(RetrofitInterface.class);
+//        Timestamp ts = new Timestamp(System.currentTimeMillis());
+//        service.Create(new MakeMatchingRoomData(inputNickname,ts,1,"man",1,37.5582876,127.0001671)).enqueue(new Callback<MakeMatchingRoomResponse>() {
+//            @Override
+//            public void onResponse(Call<MakeMatchingRoomResponse> call, Response<MakeMatchingRoomResponse> response) {
+//                MakeMatchingRoomResponse result = response.body();
+//                Toast.makeText(activity_home.this, result.getMsg(), Toast.LENGTH_SHORT).show();
+//                TextView courseData = dialog01.findViewById(R.id.courseData);
+//
+//                courseData.setText("러닝 코스 정보\n"+"Test : "+inputNickname+" "+result.getMsg());
+//            }
+//
+//            @Override
+//            public void onFailure(Call<MakeMatchingRoomResponse> call, Throwable t) {
+//                Toast.makeText(activity_home.this, "매칭방 생성 에러 발생", Toast.LENGTH_SHORT).show();
+//                Log.e("매칭방 생성 에러 발생", t.getMessage());
+//            }
+//        });
 
 
         // 나가기 버튼

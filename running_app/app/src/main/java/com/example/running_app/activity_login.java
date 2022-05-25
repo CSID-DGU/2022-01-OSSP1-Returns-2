@@ -70,7 +70,7 @@ public class activity_login extends AppCompatActivity {
         if (loginId!=null && loginPw!=null){
             if(loginId.length()!=0 && loginPw.length()!=0){ // 값이 존재할 경우
                 Toast.makeText(activity_login.this, loginId+"님 자동로그인 입니다.", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(activity_login.this, activity_home.class);
+                Intent intent = new Intent(activity_login.this, activity_profile.class);
                 startActivity(intent);
                 finish();
             }
@@ -99,7 +99,7 @@ public class activity_login extends AppCompatActivity {
                 LoginResponse result = response.body();
                 Toast.makeText(activity_login.this, result.getMsg(), Toast.LENGTH_SHORT).show();
                 if (result.getResult()) {
-                    Intent intent = new Intent(getApplicationContext(), activity_home.class);
+                    Intent intent = new Intent(getApplicationContext(), activity_profile.class);
                     startActivity(intent);
                     if(id.getText().toString()!=null && pw.getText().toString()!=null){
                         SharedPreferences auto = getSharedPreferences("auto", Activity.MODE_PRIVATE);
