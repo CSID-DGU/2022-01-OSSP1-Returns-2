@@ -200,6 +200,9 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         dialog01.show();
         // 기능 구현하기
 
+
+
+
         // 나가기 버튼
         Button exitBtn = dialog01.findViewById(R.id.btn_exit);
         exitBtn.setOnClickListener(new OnClickListener() {
