@@ -40,3 +40,27 @@ module.exports.create = (req,res) =>{
     }
   });
 }
+
+
+/**
+ * 활성화된 매칭방 전체 조회 API
+ */
+
+module.exports.load = (req,res) => {
+  const conn = db.conn();
+  var room_id = req.body.room_id;
+
+  var sql1 = "SELECT exist";
+  var sql2 = "SELECT * FROM Activating_Room where room_id =? AND flag = 1";
+  conn.query(sql1+ sql2,params,function(err,result){
+    if(err){
+      console.log(err);
+      conn.end();
+    }else{
+      res.json({
+        result:true,
+        msg: ""
+      })
+    }
+  });
+}
