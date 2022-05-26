@@ -51,17 +51,51 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
     String inputNickname;
     RetrofitInterface service;
 
+    public double[] lat, lon;
+    public String[] course_name_String;
+    public String[] course_loc;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        lat = new double[19];
+        lon = new double[19];
+        course_name_String = new String[19];
+        course_loc = new String[19];
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
         SharedPreferences auto = getSharedPreferences("auto", Activity.MODE_PRIVATE);
         inputNickname = auto.getString("inputNickname", null);
+
+        service = RetrofitClient.getClient().create(RetrofitInterface.class);
+
+        service.GetCourse().enqueue(new Callback<CourseResponse>() {
+            @Override
+            public void onResponse(Call<CourseResponse> call, Response<CourseResponse> response) {
+                CourseResponse result = response.body();
+                Course[] courseData = result.getCourse();
+
+                for (int i=0; i<courseData.length; i++){
+                    lat[i] = courseData[i].getLatitude();
+                    lon[i] = courseData[i].getLongitude();
+                    course_name_String[i] = courseData[i].getCourseNo();
+                }
+                Toast.makeText(activity_home.this, ""+courseData.length+"개 코스 정보 로드", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(Call<CourseResponse> call, Throwable t) {
+                Toast.makeText(activity_home.this, "코스 로드 에러 발생", Toast.LENGTH_SHORT).show();
+                Log.e("코스 로드 에러 발생", t.getMessage());
+            }
+        });
+
+
 /*
         // home 화면 리스트 삭제
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1,MachingProfileList);
@@ -95,7 +129,6 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
             }
         });
 
-        //아직 새로운 매칭 버튼 누르면 페이지 열리는 거 구현 못함.
 
 
         // dialog 생성
@@ -175,6 +208,15 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
 //        MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("여기");
 //        markerOptions.snippet("여기엔 간단한 설명");
 //        googleMap.addMarker(markerOptions);
+
+        //자동 마커 추가 기능 -- 아직 미구현
+//        for (int i=0; i<lat.length; i++){
+//            LatLng latLng = new LatLng(lat[i], lon[i]);
+//            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,11));
+//            MarkerOptions markerOptions = new MarkerOptions().position(latLng).title(course_name_String[i]);
+//            googleMap.addMarker(markerOptions);
+//        }
+
 
         //코스 1 37.649628,127.078674
         LatLng latLng2 = new LatLng(37.649628,127.078674);
