@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Matching"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@+id/btn_exit"
+        app:layout_constraintEnd_toEndOf="@+id/tv_title"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/tv_title"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <TextView
+                android:id="@+id/tv_departureTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="#2B45D3"
+                android:text="시작 시간"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TimePicker
+                android:id="@+id/departure_time"
+                android:layout_width="wrap_content"
+                android:layout_height="160dp"
+                android:timePickerMode="spinner"
+                app:layout_constraintEnd_toEndOf="@+id/tv_departureTime"
+                app:layout_constraintStart_toStartOf="@+id/tv_departureTime"
+                app:layout_constraintTop_toBottomOf="@+id/tv_departureTime" />
+
+            <TextView
+                android:id="@+id/tv_runningTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="#2B45D3"
+                android:text="소요 시간"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/departure_time" />
+
+            <EditText
+                android:id="@+id/signCareer"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:background="@drawable/box_id"
+                android:hint=" 60 (min)"
+                android:inputType="textPersonName"
+                android:text=""
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_runningTime" />
+
+            <TextView
+                android:id="@+id/tv_signGender"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="#2B45D3"
+                android:text="성별"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/signCareer" />
+
+            <CheckBox
+                android:id="@+id/signBoth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/check_box"
+                android:button="@null"
+                android:gravity="center"
+                android:text="상관없음"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_signGender" />
+
+            <CheckBox
+                android:id="@+id/signMan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/check_box"
+                android:button="@null"
+                android:gravity="center"
+                android:text="남자만"
+                app:layout_constraintStart_toEndOf="@+id/signBoth"
+                app:layout_constraintTop_toBottomOf="@+id/tv_signGender" />
+
+            <CheckBox
+                android:id="@+id/signWoman"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/check_box"
+                android:button="@null"
+                android:gravity="center"
+                android:text="여자만"
+                app:layout_constraintStart_toEndOf="@+id/signMan"
+                app:layout_constraintTop_toBottomOf="@+id/tv_signGender" />
+
+            <TextView
+                android:id="@+id/tv_option"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="#2B45D3"
+                android:text="선택 조건"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/signBoth" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <Button
+        android:id="@+id/btn_exit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#2B45D3"
+        android:text="New Running"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

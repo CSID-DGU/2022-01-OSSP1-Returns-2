@@ -45,7 +45,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
     static final String[] MachingProfileList = {"해당 매칭 정보"};
     private GoogleMap googleMap;
     Button matchingButton, newRunningButton, running_btn, home_btn, profile_btn;
-    Dialog dialog01;
+    Dialog dialogMarker, dialogNewRunning, dialogMatching;
 
     Button logoutButton;
     String inputNickname;
@@ -99,9 +99,17 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
 
 
         // dialog 생성
-        dialog01 = new Dialog(activity_home.this);
-        dialog01.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog01.setContentView(R.layout.custom_dialog);
+        dialogMarker = new Dialog(activity_home.this);
+        dialogMarker.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialogMarker.setContentView(R.layout.custom_dialog);
+
+        dialogNewRunning = new Dialog(activity_home.this);
+        dialogNewRunning.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialogNewRunning.setContentView(R.layout.newrunning_dialog);
+
+        dialogMatching = new Dialog(activity_home.this);
+        dialogMatching.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialogMatching.setContentView(R.layout.matching_dialog);
 
 
         //매칭 버튼
@@ -109,7 +117,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         matchingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showDialog01();
+                showDialog(dialogMatching);
             }
         });
 
@@ -118,7 +126,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         newRunningButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showDialog01();
+                showDialog(dialogNewRunning);
             }
         });
 
@@ -211,7 +219,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         }
     }
 
-    public void showDialog01() {
+    public void showDialog(Dialog dialog01) {
         dialog01.show();
         // 기능 구현하기
 
