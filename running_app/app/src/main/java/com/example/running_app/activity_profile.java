@@ -49,7 +49,7 @@ public class activity_profile extends AppCompatActivity{
             @Override
             public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response){
                 ProfileResponse result = response.body();
-                Toast.makeText(activity_profile.this, result.getNickname(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(activity_profile.this, result.getNickname(), Toast.LENGTH_SHORT).show();
                 SharedPreferences.Editor autoLogin = auto.edit();
                 autoLogin.putString("inputNickname", result.getNickname());
                 autoLogin.commit();
