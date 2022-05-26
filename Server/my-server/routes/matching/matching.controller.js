@@ -48,19 +48,30 @@ module.exports.create = (req,res) =>{
 
 module.exports.load = (req,res) => {
   const conn = db.conn();
-  var room_id = req.body.room_id;
-
-  var sql1 = "SELECT exist";
-  var sql2 = "SELECT * FROM Activating_Room where room_id =? AND flag = 1";
-  conn.query(sql1+ sql2,params,function(err,result){
+  var sql = "SELECT * FROM Activating_Room where flag = 0";
+  conn.query(sql,function(err,result){
     if(err){
       console.log(err);
       conn.end();
     }else{
-      res.json({
-        result:true,
-        msg: ""
-      })
+      var arr =[];
+      for (var i =0; i<result.length;i++){
+        arr.push({
+          rome_id : result[i].rome_id,
+          nickname : result[i].nickname,
+          departure_time : result[i].departure_time,
+          running_time : result[i].running_time,
+          mate_gender : result[i]. mate_gender,
+          mate_level : result[i].mate_level,
+          start_latitude : result[i].start_latitude,
+          start_longitude : result[i].start_longitude
+        });
+        res.json({
+          msg : "활성화된 매칭방 전체 조회 완료",
+          data : arr,
+          result : true
+        });
+      }
     }
   });
 }
