@@ -33,7 +33,7 @@ module.exports.input = (res) => {
  * 모든 러닝코스 출발 좌표값 가져오는 API
  */
 
-module.exports.selectALL = (req,res) => {
+module.exports.selectALL = (req, res) => {
   const conn = db.conn();
   
   var sql = "select course_start_latitude,course_start_longitude FROM RunningCourseAndTrack ";
@@ -54,7 +54,7 @@ module.exports.selectALL = (req,res) => {
       res.json({
         result: true,
         msg: "모든 러닝코스 조회",
-        data : arr,
+        data : arr, 
       });
     }
   });
