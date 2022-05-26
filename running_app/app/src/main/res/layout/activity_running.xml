@@ -50,7 +50,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="00&apos; 00&quot;"
+        android:text="00:00:00"
         android:textColor="@color/black"
         android:textSize="50sp"
         android:textStyle="bold"
