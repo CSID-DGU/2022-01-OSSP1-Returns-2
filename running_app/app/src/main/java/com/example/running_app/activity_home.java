@@ -11,20 +11,18 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
+import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -33,8 +31,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import java.sql.Timestamp;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -140,18 +136,14 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         matchingButton = findViewById(R.id.matchingButton);
         matchingButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                showDialog(dialogMatching);
-            }
+            public void onClick(View view) { mDialog(dialogMatching); }
         });
 
         //러닝 생성 버튼
         newRunningButton = findViewById(R.id.newRunningButton);
         newRunningButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                showDialog(dialogNewRunning);
-            }
+            public void onClick(View view) { rDialog(dialogNewRunning); }
         });
 
 
@@ -380,6 +372,8 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
     }
 
     public void showDialog(Dialog dialog01) {
+        // 이게 지도에서 마커 누르면 나오는 팝업창
+        // custom_dialog.xml 띄우면 됨
         dialog01.show();
         // 기능 구현하기
 
@@ -415,6 +409,98 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
                 dialog01.dismiss();
             }
         });
+    }
 
+    public void mDialog(Dialog mDialog) {
+        mDialog.show();
+
+        int runTime = mDialog.findViewById(R.id.runTime).getId();   // 소요 시간
+
+        String gender, man, woman, both;
+        man = mDialog.findViewById(R.id.signMan).toString();
+        woman = mDialog.findViewById(R.id.signWoman).toString();
+        both = mDialog.findViewById(R.id.signBoth).toString();
+
+        if(man.isEmpty()){
+            if(woman.isEmpty()) { gender = both;}
+            else { gender = woman; }
+        }
+        else{ gender = man; }                           // gender : 성별 값
+
+        int year, month, day, hour, min;
+        DatePicker datePicker = (DatePicker)mDialog.findViewById(R.id.datePicker);
+        TimePicker timePicker = (TimePicker)mDialog.findViewById(R.id.timePicker);
+        Button matchBtn = mDialog.findViewById(R.id.btn_matching);
+
+        year = datePicker.getYear();
+        month = datePicker.getMonth();
+        day= datePicker.getDayOfMonth();
+        hour = timePicker.getHour();
+        min = timePicker.getMinute();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.DAY_OF_MONTH, day);
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, min);
+        calendar.set(Calendar.SECOND, 0);
+        Long timestamp = calendar.getTimeInMillis();         // 출발 시간 타임스탬프
+
+
+
+        matchBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // 여기서 api 로 runTime, timestamp 넘겨주면 됨
+
+                mDialog.dismiss();
+            }
+        });
+    }
+    public void rDialog(Dialog rDialog) {
+        rDialog.show();
+
+        int runTime = rDialog.findViewById(R.id.runTime).getId();   // 소요 시간
+        String courseName = rDialog.findViewById(R.id.courseName).toString();    // 코스 이름
+
+        String gender, man, woman, both;
+        man = rDialog.findViewById(R.id.signMan).toString();
+        woman = rDialog.findViewById(R.id.signWoman).toString();
+        both = rDialog.findViewById(R.id.signBoth).toString();      // gender
+
+        if(man.isEmpty()){
+            if(woman.isEmpty()) { gender = both;}
+            else { gender = woman; }
+        }
+        else{ gender = man; }
+
+        int year, month, day, hour, min;
+        DatePicker datePicker = (DatePicker)rDialog.findViewById(R.id.datePicker);
+        TimePicker timePicker = (TimePicker)rDialog.findViewById(R.id.timePicker);
+        Button newRunningBtn = rDialog.findViewById(R.id.btn_newRunning);
+
+        year = datePicker.getYear();
+        month = datePicker.getMonth();
+        day= datePicker.getDayOfMonth();
+        hour = timePicker.getHour();
+        min = timePicker.getMinute();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.DAY_OF_MONTH, day);
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, min);
+        calendar.set(Calendar.SECOND, 0);
+        Long timestamp = calendar.getTimeInMillis();         // 출발 시간 타임스탬프
+
+        newRunningBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // 여기서 데이터 값 api로 보내주면 됨
+                rDialog.dismiss();
+            }
+        });
     }
 }

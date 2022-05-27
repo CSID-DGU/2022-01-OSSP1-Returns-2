@@ -2,8 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="600dp"
     android:layout_gravity="center_horizontal">
 
     <TextView
@@ -24,10 +24,10 @@
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView3"
         android:layout_width="360dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="10dp"
         android:fillViewport="true"
-        app:layout_constraintBottom_toTopOf="@+id/btn_exit"
+        app:layout_constraintBottom_toTopOf="@+id/btn_newRunning"
         app:layout_constraintEnd_toEndOf="@+id/tv_title"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/tv_title"
@@ -51,14 +51,24 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TimePicker
-                android:id="@+id/departure_time"
+            <DatePicker
+                android:id="@+id/datePicker"
                 android:layout_width="wrap_content"
-                android:layout_height="160dp"
-                android:timePickerMode="spinner"
+                android:layout_height="wrap_content"
+                android:datePickerMode="calendar"
                 app:layout_constraintEnd_toEndOf="@+id/tv_departureTime"
                 app:layout_constraintStart_toStartOf="@+id/tv_departureTime"
                 app:layout_constraintTop_toBottomOf="@+id/tv_departureTime" />
+
+
+            <TimePicker
+                android:id="@+id/timePicker"
+                android:layout_width="wrap_content"
+                android:layout_height="160dp"
+                android:timePickerMode="spinner"
+                app:layout_constraintEnd_toEndOf="@+id/datePicker"
+                app:layout_constraintStart_toStartOf="@+id/datePicker"
+                app:layout_constraintTop_toBottomOf="@+id/datePicker" />
 
             <TextView
                 android:id="@+id/tv_runningTime"
@@ -70,10 +80,10 @@
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/departure_time" />
+                app:layout_constraintTop_toBottomOf="@+id/timePicker" />
 
-            <EditText
-                android:id="@+id/signCareer"
+            <TextView
+                android:id="@+id/runTime"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:background="@drawable/box_id"
@@ -95,7 +105,7 @@
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/signCareer" />
+                app:layout_constraintTop_toBottomOf="@+id/runTime" />
 
             <TextView
                 android:id="@+id/courseName"
@@ -149,8 +159,8 @@
                 android:id="@+id/signBoth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
                 android:background="@drawable/check_box"
                 android:button="@null"
                 android:gravity="center"
@@ -204,7 +214,7 @@
     </androidx.core.widget.NestedScrollView>
 
     <Button
-        android:id="@+id/btn_exit"
+        android:id="@+id/btn_newRunning"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#2B45D3"
