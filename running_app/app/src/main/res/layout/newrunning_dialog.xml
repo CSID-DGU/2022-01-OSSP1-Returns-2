@@ -82,7 +82,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/timePicker" />
 
-            <TextView
+            <EditText
                 android:id="@+id/runTime"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
