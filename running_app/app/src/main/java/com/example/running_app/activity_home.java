@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -33,6 +34,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -202,8 +204,8 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         markerOptions0.snippet("동국대에서 뛰기");
         googleMap.addMarker(markerOptions0);
 
-        //자동 마커 추가 기능 -- 아직 미구현
 
+        //자동 마커 추가 기능
         for(int i=0; i<19; i++){
             LatLng latLng = new LatLng(lat[i], lon[i]);
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,11));
@@ -477,7 +479,12 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
     public void rDialog(Dialog rDialog) {
         rDialog.show();
 
-        int runTime = rDialog.findViewById(R.id.runTime).getId();   // 소요 시간
+        //이런 형식으로
+//        userNickname = findViewById(R.id.userNickname);
+
+        EditText et_runTime = rDialog.findViewById(R.id.runTime);// 소요 시간
+        String runTime = et_runTime.getText().toString();
+
         String courseName = rDialog.findViewById(R.id.courseName).toString();    // 코스 이름
 
         String gender, man, woman, both;
@@ -512,14 +519,17 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         Long timestamp = calendar.getTimeInMillis();// 출발 시간 타임스탬프
         Log.i("testCode", ""+timestamp);
         timestamp.toString();
-        Timestamp ts = Timestamp.valueOf("2022-05-28 18:00:00");
+        String ts = "2022-05-28 18:00:00.0";
+        java.sql.Timestamp realTs = java.sql.Timestamp.valueOf(ts);
+
         newRunningBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 // 여기서 데이터 값 api로 보내주면 됨
                 SharedPreferences auto = getSharedPreferences("auto", Activity.MODE_PRIVATE);
                 service = RetrofitClient.getClient().create(RetrofitInterface.class);
-                service.Create(new MakeMatchingRoomData(auto.getString("inputNickname", null), ts, runTime, gender, 37.5582876,127.0001671)).enqueue(new Callback<MakeMatchingRoomResponse>() {
+
+                service.Create(new MakeMatchingRoomData(auto.getString("inputNickname", null), realTs, Integer.parseInt(runTime), gender, 37.5582876,127.0001671)).enqueue(new Callback<MakeMatchingRoomResponse>() {
                     @Override
                     public void onResponse(Call<MakeMatchingRoomResponse> call, Response<MakeMatchingRoomResponse> response) {
                         MakeMatchingRoomResponse result = response.body();
