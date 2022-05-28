@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -478,22 +479,25 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
     }
     public void rDialog(Dialog rDialog) {
         rDialog.show();
-
+        CheckBox manCheck, womanCheck, bothCheck;
         //이런 형식으로
 //        userNickname = findViewById(R.id.userNickname);
 
         EditText et_runTime = rDialog.findViewById(R.id.runTime);// 소요 시간
         String runTime = et_runTime.getText().toString();
-
         String courseName = rDialog.findViewById(R.id.courseName).toString();    // 코스 이름
 
         String gender, man, woman, both;
-        man = rDialog.findViewById(R.id.signMan).toString();
-        woman = rDialog.findViewById(R.id.signWoman).toString();
-        both = rDialog.findViewById(R.id.signBoth).toString();      // gender
+        manCheck = rDialog.findViewById(R.id.signMan);
+        womanCheck = rDialog.findViewById(R.id.signWoman);
+        bothCheck = rDialog.findViewById(R.id.signBoth);      // gender
+
+        man = manCheck.getText().toString();
+        woman = womanCheck.getText().toString();
+        both = bothCheck.getText().toString();
 
         if(man.isEmpty()){
-            if(woman.isEmpty()) { gender = both;}
+            if(woman.isEmpty()) { gender = null;}
             else { gender = woman; }
         }
         else{ gender = man; }
@@ -516,9 +520,11 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, min);
         calendar.set(Calendar.SECOND, 0);
-        Long timestamp = calendar.getTimeInMillis();// 출발 시간 타임스탬프
-        Log.i("testCode", ""+timestamp);
-        timestamp.toString();
+
+        Log.i("Get Year", Integer.toString(calendar.get(Calendar.DAY_OF_MONTH)));
+//        Long timestamp = calendar.getTimeInMillis();// 출발 시간 타임스탬프
+//        Log.i("testCode", ""+timestamp);
+//        timestamp.toString();
         String ts = "2022-05-28 18:00:00.0";
         java.sql.Timestamp realTs = java.sql.Timestamp.valueOf(ts);
 
