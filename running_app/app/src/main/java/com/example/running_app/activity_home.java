@@ -32,6 +32,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.sql.Timestamp;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -193,12 +195,12 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         this.googleMap = googleMap;
-//        //37.5582876,127.0001671 동국대
-//        LatLng latLng = new LatLng(37.5582876,127.0001671);
-//        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,11));
-//        MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("여기");
-//        markerOptions.snippet("여기엔 간단한 설명");
-//        googleMap.addMarker(markerOptions);
+        //37.5582876,127.0001671 동국대
+        LatLng latLng0 = new LatLng(37.5582876,127.0001671);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng0,11));
+        MarkerOptions markerOptions0 = new MarkerOptions().position(latLng0).title("동국대");
+        markerOptions0.snippet("동국대에서 뛰기");
+        googleMap.addMarker(markerOptions0);
 
         //자동 마커 추가 기능 -- 아직 미구현
 
@@ -507,12 +509,31 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, min);
         calendar.set(Calendar.SECOND, 0);
-        Long timestamp = calendar.getTimeInMillis();         // 출발 시간 타임스탬프
-
+        Long timestamp = calendar.getTimeInMillis();// 출발 시간 타임스탬프
+        Log.i("testCode", ""+timestamp);
+        timestamp.toString();
+        Timestamp ts = Timestamp.valueOf("2022-05-28 18:00:00");
         newRunningBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 // 여기서 데이터 값 api로 보내주면 됨
+                SharedPreferences auto = getSharedPreferences("auto", Activity.MODE_PRIVATE);
+                service = RetrofitClient.getClient().create(RetrofitInterface.class);
+                service.Create(new MakeMatchingRoomData(auto.getString("inputNickname", null), ts, runTime, gender, 37.5582876,127.0001671)).enqueue(new Callback<MakeMatchingRoomResponse>() {
+                    @Override
+                    public void onResponse(Call<MakeMatchingRoomResponse> call, Response<MakeMatchingRoomResponse> response) {
+                        MakeMatchingRoomResponse result = response.body();
+                        Toast.makeText(activity_home.this, "매칭방 생성", Toast.LENGTH_SHORT).show();
+                        Log.i("매칭방 생성", result.getMsg());
+                    }
+
+                    @Override
+                    public void onFailure(Call<MakeMatchingRoomResponse> call, Throwable t) {
+                        Toast.makeText(activity_home.this, "매칭방 생성 에러 발생", Toast.LENGTH_SHORT).show();
+                        Log.e("매칭방 생성 에러 발생", t.getMessage());
+                    }
+                });
+
                 rDialog.dismiss();
             }
         });
