@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -40,6 +41,7 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
     public static final int INIT = 0; //처음
     public static final int RUN = 1; //실행중
     public static final int PAUSE = 2; //정지
+    public static final int END = 3; //러닝 끝 + 초기화
 
     //상태값을 저장하는 변수
     //INIT은 초기값이다. 그걸 status 안에 넣는다. (0을 넣은 것)
@@ -101,7 +103,7 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
         // runningDistance = findViewById(R.id.distance);
 
         start_btn.setOnClickListener(onClickListener);
-
+        end_btn.setOnClickListener(onClickListener2);
     }
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -114,6 +116,19 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
             }
         }
     };
+    View.OnClickListener onClickListener2 = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            String run_end = runningTime.getText().toString();
+            // 여기서 서버로 달리기 정보 보내주면 됨.
+
+            Log.i("testCode", run_end);
+            Toast.makeText(activity_running.this, run_end, Toast.LENGTH_SHORT).show();
+            status = END;
+            handler.sendEmptyMessage(0);
+        }
+    };
+
 
     private void StaButton(){
         switch(status) {
@@ -148,6 +163,7 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
                 start_btn.setText("일시 중단");
 
                 status = RUN;
+                break;
         }
     }
 
@@ -171,7 +187,14 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
         @Override
         public void handleMessage(@NonNull Message msg) {
             runningTime.setText(getTime());
-
+            if (status == END){
+                pauseTime = SystemClock.elapsedRealtime();
+                baseTime = SystemClock.elapsedRealtime();
+                runningTime.setText("00:00:00");
+                start_btn.setText("달리기 시작");
+                status = PAUSE;
+                return;
+            }
             handler.sendEmptyMessage(0);
         }
     };
