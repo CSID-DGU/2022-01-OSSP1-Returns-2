@@ -36,7 +36,9 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 public class activity_running extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -66,6 +68,9 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
     private static double beforeLat = 0.0;
     private static double beforeLon = 0.0;
 
+    private static LatLng latLng;
+    private static Marker[] markers = new Marker[2];
+    private static boolean flag = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstaceState) {
@@ -79,18 +84,6 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
         //거리 초기화
         runDistance = 0.0;
 
-        //거리 구하는 공식은 이런식으로 하면 될듯..
-//        Location locA = new Location("point A");
-//        locA.setLatitude(37.5582876);
-//        locA.setLongitude(127.0001671);
-//        Location locB = new Location("point B");
-//        locB.setLatitude(37.557442);
-//        locB.setLongitude(127.001449);
-//
-//        double distance = locA.distanceTo(locB);
-//        Toast.makeText(activity_running.this, ""+distance, Toast.LENGTH_SHORT).show();
-
-
         // 하단 버튼 구성
         //본인 자신은 안 떠도 됨.
 //        // running 탭 버튼
@@ -102,7 +95,7 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
 //                startActivity(intent);
 //            }
 //        });
-
+        runningDistance = findViewById(R.id.distance);
         // home 버튼
         home_btn = findViewById(R.id.home_btn);
         home_btn.setOnClickListener(new View.OnClickListener() {
@@ -141,7 +134,7 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
             switch (v.getId()) {
                 case R.id.runningStart:
                     start_btn.setText("일시 중단");
-                    startLocationService();
+//                    startLocationService();
                     StaButton();
             }
         }
@@ -235,15 +228,7 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
         //37.5582876,127.0001671 동국대
         LatLng latLng = new LatLng(37.5582876, 127.0001671);
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
-        MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("여기");
-        markerOptions.snippet("여기엔 간단한 설명");
-        googleMap.addMarker(markerOptions);
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            googleMap.setMyLocationEnabled(true);
-        } else {
-            checkLocationPermissionWithRationale();
-        }
-
+        startLocationService();
     }
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
@@ -289,7 +274,7 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
 
         //set listener
         GPSListener gpsListener = new GPSListener();
-        long minTime = 10000;
+        long minTime = 5000;
         float minDistance = 0;
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -308,6 +293,7 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
     }
     private class GPSListener implements LocationListener{
         public void onLocationChanged(Location location){
+
             double latitude = location.getLatitude();
             double longitude = location.getLongitude();
             double distance;
@@ -317,8 +303,35 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
             if(beforeLon == 0.0){
                 beforeLon = longitude;
             }
+            //마커 여기서 찍어주기
+//            googleMap.clear();
+            latLng = new LatLng(latitude, longitude);
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
+            if (flag){
+                markers[0] = googleMap.addMarker(new MarkerOptions().position(latLng).title("현재 내 위치"));
+                markers[1].remove();
+                flag = false;
+            }else{ // 시작시 여기부터임
+                markers[1] = googleMap.addMarker(new MarkerOptions().position(latLng).title("현재 내 위치"));
+                if (markers[0] != null){
+                    markers[0].remove();
+                }else{
+
+                }
+                flag = true;
+            }
+
+//            Marker addMarker = googleMap.addMarker(new MarkerOptions().position(latLng).title("현재 내 위치"));
+//            MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("현재 내 위치");
+//            googleMap.addMarker(markerOptions);
+            if (ContextCompat.checkSelfPermission(activity_running.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                googleMap.setMyLocationEnabled(true);
+            } else {
+                checkLocationPermissionWithRationale();
+            }
+
             String msg = "Latitude : " + latitude + "\nLongitude: "+ longitude;
-            Log.i("", msg);
+            Log.i("testCode1", msg);
             Location before = new Location("beforeLat, beforeLon");
             before.setLatitude(beforeLat);
             before.setLongitude(beforeLon);
@@ -327,7 +340,9 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
             current.setLongitude(longitude);
             distance = before.distanceTo(current);
             runDistance += distance;
-            Log.i("누적 거리", ""+runDistance);
+            Log.i("testCode2", "누적 거리 : "+runDistance);
+            double mtokm = runDistance / 1000;
+            runningDistance.setText(String.format("%.3f"+"KM", mtokm));
             beforeLat = latitude;
             beforeLon = longitude;
         }
