@@ -142,11 +142,12 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
     View.OnClickListener onClickListener2 = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            String run_end = runningTime.getText().toString();
+            String runTime = runningTime.getText().toString();
+            String runKm = runningDistance.getText().toString();
             // 여기서 서버로 달리기 정보 보내주면 됨.
 
-            Log.i("testCode", run_end);
-            Toast.makeText(activity_running.this, run_end, Toast.LENGTH_SHORT).show();
+            Log.i("testCode", runTime);
+            Toast.makeText(activity_running.this, runTime, Toast.LENGTH_SHORT).show();
             status = END;
             handler.sendEmptyMessage(0);
         }
@@ -210,11 +211,15 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
         public void handleMessage(@NonNull Message msg) {
             runningTime.setText(getTime());
             if (status == END) {
+                status = RUN;
+                StaButton();
                 pauseTime = SystemClock.elapsedRealtime();
                 baseTime = SystemClock.elapsedRealtime();
                 runningTime.setText("00:00:00");
                 start_btn.setText("달리기 시작");
+                runningDistance.setText("0.0 KM");
                 status = PAUSE;
+                runDistance = 0.0;
                 return;
             }
             handler.sendEmptyMessage(0);
