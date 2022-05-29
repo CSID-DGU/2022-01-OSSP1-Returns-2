@@ -215,4 +215,4 @@ let result = preprocessing(total_distance, avg_face);
 console.log("transport running_type : " + result[0]);
 console.log("transport avg_face : " + result[1]);
 
-export default preprocessing;
+module.exports = preprocessing;
