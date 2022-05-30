@@ -22,7 +22,6 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
-import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -32,20 +31,18 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class activity_home extends AppCompatActivity implements OnMapReadyCallback {
+public class activity_home extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     static final String[] MachingProfileList = {"해당 매칭 정보"};
     private GoogleMap googleMap;
-    Button matchingButton, newRunningButton, running_btn, home_btn, profile_btn;
+    Button matching_btn, newRunning_btn, running_btn, home_btn, profile_btn;
     Dialog dialogMarker, dialogNewRunning, dialogMatching;
 
     Button logoutButton;
@@ -146,15 +143,15 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
 
 
         //매칭 버튼
-        matchingButton = findViewById(R.id.matchingButton);
-        matchingButton.setOnClickListener(new View.OnClickListener() {
+        matching_btn = findViewById(R.id.matchingButton);
+        matching_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) { mDialog(dialogMatching); }
         });
 
         //러닝 생성 버튼
-        newRunningButton = findViewById(R.id.newRunningButton);
-        newRunningButton.setOnClickListener(new View.OnClickListener() {
+        newRunning_btn = findViewById(R.id.newRunningButton);
+        newRunning_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) { rDialog(dialogNewRunning); }
         });
@@ -352,8 +349,28 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         } else {
             checkLocationPermissionWithRationale();
         }
+
+        googleMap.setOnMarkerClickListener(this);
+
     }
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+
+    @Override
+    public boolean onMarkerClick(@NonNull Marker marker) {
+        showDialog(dialogMarker);
+
+        /*
+        // 여기서 오류남
+        //courseName을 못불러오는듯?
+        // null object reference 오류나는데 해결 못하는중
+        TextView courseName;
+        courseName = (TextView)findViewById(R.id.runningCourseData);
+        courseName.setText("코스123");
+        */
+        return false;
+    }
+
+
 
     private void checkLocationPermissionWithRationale() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
