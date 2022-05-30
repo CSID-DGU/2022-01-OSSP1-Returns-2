@@ -19,9 +19,13 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -34,6 +38,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -45,7 +52,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
     Button matching_btn, newRunning_btn, running_btn, home_btn, profile_btn;
     Dialog dialogMarker, dialogNewRunning, dialogMatching;
 
-    Button logoutButton;
+    Button logout_btn;
     String inputNickname;
     RetrofitInterface service;
 
@@ -111,8 +118,8 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         });
 */
         //logout버튼 구현
-        logoutButton = findViewById(R.id.logoutButton);
-        logoutButton.setOnClickListener(new View.OnClickListener(){
+        logout_btn = findViewById(R.id.logoutButton);
+        logout_btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
                 Intent intent = new Intent(activity_home.this, activity_login.class);
@@ -350,23 +357,17 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
             checkLocationPermissionWithRationale();
         }
 
-        googleMap.setOnMarkerClickListener(this);
+        // 마커 클릭에 대한 이벤트 설정
+       googleMap.setOnMarkerClickListener(this);
 
     }
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
 
     @Override
     public boolean onMarkerClick(@NonNull Marker marker) {
+        // 마커 클릭하면 실행
         showDialog(dialogMarker);
 
-        /*
-        // 여기서 오류남
-        //courseName을 못불러오는듯?
-        // null object reference 오류나는데 해결 못하는중
-        TextView courseName;
-        courseName = (TextView)findViewById(R.id.runningCourseData);
-        courseName.setText("코스123");
-        */
         return false;
     }
 
@@ -411,6 +412,51 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         // 이게 지도에서 마커 누르면 나오는 팝업창
         // custom_dialog.xml 띄우면 됨
         dialog01.show();
+        String courseName = "example course name";
+
+
+        // 코스 이름 불러와서 courseName에 저장하는 코드 작성해야함
+
+
+        // courseData 텍스트뷰 값 설정
+        TextView courseData;
+        courseData = dialog01.findViewById(R.id.runningCourseData);
+        courseData.setText(courseName);
+
+        // matching 리스트 설정
+        ListView matchingList = dialog01.findViewById(R.id.list_matching);
+        // 더미 매칭 리스트
+        List<String> list = new ArrayList<>();
+        list.add("matching1");
+        list.add("matching2");
+        list.add("matching3");
+        list.add("matching4");
+        list.add("matching5");
+        list.add("matching6");
+        // ~더미 매칭 리스트
+
+        ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, list);
+        matchingList.setAdapter(arrayAdapter);
+
+        matchingList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView parent, View view, int position, long id) {
+                // 매칭 리스트에서 매칭 클릭 시 실행
+                // ListView에서 버튼 넣기는 힘들어보임
+                // 그냥 매칭 클릭하면 참여하는거로 할지 고민중..
+                /*
+                    Matching1  20:00  2/4
+                    ----------------------
+                    Matching2  20:30  1/4
+                    ----------------------
+                 */
+                // 이런 느낌으로 리스트 만들어두면 여기서 선택해도 괜찮을듯
+                String matchName = (String)parent.getItemAtPosition(position);
+                Toast.makeText(getApplicationContext(), "select: " + matchName, Toast.LENGTH_SHORT).show();
+            }
+        });
+
         // 기능 구현하기
 
 //        SharedPreferences auto = getSharedPreferences("auto", Activity.MODE_PRIVATE);
@@ -438,13 +484,30 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
 
         // 나가기 버튼
         Button exitBtn = dialog01.findViewById(R.id.btn_exit);
+
         exitBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                //여기에 기능 구현
+                // 나가기 버튼
+                //
                 dialog01.dismiss();
             }
         });
+        /*
+        // home 화면 리스트 삭제
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1,MachingProfileList);
+
+        ListView listview = (ListView) findViewById(R.id.MachingUserList);
+        listview.setAdapter(adapter);
+
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView parent, View v, int position, long id) {
+
+                String strText = (String) parent.getItemAtPosition(position);
+            }
+        });
+*/
     }
 
     public void mDialog(Dialog mDialog) {
