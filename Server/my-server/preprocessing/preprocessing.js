@@ -1,7 +1,9 @@
 function preprocessing(total_distance, avg_face) {
   let running_type = 0;
+  let running_type_string = "";
   if (total_distance <= 1) {
     running_type = 1; //단거리
+    running_type_string = "단거리";
     if (avg_face.substring(3, 5) < 3) {
       //0분대, 1분대, 2분대
       avg_face = 1;
@@ -68,6 +70,7 @@ function preprocessing(total_distance, avg_face) {
     }
   } else if (total_distance <= 5) {
     running_type = 5; //중거리
+    running_type_string = "중거리";
     if (avg_face.substring(3, 4) < 3) {
       //0분대 , 1분대, 2분대
       avg_face = 1;
@@ -134,6 +137,7 @@ function preprocessing(total_distance, avg_face) {
     }
   } else if (total_distance > 5) {
     running_type = 10; //장거리
+    running_type_string = "장거리";
     if (avg_face.substring(3, 5) < 3) {
       //0분대, 1분대, 2분대
       avg_face = 1;
@@ -205,7 +209,7 @@ function preprocessing(total_distance, avg_face) {
       avg_face = 15;
     }
   }
-  return [running_type, avg_face];
+  return [running_type, avg_face, running_type_string];
 }
 
 let total_distance = 6;
