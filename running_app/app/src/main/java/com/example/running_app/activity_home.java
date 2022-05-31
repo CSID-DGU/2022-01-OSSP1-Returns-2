@@ -408,7 +408,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         }
     }
 
-    public void showDialog(Dialog dialog01) {
+    public void showDialog(@NonNull Dialog dialog01) {
         // 이게 지도에서 마커 누르면 나오는 팝업창
         // custom_dialog.xml 띄우면 됨
         dialog01.show();
@@ -439,7 +439,6 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         matchingList.setAdapter(arrayAdapter);
 
         matchingList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
             @Override
             public void onItemClick(AdapterView parent, View view, int position, long id) {
                 // 매칭 리스트에서 매칭 클릭 시 실행
@@ -452,6 +451,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
                     ----------------------
                  */
                 // 이런 느낌으로 리스트 만들어두면 여기서 선택해도 괜찮을듯
+
                 String matchName = (String)parent.getItemAtPosition(position);
                 Toast.makeText(getApplicationContext(), "select: " + matchName, Toast.LENGTH_SHORT).show();
             }
@@ -482,14 +482,21 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
 //        });
 
 
-        // 나가기 버튼
-        Button exitBtn = dialog01.findViewById(R.id.btn_exit);
+        // 확인 버튼
+        Button ok_btn = dialog01.findViewById(R.id.btn_ok);
+        ok_btn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //ListView matchName = v.findViewById(R.id.list_matching);
+                dialog01.dismiss();
+            }
+        });
 
-        exitBtn.setOnClickListener(new OnClickListener() {
+        // 나가기 버튼
+        Button exit_btn = dialog01.findViewById(R.id.btn_exit);
+        exit_btn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                // 나가기 버튼
-                //
                 dialog01.dismiss();
             }
         });
@@ -510,7 +517,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
 */
     }
 
-    public void mDialog(Dialog mDialog) {
+    public void mDialog(@NonNull Dialog mDialog) {
         mDialog.show();
 
         int runTime = mDialog.findViewById(R.id.runTime).getId();   // 소요 시간
@@ -518,10 +525,10 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         String gender, man, woman, both;
         man = mDialog.findViewById(R.id.signMan).toString();
         woman = mDialog.findViewById(R.id.signWoman).toString();
-        both = mDialog.findViewById(R.id.signBoth).toString();
+        //both = mDialog.findViewById(R.id.signBoth).toString();
 
         if(man.isEmpty()){
-            if(woman.isEmpty()) { gender = both;}
+            if(woman.isEmpty()) { gender = null;}
             else { gender = woman; }
         }
         else{ gender = man; }                           // gender : 성별 값
@@ -557,24 +564,76 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
             }
         });
     }
-    public void rDialog(Dialog rDialog) {
+
+    public void rDialog(@NonNull Dialog rDialog) {
         rDialog.show();
-        CheckBox manCheck, womanCheck, bothCheck;
+        CheckBox manCheck, womanCheck;
+        Button recommend, select;
+
         //이런 형식으로
-//        userNickname = findViewById(R.id.userNickname);
+//      userNickname = findViewById(R.id.userNickname);
+        recommend = rDialog.findViewById(R.id.btn_recommend);
+        select = rDialog.findViewById(R.id.btn_select);
 
         EditText et_runTime = rDialog.findViewById(R.id.runTime);// 소요 시간
         String runTime = et_runTime.getText().toString();
-        String courseName = rDialog.findViewById(R.id.courseName).toString();    // 코스 이름
+        TextView courseName = rDialog.findViewById(R.id.courseName);    // 코스 이름
 
-        String gender, man, woman, both;
+        recommend.setOnClickListener(new OnClickListener() {
+            // 추천코스 버튼 클릭
+            @Override
+            public void onClick(View v) {
+                // 추천 알고리즘으로 해당 유저 기준으로 제일 추천도 높은 코스 바로 올려주면 될듯
+                String course = "sample course";     // 여기에 코스 이름 저장
+                courseName.setText(course);
+            }
+        });
+
+        select.setOnClickListener(new OnClickListener() {
+            // 직접선택 버튼 클릭
+
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(activity_home.this);
+                alertBuilder.setTitle("Select Matching");
+
+                // 더미 List Adapter 생성
+                // 생성되어 있는 매칭을 adapter에 넣어주면 됨
+                final ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity_home.this, android.R.layout.select_dialog_item);
+                //
+                adapter.add("matching1");
+                adapter.add("matching2");
+                adapter.add("matching3");
+                adapter.add("matching4");
+                adapter.add("matching5");
+                //
+
+                // 버튼 생성
+                alertBuilder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                // Adapter 셋팅
+                alertBuilder.setAdapter(adapter, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //
+                        courseName.setText(adapter.getItem(id));
+                    }
+                });
+                alertBuilder.show();
+            }
+        });
+
+        String gender, man, woman;
         manCheck = rDialog.findViewById(R.id.signMan);
         womanCheck = rDialog.findViewById(R.id.signWoman);
-        bothCheck = rDialog.findViewById(R.id.signBoth);      // gender
+        //bothCheck = rDialog.findViewById(R.id.signBoth);      // gender
 
         man = manCheck.getText().toString();
         woman = womanCheck.getText().toString();
-        both = bothCheck.getText().toString();
+        //both = bothCheck.getText().toString();
 
         if(man.isEmpty()){
             if(woman.isEmpty()) { gender = null;}

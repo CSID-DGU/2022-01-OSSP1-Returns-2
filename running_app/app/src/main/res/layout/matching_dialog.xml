@@ -74,7 +74,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="#2B45D3"
-                android:text="소요 시간"
+                android:text="소요 시간 (min)"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -86,9 +86,9 @@
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:background="@drawable/box_id"
-                android:hint=" 60 (min)"
+                android:hint="60"
                 android:inputType="number"
-                android:text=""
+                android:text="60"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -105,7 +105,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/runTime" />
-
+<!--
             <CheckBox
                 android:id="@+id/signBoth"
                 android:layout_width="wrap_content"
@@ -118,7 +118,7 @@
                 android:text="상관없음"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_signGender" />
-
+-->
             <CheckBox
                 android:id="@+id/signMan"
                 android:layout_width="wrap_content"
@@ -129,7 +129,7 @@
                 android:button="@null"
                 android:gravity="center"
                 android:text="남자만"
-                app:layout_constraintStart_toEndOf="@+id/signBoth"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_signGender" />
 
             <CheckBox
@@ -144,7 +144,7 @@
                 android:text="여자만"
                 app:layout_constraintStart_toEndOf="@+id/signMan"
                 app:layout_constraintTop_toBottomOf="@+id/tv_signGender" />
-
+<!--
             <TextView
                 android:id="@+id/tv_option"
                 android:layout_width="0dp"
@@ -158,7 +158,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/signBoth" />
-
+-->
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
