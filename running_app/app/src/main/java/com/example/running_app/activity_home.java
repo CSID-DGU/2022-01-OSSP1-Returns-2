@@ -293,7 +293,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         LatLng latLng11 = new LatLng(37.649628,127.078674);
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng11,11));
         MarkerOptions markerOptions11 = new MarkerOptions().position(latLng11).title("코스11");
-        markerOptions11.snippet("위도 : 37.639628, 경도 : 127.078674");
+        markerOptions11.snippet("위도 : 37.649628, 경도 : 127.078674");
         googleMap.addMarker(markerOptions11);
 
         //코스 12 37.589363,127.051239
@@ -307,7 +307,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         LatLng latLng13 = new LatLng(37.488174,126.976784);
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng13,11));
         MarkerOptions markerOptions13 = new MarkerOptions().position(latLng13).title("코스13");
-        markerOptions13.snippet("위도 : 37.4888174, 경도 : 126.976784");
+        markerOptions13.snippet("위도 : 37.488174, 경도 : 126.976784");
         googleMap.addMarker(markerOptions13);
 
         //코스 14 37.566872,126.896408
@@ -608,14 +608,28 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
                 alertBuilder.setTitle("Select Matching");
 
                 // 더미 List Adapter 생성
-                // 생성되어 있는 매칭을 adapter에 넣어주면 됨
                 final ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity_home.this, android.R.layout.select_dialog_item);
                 //
-                adapter.add("matching1");
-                adapter.add("matching2");
-                adapter.add("matching3");
-                adapter.add("matching4");
-                adapter.add("matching5");
+                adapter.add("01.경춘선공원, 노원구");
+                adapter.add("02.공릉공원, 노원구");
+                adapter.add("03.대현공원, 마포구");
+                adapter.add("04.세곡천, 강남구");
+                adapter.add("05.도곡공원, 강남구");
+                adapter.add("06.명일공원, 강동구");
+                adapter.add("07.명우공원, 강동구");
+                adapter.add("08.마곡하늬공원, 강서구");
+                adapter.add("09.월정공원, 강서구");
+                adapter.add("10.까치산근린공원, 강서구");
+                adapter.add("11.과기대트랙, 노원구");
+                adapter.add("12.홍릉근린공원, 동대문구");
+                adapter.add("13.삼일공원, 동작구");
+                adapter.add("14.월드컵공원, 마포구");
+                adapter.add("15.경의선숲길, 용산구");
+                adapter.add("16.용산공원, 용산구");
+                adapter.add("17.중랑천, 중랑구");
+                adapter.add("18.올림픽공원, 송파구");
+                adapter.add("19.석촌호수, 송파구");
+
                 //
 
                 // 버튼 생성
@@ -683,8 +697,11 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
                 // 여기서 데이터 값 api로 보내주면 됨
                 SharedPreferences auto = getSharedPreferences("auto", Activity.MODE_PRIVATE);
                 service = RetrofitClient.getClient().create(RetrofitInterface.class);
+                String str_cno = courseName.getText().toString().substring(0,2);
+                int cNo = Integer.parseInt(str_cno); // 위도, 경도 배열에 접근하기 위한 인덱스
 
-                service.Create(new MakeMatchingRoomData(auto.getString("inputNickname", null), realTs, Integer.parseInt(runTime), gender, 37.5582876,127.0001671)).enqueue(new Callback<MakeMatchingRoomResponse>() {
+                //동국대 :
+                service.Create(new MakeMatchingRoomData(auto.getString("inputNickname", null), realTs, Integer.parseInt(runTime), gender, lat[cNo-1],lon[cNo-1])).enqueue(new Callback<MakeMatchingRoomResponse>() {
                     @Override
                     public void onResponse(Call<MakeMatchingRoomResponse> call, Response<MakeMatchingRoomResponse> response) {
                         MakeMatchingRoomResponse result = response.body();
