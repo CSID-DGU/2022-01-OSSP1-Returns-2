@@ -27,7 +27,5 @@ public class ProfileResponse {
     public String getAverage_face(){
         return average_face;
     }
-    public String getAverage_distance(){
-        return average_distance;
-    }
+    public String getAverage_distance(){ return average_distance; }
 }
