@@ -213,7 +213,7 @@ function preprocessing(total_distance, avg_face) {
 }
 
 let total_distance = 6;
-let avg_face = "00:04:30";
+let avg_face = "00:07:26";
 
 let result = preprocessing(total_distance, avg_face);
 console.log("transport running_type : " + result[0]);
