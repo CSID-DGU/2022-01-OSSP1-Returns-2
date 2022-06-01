@@ -631,11 +631,11 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         }
         else{ gender = man; }                           // gender : 성별 값
 
-        int year, month, day, hour, min;
+//        int year, month, day, hour, min;
         DatePicker datePicker = (DatePicker)mDialog.findViewById(R.id.datePicker);
         TimePicker timePicker = (TimePicker)mDialog.findViewById(R.id.timePicker);
         Button matchBtn = mDialog.findViewById(R.id.btn_matching);
-
+/*
         year = datePicker.getYear();
         month = datePicker.getMonth();
         day= datePicker.getDayOfMonth();
@@ -650,12 +650,31 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         calendar.set(Calendar.MINUTE, min);
         calendar.set(Calendar.SECOND, 0);
         Long timestamp = calendar.getTimeInMillis();         // 출발 시간 타임스탬프
-
-
+*/
 
         matchBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                // 캘린더 값 설정
+                int year, month, day, hour, min;
+
+                year = datePicker.getYear();
+                month = datePicker.getMonth();
+                day= datePicker.getDayOfMonth();
+                hour = timePicker.getHour();
+                min = timePicker.getMinute();
+
+                Calendar calendar = Calendar.getInstance();
+
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, month);
+                calendar.set(Calendar.DAY_OF_MONTH, day);
+                calendar.set(Calendar.HOUR_OF_DAY, hour);
+                calendar.set(Calendar.MINUTE, min);
+                calendar.set(Calendar.SECOND, 0);
+
+                Log.i("Get Year", Integer.toString(calendar.get(Calendar.DAY_OF_MONTH)));
+
                 // 여기서 api 로 runTime, timestamp 넘겨주면 됨
 
                 mDialog.dismiss();
@@ -753,11 +772,11 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         }
         else{ gender = man; }
 
-        int year, month, day, hour, min;
+//        int year, month, day, hour, min;
         DatePicker datePicker = (DatePicker)rDialog.findViewById(R.id.datePicker);
         TimePicker timePicker = (TimePicker)rDialog.findViewById(R.id.timePicker);
         Button newRunningBtn = rDialog.findViewById(R.id.btn_newRunning);
-
+/*
         year = datePicker.getYear();
         month = datePicker.getMonth();
         day= datePicker.getDayOfMonth();
@@ -765,6 +784,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         min = timePicker.getMinute();
 
         Calendar calendar = Calendar.getInstance();
+
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.DAY_OF_MONTH, day);
@@ -773,6 +793,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         calendar.set(Calendar.SECOND, 0);
 
         Log.i("Get Year", Integer.toString(calendar.get(Calendar.DAY_OF_MONTH)));
+*/
 //        Long timestamp = calendar.getTimeInMillis();// 출발 시간 타임스탬프
 //        Log.i("testCode", ""+timestamp);
 //        timestamp.toString();
@@ -783,6 +804,26 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         newRunningBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                // 캘린더 값 설정
+                int year, month, day, hour, min;
+
+                year = datePicker.getYear();
+                month = datePicker.getMonth();
+                day= datePicker.getDayOfMonth();
+                hour = timePicker.getHour();
+                min = timePicker.getMinute();
+
+                Calendar calendar = Calendar.getInstance();
+
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, month);
+                calendar.set(Calendar.DAY_OF_MONTH, day);
+                calendar.set(Calendar.HOUR_OF_DAY, hour);
+                calendar.set(Calendar.MINUTE, min);
+                calendar.set(Calendar.SECOND, 0);
+
+                Log.i("Get Year", Integer.toString(calendar.get(Calendar.DAY_OF_MONTH)));
+
                 // 여기서 데이터 값 api로 보내주면 됨
                 SharedPreferences auto = getSharedPreferences("auto", Activity.MODE_PRIVATE);
                 service = RetrofitClient.getClient().create(RetrofitInterface.class);
