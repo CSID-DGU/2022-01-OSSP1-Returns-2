@@ -8,6 +8,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.Manifest;
 import android.content.DialogInterface;
@@ -15,6 +16,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.icu.util.Calendar;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -37,6 +39,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.clustering.ClusterManager;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -47,7 +50,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class activity_home extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
-
     static final String[] MachingProfileList = {"해당 매칭 정보"};
     private GoogleMap googleMap;
     Button matching_btn, newRunning_btn, running_btn, home_btn, profile_btn;
@@ -64,6 +66,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
     public static int room_length;
     public static int[] room_id = new int[10];
     public static Timestamp[] departure_time = new Timestamp[10];
+    public static boolean flag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -404,8 +407,8 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
                 Log.e("매칭방 로드 에러 발생", t.getMessage());
             }
         });
+            showDialog(dialogMarker, snippetData);
 
-        showDialog(dialogMarker, snippetData);
         return false;
     }
 
@@ -448,12 +451,22 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
     public void showDialog(@NonNull Dialog dialog01, String snippetData) {
         // 이게 지도에서 마커 누르면 나오는 팝업창
         // custom_dialog.xml 띄우면 됨
+        if(!flag){
+            flag = true;
+            return;
+        }
+        dialog01.show();
+
+
+//        dialogMarker = new Dialog(activity_home.this);
+//        dialogMarker.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        dialogMarker.setContentView(R.layout.custom_dialog);
 
         // courseData 텍스트뷰 값 설정
         TextView courseData;
         courseData = dialog01.findViewById(R.id.runningCourseData);
 
-        dialog01.show();
+
         String courseName = "example course name";
         String sniData = snippetData;
         String strLat;
@@ -467,29 +480,46 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
              }
         }
 
-        String str_cno = courseData.getText().toString().substring(6);
-        int cno = Integer.parseInt(str_cno);
+        try{
+            String str_cno = courseData.getText().toString().substring(6);
+            int cno = Integer.parseInt(str_cno);
 
-        service = RetrofitClient.getClient().create(RetrofitInterface.class);
-        service.GetRoom(cno).enqueue(new Callback<SearchActivateResponse>() {
-            @Override
-            public void onResponse(Call<SearchActivateResponse> call, Response<SearchActivateResponse> response) {
-                SearchActivateResponse result = response.body();
-                SearchActivateRoom[] searchData = result.getCourse();
-                room_length = searchData.length;
+            service = RetrofitClient.getClient().create(RetrofitInterface.class);
+            service.GetRoom(cno).enqueue(new Callback<SearchActivateResponse>() {
+                @Override
+                public void onResponse(Call<SearchActivateResponse> call, Response<SearchActivateResponse> response) {
+                    SearchActivateResponse result = response.body();
+                    SearchActivateRoom[] searchData = result.getCourse();
+                    room_length = searchData.length;
 
-                for(int i=0; i< searchData.length; i++){
-                    room_id[i] = searchData[i].getRoom_id();
+                    for(int i=0; i< searchData.length; i++){
+                        room_id[i] = searchData[i].getRoom_id();
 //                    departure_time[i] = searchData[i].getDeparture_time();
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<SearchActivateResponse> call, Throwable t) {
-                Toast.makeText(activity_home.this, "매칭방 로드 에러 발생", Toast.LENGTH_SHORT).show();
-                Log.e("매칭방 로드 에러 발생", t.getMessage());
-            }
-        });
+                @Override
+                public void onFailure(Call<SearchActivateResponse> call, Throwable t) {
+                    Toast.makeText(activity_home.this, "매칭방 로드 에러 발생", Toast.LENGTH_SHORT).show();
+                    Log.e("매칭방 로드 에러 발생", t.getMessage());
+                }
+            });
+        } catch(NumberFormatException e){
+
+        }catch(Exception e){
+
+        }
+
+//        if(!flag){
+//            Handler handler = new Handler();
+//            handler.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    flag = true;
+//                    dialog01.dismiss();
+//                }
+//            }, 0);
+//        }
 
 
         // matching 리스트 설정
@@ -564,6 +594,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         exit_btn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                flag = false;
                 dialog01.dismiss();
             }
         });
