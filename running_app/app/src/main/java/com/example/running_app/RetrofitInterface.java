@@ -25,4 +25,7 @@ public interface RetrofitInterface {
 
     @GET("/course/selectALL")
     Call<CourseResponse> GetCourse();
+
+    @GET("/matching/courseActivate")
+    Call<SearchActivateResponse> GetRoom(@Query("courseNo") int courseNo);
 }
