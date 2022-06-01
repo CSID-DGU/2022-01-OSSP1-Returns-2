@@ -46,12 +46,17 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class activity_running extends AppCompatActivity implements OnMapReadyCallback {
 
     //멤버 변수화
     TextView runningTime, runningDistance;
     Button start_btn, end_btn, running_btn, home_btn, profile_btn;
     private GoogleMap googleMap;
+    RetrofitInterface service;
 
     //상태를 표시하는 상수 지정.
     //각각의 숫자는 독립적인 개별 '상태' 의미
@@ -346,7 +351,7 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
             }
 
             String msg = "Latitude : " + latitude + "\nLongitude: "+ longitude;
-            Log.i("testCode1", msg);
+//            Log.i("testCode1", msg);
             Location before = new Location("beforeLat, beforeLon");
             before.setLatitude(beforeLat);
             before.setLongitude(beforeLon);
@@ -355,7 +360,7 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
             current.setLongitude(longitude);
             distance = before.distanceTo(current);
             runDistance += distance;
-            Log.i("testCode2", "누적 거리 : "+runDistance);
+//            Log.i("testCode2", "누적 거리 : "+runDistance);
             double mtokm = runDistance / 1000;
             runningDistance.setText(String.format("%.3f"+"KM", mtokm));
             beforeLat = latitude;
@@ -415,8 +420,22 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
                 // run_rate
 
                 // run_rate 확인용
-                Toast.makeText(activity_running.this, "rate: " + run_rate[0], Toast.LENGTH_SHORT).show();
-                
+//                Toast.makeText(activity_running.this, "rate: " + run_rate[0], Toast.LENGTH_SHORT).show();
+
+                service = RetrofitClient.getClient().create(RetrofitInterface.class);
+                service.RunResult(new RunningResultData(courseData, getTime(),runDistance/1000, run_rate[0])).enqueue(new Callback<RunningResultResponse>() {
+                    @Override
+                    public void onResponse(Call<RunningResultResponse> call, Response<RunningResultResponse> response) {
+                        RunningResultResponse result = response.body();
+                        Toast.makeText(activity_running.this, result.getMsg(), Toast.LENGTH_SHORT).show();
+                    }
+                    @Override
+                    public void onFailure(Call<RunningResultResponse> call, Throwable t) {
+                        Toast.makeText(activity_running.this, "러닝 뷰 에러 발생", Toast.LENGTH_SHORT).show();
+                        Log.e("러닝 뷰 에러 발생", t.getMessage());
+                     }
+                });
+
                 rDialog.dismiss();
             }
         });
