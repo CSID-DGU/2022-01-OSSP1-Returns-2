@@ -82,8 +82,7 @@ module.exports.load = (req,res) => {
 
 module.exports.objActivate = (req,res) => {
   const conn = db.conn();
-  var courseNo = req.body.courseNo;
-  console.log(courseNo);
+  var courseNo = req.query.courseNo;
   var sql = "SELECT * FROM Activating_Room as a inner JOIN RunningCourseAndTrack as r on (a.start_latitude = r.course_start_latitude and a.start_longitude = r.course_start_longitude AND a.flag = 0 AND r.course_no = ?)";
   var params = [courseNo];
   
