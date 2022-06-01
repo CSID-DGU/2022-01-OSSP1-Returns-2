@@ -38,6 +38,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,6 +61,9 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
     public static double[] lon = new double[19];
     public static String[] course_name_String = new String[19];
     public static String[] course_loc = new String[19];
+    public static int room_length;
+    public static int[] room_id = new int[10];
+    public static Timestamp[] departure_time = new Timestamp[10];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -206,150 +210,151 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         LatLng latLng0 = new LatLng(37.5582876,127.0001671);
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng0,11));
         MarkerOptions markerOptions0 = new MarkerOptions().position(latLng0).title("동국대");
-        markerOptions0.snippet("동국대에서 뛰기");
+        markerOptions0.snippet("위도 : 37.5582876, 경도 : 127.0001671");
         googleMap.addMarker(markerOptions0);
 
+//        //자동 마커 추가 기능
+//        for(int i=0; i<19; i++){
+//            LatLng latLng = new LatLng(lat[i], lon[i]);
+//            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,11));
+//            MarkerOptions markerOptions = new MarkerOptions().position(latLng).title(course_name_String[i]);
+//            googleMap.addMarker(markerOptions);
+//            String latlon = String.valueOf(lat[i])+" "+String.valueOf(lon[i]);
+//            markerOptions.snippet(latlon);
+//        }
 
-        //자동 마커 추가 기능
-        for(int i=0; i<19; i++){
-            LatLng latLng = new LatLng(lat[i], lon[i]);
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,11));
-            MarkerOptions markerOptions = new MarkerOptions().position(latLng).title(course_name_String[i]);
-            googleMap.addMarker(markerOptions);
-        }
+        //코스 1 37.627338,127.077278
+        LatLng latLng1 = new LatLng(37.627338,127.077278);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng1,11));
+        MarkerOptions markerOptions1 = new MarkerOptions().position(latLng1).title("코스1");
+        markerOptions1.snippet("위도 : 37.627338, 경도 : 127.077278");
+        googleMap.addMarker(markerOptions1);
 
-//        //코스 1 37.627338,127.077278
-//        LatLng latLng1 = new LatLng(37.627338,127.077278);
-//        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng1,11));
-//        MarkerOptions markerOptions1 = new MarkerOptions().position(latLng1).title("코스1");
-//        markerOptions1.snippet("서울특별시 노원구 공릉2동");
-//        googleMap.addMarker(markerOptions1);
-//
-//        //코스 2 37.623154,127.077866
-//        LatLng latLng2 = new LatLng(37.623154,127.077866);
-//        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng2,11));
-//        MarkerOptions markerOptions2 = new MarkerOptions().position(latLng2).title("코스2");
-//        markerOptions2.snippet("서울특별시 노원구 공릉2동");
-//        googleMap.addMarker(markerOptions2);
-//
-//        //코스 3 37.537663,126.949066
-//        LatLng latLng3 = new LatLng(37.537663,126.949066);
-//        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng3,11));
-//        MarkerOptions markerOptions3 = new MarkerOptions().position(latLng3).title("코스3");
-//        markerOptions3.snippet("서울특별시 마포구 도화동");
-//        googleMap.addMarker(markerOptions3);
-//
-//        //코스 4 37.465908,127.093651
-//        LatLng latLng4 = new LatLng(37.465908,127.093651);
-//        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng4,11));
-//        MarkerOptions markerOptions4 = new MarkerOptions().position(latLng4).title("코스4");
-//        markerOptions4.snippet("서울특별시 강남구 세곡동");
-//        googleMap.addMarker(markerOptions4);
-//
-//        //코스 5 37.487965,127.048233
-//        LatLng latLng5 = new LatLng(37.487965,127.048233);
-//        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng5,11));
-//        MarkerOptions markerOptions5 = new MarkerOptions().position(latLng5).title("코스5");
-//        markerOptions5.snippet("서울특별시 강남구 도곡1동");
-//        googleMap.addMarker(markerOptions5);
-//
-//        //코스 6 37.554485,127.157036
-//        LatLng latLng6 = new LatLng(37.554485,127.157036);
-//        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng6,11));
-//        MarkerOptions markerOptions6 = new MarkerOptions().position(latLng6).title("코스6");
-//        markerOptions6.snippet("서울특별시 강동구 상일동");
-//        googleMap.addMarker(markerOptions6);
-//
-//        //코스 7 37.55201,127.142372
-//        LatLng latLng7 = new LatLng(37.55201,127.142372);
-//        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng7,11));
-//        MarkerOptions markerOptions7 = new MarkerOptions().position(latLng7).title("코스7");
-//        markerOptions7.snippet("서울특별시 강동구 명일1동");
-//        googleMap.addMarker(markerOptions7);
-//
-//        //코스 8 37.559193,126.824783
-//        LatLng latLng8 = new LatLng(37.559193,126.824783);
-//        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng8,11));
-//        MarkerOptions markerOptions8 = new MarkerOptions().position(latLng8).title("코스8");
-//        markerOptions8.snippet("서울특별시 강서구 발산1동");
-//        googleMap.addMarker(markerOptions8);
-//
-//        //코스 9 37.534462,126.838135
-//        LatLng latLng9 = new LatLng(37.534462,126.838135);
-//        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng9,11));
-//        MarkerOptions markerOptions9 = new MarkerOptions().position(latLng9).title("코스9");
-//        markerOptions9.snippet("서울특별시 강서구 화곡1동");
-//        googleMap.addMarker(markerOptions9);
-//
-//        //코스 10 37.53994,126.844475
-//        LatLng latLng10 = new LatLng(37.53994,126.844475);
-//        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng10,11));
-//        MarkerOptions markerOptions10 = new MarkerOptions().position(latLng10).title("코스10");
-//        markerOptions10.snippet("서울특별시 강서구 화곡본동");
-//        googleMap.addMarker(markerOptions10);
-//
-//        //코스 11 37.649628,127.078674
-//        LatLng latLng11 = new LatLng(37.649628,127.078674);
-//        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng11,11));
-//        MarkerOptions markerOptions11 = new MarkerOptions().position(latLng11).title("코스11");
-//        markerOptions11.snippet("서울특별시 노원구 중계본동");
-//        googleMap.addMarker(markerOptions11);
-//
-//        //코스 12 37.589363,127.051239
-//        LatLng latLng12 = new LatLng(37.589363,127.051239);
-//        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng12,11));
-//        MarkerOptions markerOptions12 = new MarkerOptions().position(latLng12).title("코스12");
-//        markerOptions12.snippet("서울특별시 동대문구 회기동");
-//        googleMap.addMarker(markerOptions12);
-//
-//        //코스 13 37.488174,126.976784
-//        LatLng latLng13 = new LatLng(37.488174,126.976784);
-//        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng13,11));
-//        MarkerOptions markerOptions13 = new MarkerOptions().position(latLng13).title("코스13");
-//        markerOptions13.snippet("서울특별시 동작구 사당2동");
-//        googleMap.addMarker(markerOptions13);
-//
-//        //코스 14 37.566872,126.896408
-//        LatLng latLng14 = new LatLng(37.566872,126.896408);
-//        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng14,11));
-//        MarkerOptions markerOptions14 = new MarkerOptions().position(latLng14).title("코스14");
-//        markerOptions14.snippet("서울특별시 마포구 성산2동");
-//        googleMap.addMarker(markerOptions14);
-//
-//        //코스 15 37.535442,126.961449
-//        LatLng latLng15 = new LatLng(37.535442,126.961449);
-//        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng15,11));
-//        MarkerOptions markerOptions15 = new MarkerOptions().position(latLng15).title("코스15");
-//        markerOptions15.snippet("서울특별시 용산구 원효로1동");
-//        googleMap.addMarker(markerOptions15);
-//
-//        //코스 16 37.530254,126.994637
-//        LatLng latLng16 = new LatLng(37.530254,126.994637);
-//        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng16,11));
-//        MarkerOptions markerOptions16 = new MarkerOptions().position(latLng16).title("코스16");
-//        markerOptions16.snippet("서울특별시 용산구 이태원1동");
-//        googleMap.addMarker(markerOptions16);
-//
-//        //코스 17 37.604881,127.087692
-//        LatLng latLng17 = new LatLng(37.604881,127.087692);
-//        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng17,11));
-//        MarkerOptions markerOptions17 = new MarkerOptions().position(latLng17).title("코스17");
-//        markerOptions17.snippet("서울특별시 중랑구 상봉1동");
-//        googleMap.addMarker(markerOptions17);
-//
-//        //코스 18 37.510139,127.127907
-//        LatLng latLng18 = new LatLng(37.510139,127.127907);
-//        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng18,11));
-//        MarkerOptions markerOptions18 = new MarkerOptions().position(latLng18).title("코스18");
-//        markerOptions18.snippet("서울특별시 송파구 오금동");
-//        googleMap.addMarker(markerOptions18);
-//
-//        //코스 19 37.510033,127.105072
-//        LatLng latLng19 = new LatLng(37.510033,127.105072);
-//        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng19,11));
-//        MarkerOptions markerOptions19 = new MarkerOptions().position(latLng19).title("코스19");
-//        markerOptions19.snippet("서울특별시 송파구 잠실6동");
-//        googleMap.addMarker(markerOptions19);
+        //코스 2 37.623154,127.077866
+        LatLng latLng2 = new LatLng(37.623154,127.077866);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng2,11));
+        MarkerOptions markerOptions2 = new MarkerOptions().position(latLng2).title("코스2");
+        markerOptions2.snippet("위도 : 37.623154, 경도 : 127.077866");
+        googleMap.addMarker(markerOptions2);
+
+        //코스 3 37.537663,126.949066
+        LatLng latLng3 = new LatLng(37.537663,126.949066);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng3,11));
+        MarkerOptions markerOptions3 = new MarkerOptions().position(latLng3).title("코스3");
+        markerOptions3.snippet("위도 : 37.537663, 경도 : 126.949066");
+        googleMap.addMarker(markerOptions3);
+
+        //코스 4 37.465908,127.093651
+        LatLng latLng4 = new LatLng(37.465908,127.093651);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng4,11));
+        MarkerOptions markerOptions4 = new MarkerOptions().position(latLng4).title("코스4");
+        markerOptions4.snippet("위도 : 37.465908, 경도 : 127.093651");
+        googleMap.addMarker(markerOptions4);
+
+        //코스 5 37.487965,127.048233
+        LatLng latLng5 = new LatLng(37.487965,127.048233);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng5,11));
+        MarkerOptions markerOptions5 = new MarkerOptions().position(latLng5).title("코스5");
+        markerOptions5.snippet("위도 : 37.487965, 경도 : 127.048233");
+        googleMap.addMarker(markerOptions5);
+
+        //코스 6 37.554485,127.157036
+        LatLng latLng6 = new LatLng(37.554485,127.157036);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng6,11));
+        MarkerOptions markerOptions6 = new MarkerOptions().position(latLng6).title("코스6");
+        markerOptions6.snippet("위도 : 37.554485, 경도 : 127.157036");
+        googleMap.addMarker(markerOptions6);
+
+        //코스 7 37.55201,127.142372
+        LatLng latLng7 = new LatLng(37.55201,127.142372);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng7,11));
+        MarkerOptions markerOptions7 = new MarkerOptions().position(latLng7).title("코스7");
+        markerOptions7.snippet("위도 : 37.55201, 경도 : 127.142372");
+        googleMap.addMarker(markerOptions7);
+
+        //코스 8 37.559193,126.824783
+        LatLng latLng8 = new LatLng(37.559193,126.824783);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng8,11));
+        MarkerOptions markerOptions8 = new MarkerOptions().position(latLng8).title("코스8");
+        markerOptions8.snippet("위도 : 37.559193, 경도 : 126.824783");
+        googleMap.addMarker(markerOptions8);
+
+        //코스 9 37.534462,126.838135
+        LatLng latLng9 = new LatLng(37.534462,126.838135);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng9,11));
+        MarkerOptions markerOptions9 = new MarkerOptions().position(latLng9).title("코스9");
+        markerOptions9.snippet("위도 : 37.534462, 경도 : 126.838135");
+        googleMap.addMarker(markerOptions9);
+
+        //코스 10 37.53994,126.844475
+        LatLng latLng10 = new LatLng(37.53994,126.844475);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng10,11));
+        MarkerOptions markerOptions10 = new MarkerOptions().position(latLng10).title("코스10");
+        markerOptions10.snippet("위도 : 37.53994, 경도 : 126.844475");
+        googleMap.addMarker(markerOptions10);
+
+        //코스 11 37.649628,127.078674
+        LatLng latLng11 = new LatLng(37.649628,127.078674);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng11,11));
+        MarkerOptions markerOptions11 = new MarkerOptions().position(latLng11).title("코스11");
+        markerOptions11.snippet("위도 : 37.649628, 경도 : 127.078674");
+        googleMap.addMarker(markerOptions11);
+
+        //코스 12 37.589363,127.051239
+        LatLng latLng12 = new LatLng(37.589363,127.051239);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng12,11));
+        MarkerOptions markerOptions12 = new MarkerOptions().position(latLng12).title("코스12");
+        markerOptions12.snippet("위도 : 37.589363, 경도 : 127.051239");
+        googleMap.addMarker(markerOptions12);
+
+        //코스 13 37.488174,126.976784
+        LatLng latLng13 = new LatLng(37.488174,126.976784);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng13,11));
+        MarkerOptions markerOptions13 = new MarkerOptions().position(latLng13).title("코스13");
+        markerOptions13.snippet("위도 : 37.488174, 경도 : 126.976784");
+        googleMap.addMarker(markerOptions13);
+
+        //코스 14 37.566872,126.896408
+        LatLng latLng14 = new LatLng(37.566872,126.896408);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng14,11));
+        MarkerOptions markerOptions14 = new MarkerOptions().position(latLng14).title("코스14");
+        markerOptions14.snippet("위도 : 37.566872, 경도 : 126.896408");
+        googleMap.addMarker(markerOptions14);
+
+        //코스 15 37.535442,126.961449
+        LatLng latLng15 = new LatLng(37.535442,126.961449);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng15,11));
+        MarkerOptions markerOptions15 = new MarkerOptions().position(latLng15).title("코스15");
+        markerOptions15.snippet("위도 : 37.535442, 경도 : 126.961449");
+        googleMap.addMarker(markerOptions15);
+
+        //코스 16 37.530254,126.994637
+        LatLng latLng16 = new LatLng(37.530254,126.994637);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng16,11));
+        MarkerOptions markerOptions16 = new MarkerOptions().position(latLng16).title("코스16");
+        markerOptions16.snippet("위도 : 37.530254, 경도 : 126.994637");
+        googleMap.addMarker(markerOptions16);
+
+        //코스 17 37.604881,127.087692
+        LatLng latLng17 = new LatLng(37.604881,127.087692);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng17,11));
+        MarkerOptions markerOptions17 = new MarkerOptions().position(latLng17).title("코스17");
+        markerOptions17.snippet("위도 : 37.604881, 경도 : 127.087692");
+        googleMap.addMarker(markerOptions17);
+
+        //코스 18 37.510139,127.127907
+        LatLng latLng18 = new LatLng(37.510139,127.127907);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng18,11));
+        MarkerOptions markerOptions18 = new MarkerOptions().position(latLng18).title("코스18");
+        markerOptions18.snippet("위도 : 37.510139, 경도 : 127.127907");
+        googleMap.addMarker(markerOptions18);
+
+        //코스 19 37.510033,127.105072
+        LatLng latLng19 = new LatLng(37.510033,127.105072);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng19,11));
+        MarkerOptions markerOptions19 = new MarkerOptions().position(latLng19).title("코스19");
+        markerOptions19.snippet("위도 : 37.510033, 경도 : 127.105072");
+        googleMap.addMarker(markerOptions19);
 
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED) {
             googleMap.setMyLocationEnabled(true);
@@ -366,11 +371,12 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
     @Override
     public boolean onMarkerClick(@NonNull Marker marker) {
         // 마커 클릭하면 실행
-        showDialog(dialogMarker);
+        String snippetData = marker.getSnippet();
+        String courseTitle = marker.getTitle().substring(2);
 
+        showDialog(dialogMarker, snippetData);
         return false;
     }
-
 
 
     private void checkLocationPermissionWithRationale() {
@@ -408,31 +414,61 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         }
     }
 
-    public void showDialog(@NonNull Dialog dialog01) {
+    public void showDialog(@NonNull Dialog dialog01, String snippetData) {
         // 이게 지도에서 마커 누르면 나오는 팝업창
         // custom_dialog.xml 띄우면 됨
-        dialog01.show();
-        String courseName = "example course name";
-
-
-        // 코스 이름 불러와서 courseName에 저장하는 코드 작성해야함
-
 
         // courseData 텍스트뷰 값 설정
         TextView courseData;
         courseData = dialog01.findViewById(R.id.runningCourseData);
-        courseData.setText(courseName);
+
+        dialog01.show();
+        String courseName = "example course name";
+        String sniData = snippetData;
+        String strLat;
+        String strLon;
+
+        for(int i=0; i<lat.length; i++){
+             strLat = String.valueOf(lat[i]);
+             strLon = String.valueOf(lon[i]);
+             if(sniData.contains(strLat)){
+                 courseData.setText(course_name_String[i]);
+             }
+        }
+
+        String str_cno = courseData.getText().toString().substring(6);
+        int cno = Integer.parseInt(str_cno);
+
+        service = RetrofitClient.getClient().create(RetrofitInterface.class);
+        service.GetRoom(cno).enqueue(new Callback<SearchActivateResponse>() {
+            @Override
+            public void onResponse(Call<SearchActivateResponse> call, Response<SearchActivateResponse> response) {
+                SearchActivateResponse result = response.body();
+                SearchActivateRoom[] searchData = result.getCourse();
+                room_length = searchData.length;
+
+                for(int i=0; i< searchData.length; i++){
+                    room_id[i] = searchData[i].getRoom_id();
+//                    departure_time[i] = searchData[i].getDeparture_time();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SearchActivateResponse> call, Throwable t) {
+                Toast.makeText(activity_home.this, "매칭방 로드 에러 발생", Toast.LENGTH_SHORT).show();
+                Log.e("매칭방 로드 에러 발생", t.getMessage());
+            }
+        });
+
 
         // matching 리스트 설정
         ListView matchingList = dialog01.findViewById(R.id.list_matching);
         // 더미 매칭 리스트
         List<String> list = new ArrayList<>();
-        list.add("matching1");
-        list.add("matching2");
-        list.add("matching3");
-        list.add("matching4");
-        list.add("matching5");
-        list.add("matching6");
+//        list.add("matching1");
+        for(int i=0; i<room_length; i++){
+            list.add(String.valueOf(room_id[i]));
+        }
         // ~더미 매칭 리스트
 
         ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, list);
@@ -598,14 +634,28 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
                 alertBuilder.setTitle("Select Matching");
 
                 // 더미 List Adapter 생성
-                // 생성되어 있는 매칭을 adapter에 넣어주면 됨
                 final ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity_home.this, android.R.layout.select_dialog_item);
                 //
-                adapter.add("matching1");
-                adapter.add("matching2");
-                adapter.add("matching3");
-                adapter.add("matching4");
-                adapter.add("matching5");
+                adapter.add("01.경춘선공원, 노원구");
+                adapter.add("02.공릉공원, 노원구");
+                adapter.add("03.대현공원, 마포구");
+                adapter.add("04.세곡천, 강남구");
+                adapter.add("05.도곡공원, 강남구");
+                adapter.add("06.명일공원, 강동구");
+                adapter.add("07.명우공원, 강동구");
+                adapter.add("08.마곡하늬공원, 강서구");
+                adapter.add("09.월정공원, 강서구");
+                adapter.add("10.까치산근린공원, 강서구");
+                adapter.add("11.과기대트랙, 노원구");
+                adapter.add("12.홍릉근린공원, 동대문구");
+                adapter.add("13.삼일공원, 동작구");
+                adapter.add("14.월드컵공원, 마포구");
+                adapter.add("15.경의선숲길, 용산구");
+                adapter.add("16.용산공원, 용산구");
+                adapter.add("17.중랑천, 중랑구");
+                adapter.add("18.올림픽공원, 송파구");
+                adapter.add("19.석촌호수, 송파구");
+
                 //
 
                 // 버튼 생성
@@ -664,6 +714,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
 //        Long timestamp = calendar.getTimeInMillis();// 출발 시간 타임스탬프
 //        Log.i("testCode", ""+timestamp);
 //        timestamp.toString();
+
         String ts = "2022-05-28 18:00:00.0";
         java.sql.Timestamp realTs = java.sql.Timestamp.valueOf(ts);
 
@@ -673,8 +724,10 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
                 // 여기서 데이터 값 api로 보내주면 됨
                 SharedPreferences auto = getSharedPreferences("auto", Activity.MODE_PRIVATE);
                 service = RetrofitClient.getClient().create(RetrofitInterface.class);
+                String str_cno = courseName.getText().toString().substring(0,2);
+                int cNo = Integer.parseInt(str_cno); // 위도, 경도 배열에 접근하기 위한 인덱스
 
-                service.Create(new MakeMatchingRoomData(auto.getString("inputNickname", null), realTs, Integer.parseInt(runTime), gender, 37.5582876,127.0001671)).enqueue(new Callback<MakeMatchingRoomResponse>() {
+                service.Create(new MakeMatchingRoomData(auto.getString("inputNickname", null), realTs, Integer.parseInt(runTime), gender, lat[cNo-1],lon[cNo-1])).enqueue(new Callback<MakeMatchingRoomResponse>() {
                     @Override
                     public void onResponse(Call<MakeMatchingRoomResponse> call, Response<MakeMatchingRoomResponse> response) {
                         MakeMatchingRoomResponse result = response.body();
