@@ -374,6 +374,37 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         String snippetData = marker.getSnippet();
         String courseTitle = marker.getTitle().substring(2);
 
+        String sniData = snippetData;
+        String strLat;
+        String strLon;
+
+        for(int i=0; i<lat.length; i++){
+            strLat = String.valueOf(lat[i]);
+            strLon = String.valueOf(lon[i]);
+        }
+
+        int cno = Integer.parseInt(courseTitle);
+        service = RetrofitClient.getClient().create(RetrofitInterface.class);
+        service.GetRoom(cno).enqueue(new Callback<SearchActivateResponse>() {
+            @Override
+            public void onResponse(Call<SearchActivateResponse> call, Response<SearchActivateResponse> response) {
+                SearchActivateResponse result = response.body();
+                SearchActivateRoom[] searchData = result.getCourse();
+                room_length = searchData.length;
+
+                for(int i=0; i< searchData.length; i++){
+                    room_id[i] = searchData[i].getRoom_id();
+//                    departure_time[i] = searchData[i].getDeparture_time();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SearchActivateResponse> call, Throwable t) {
+                Toast.makeText(activity_home.this, "매칭방 로드 에러 발생", Toast.LENGTH_SHORT).show();
+                Log.e("매칭방 로드 에러 발생", t.getMessage());
+            }
+        });
+
         showDialog(dialogMarker, snippetData);
         return false;
     }
@@ -518,15 +549,15 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
 //        });
 
 
-        // 확인 버튼
-        Button ok_btn = dialog01.findViewById(R.id.btn_ok);
-        ok_btn.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //ListView matchName = v.findViewById(R.id.list_matching);
-                dialog01.dismiss();
-            }
-        });
+//        // 확인 버튼
+//        Button ok_btn = dialog01.findViewById(R.id.btn_ok);
+//        ok_btn.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //ListView matchName = v.findViewById(R.id.list_matching);
+//                dialog01.dismiss();
+//            }
+//        });
 
         // 나가기 버튼
         Button exit_btn = dialog01.findViewById(R.id.btn_exit);
