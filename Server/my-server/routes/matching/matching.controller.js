@@ -57,7 +57,7 @@ module.exports.load = (req,res) => {
       var arr =[];
       for (var i =0; i<result.length;i++){
         arr.push({
-          rome_id : result[i].rome_id,
+          room_id : result[i].room_id,
           nickname : result[i].nickname,
           departure_time : result[i].departure_time,
           running_time : result[i].running_time,
@@ -98,7 +98,7 @@ module.exports.objActivate = (req,res) => {
         arr.push({
           room_id : result[i].room_id,
           nickname : result[i].nickname,
-          departure_time : result[i].departure_time,
+          // departure_time : result[i].departure_time,
           running_time : result[i].running_time,
           mate_gender : result[i].mate_gender,
           mate_level : result[i].mate_level,

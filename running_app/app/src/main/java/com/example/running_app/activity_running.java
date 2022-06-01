@@ -415,8 +415,8 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
                 // run_rate
 
                 // run_rate 확인용
-                //Toast.makeText(activity_running.this, "rate: " + run_rate[0], Toast.LENGTH_SHORT).show();
-
+                Toast.makeText(activity_running.this, "rate: " + run_rate[0], Toast.LENGTH_SHORT).show();
+                
                 rDialog.dismiss();
             }
         });
