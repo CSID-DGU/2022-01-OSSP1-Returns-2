@@ -96,7 +96,7 @@ module.exports.objActivate = (req,res) => {
       var arr = [];
       for (var i =0; i<result.length;i++){
         arr.push({
-          rome_id : result[i].rome_id,
+          room_id : result[i].room_id,
           nickname : result[i].nickname,
           departure_time : result[i].departure_time,
           running_time : result[i].running_time,

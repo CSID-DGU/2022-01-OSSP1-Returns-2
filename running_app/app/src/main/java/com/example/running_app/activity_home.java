@@ -38,6 +38,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,6 +61,9 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
     public static double[] lon = new double[19];
     public static String[] course_name_String = new String[19];
     public static String[] course_loc = new String[19];
+    public static int room_length;
+    public static int[] room_id = new int[10];
+    public static Timestamp[] departure_time = new Timestamp[10];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -368,10 +372,11 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
     public boolean onMarkerClick(@NonNull Marker marker) {
         // 마커 클릭하면 실행
         String snippetData = marker.getSnippet();
+        String courseTitle = marker.getTitle().substring(2);
+
         showDialog(dialogMarker, snippetData);
         return false;
     }
-
 
 
     private void checkLocationPermissionWithRationale() {
@@ -422,27 +427,48 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         String sniData = snippetData;
         String strLat;
         String strLon;
-        // 동국대 위,경도 : 37.5582876,127.0001671
+
         for(int i=0; i<lat.length; i++){
              strLat = String.valueOf(lat[i]);
              strLon = String.valueOf(lon[i]);
              if(sniData.contains(strLat)){
                  courseData.setText(course_name_String[i]);
              }
-
         }
+
+        String str_cno = courseData.getText().toString().substring(6);
+        int cno = Integer.parseInt(str_cno);
+
+        service = RetrofitClient.getClient().create(RetrofitInterface.class);
+        service.GetRoom(cno).enqueue(new Callback<SearchActivateResponse>() {
+            @Override
+            public void onResponse(Call<SearchActivateResponse> call, Response<SearchActivateResponse> response) {
+                SearchActivateResponse result = response.body();
+                SearchActivateRoom[] searchData = result.getCourse();
+                room_length = searchData.length;
+
+                for(int i=0; i< searchData.length; i++){
+                    room_id[i] = searchData[i].getRoom_id();
+//                    departure_time[i] = searchData[i].getDeparture_time();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SearchActivateResponse> call, Throwable t) {
+                Toast.makeText(activity_home.this, "매칭방 로드 에러 발생", Toast.LENGTH_SHORT).show();
+                Log.e("매칭방 로드 에러 발생", t.getMessage());
+            }
+        });
 
 
         // matching 리스트 설정
         ListView matchingList = dialog01.findViewById(R.id.list_matching);
         // 더미 매칭 리스트
         List<String> list = new ArrayList<>();
-        list.add("matching1");
-        list.add("matching2");
-        list.add("matching3");
-        list.add("matching4");
-        list.add("matching5");
-        list.add("matching6");
+//        list.add("matching1");
+        for(int i=0; i<room_length; i++){
+            list.add(String.valueOf(room_id[i]));
+        }
         // ~더미 매칭 리스트
 
         ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, list);
@@ -688,6 +714,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
 //        Long timestamp = calendar.getTimeInMillis();// 출발 시간 타임스탬프
 //        Log.i("testCode", ""+timestamp);
 //        timestamp.toString();
+
         String ts = "2022-05-28 18:00:00.0";
         java.sql.Timestamp realTs = java.sql.Timestamp.valueOf(ts);
 
@@ -700,7 +727,6 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
                 String str_cno = courseName.getText().toString().substring(0,2);
                 int cNo = Integer.parseInt(str_cno); // 위도, 경도 배열에 접근하기 위한 인덱스
 
-                //동국대 :
                 service.Create(new MakeMatchingRoomData(auto.getString("inputNickname", null), realTs, Integer.parseInt(runTime), gender, lat[cNo-1],lon[cNo-1])).enqueue(new Callback<MakeMatchingRoomResponse>() {
                     @Override
                     public void onResponse(Call<MakeMatchingRoomResponse> call, Response<MakeMatchingRoomResponse> response) {
