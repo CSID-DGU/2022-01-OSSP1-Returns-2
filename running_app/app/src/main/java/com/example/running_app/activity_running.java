@@ -1,10 +1,12 @@
 package com.example.running_app;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.icu.util.Calendar;
 import android.location.LocationRequest;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,8 +14,12 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 import android.location.Location;
 import android.location.LocationListener;
@@ -124,34 +130,37 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
         end_btn = findViewById(R.id.runningEnd);
         // runningDistance = findViewById(R.id.distance);
 
-        start_btn.setOnClickListener(onClickListener);
-        end_btn.setOnClickListener(onClickListener2);
-    }
+        Dialog dialogResult = new Dialog(activity_running.this);
+        dialogResult.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialogResult.setContentView(R.layout.result_dialog);
 
-    View.OnClickListener onClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.runningStart:
-                    start_btn.setText("일시 중단");
+        start_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.runningStart:
+                        start_btn.setText("일시 중단");
 //                    startLocationService();
-                    StaButton();
+                        StaButton();
+                }
             }
-        }
-    };
-    View.OnClickListener onClickListener2 = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            String runTime = runningTime.getText().toString();
-            String runKm = runningDistance.getText().toString();
-            // 여기서 서버로 달리기 정보 보내주면 됨.
+        });
+        end_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rDialog(dialogResult);
 
-            Log.i("testCode", runTime);
-            Toast.makeText(activity_running.this, runTime, Toast.LENGTH_SHORT).show();
-            status = END;
-            handler.sendEmptyMessage(0);
-        }
-    };
+                String runTime = runningTime.getText().toString();
+                String runKm = runningDistance.getText().toString();
+                // 여기서 서버로 달리기 정보 보내주면 됨.
+
+                Log.i("testCode", runTime);
+                Toast.makeText(activity_running.this, runTime, Toast.LENGTH_SHORT).show();
+                status = END;
+                handler.sendEmptyMessage(0);
+            }
+        });
+    }
 
 
     private void StaButton() {
@@ -296,6 +305,7 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
                 LocationManager.GPS_PROVIDER,
                 minTime, minDistance, gpsListener);
     }
+
     private class GPSListener implements LocationListener{
         public void onLocationChanged(Location location){
 
@@ -360,5 +370,55 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
         public void onStatusChanged(String provider, int status, Bundle extras){
 
         }
+    }
+
+    public void rDialog(@NonNull Dialog rDialog) {
+        rDialog.show();
+
+        TextView course, time, distance;
+        RatingBar rate;
+        Button ok_btn;
+        String courseData = "sample course";      // 서버에서 받아올 코스 이름
+
+        course = rDialog.findViewById(R.id.course);
+        time = rDialog.findViewById(R.id.time);
+        distance = rDialog.findViewById(R.id.distance);
+        rate = rDialog.findViewById(R.id.ratingBar);
+        ok_btn = rDialog.findViewById(R.id.btn_ok);
+
+        // 서버에서 지금 참여하고 있는 러닝 코스 받아서 course로 저장해주기
+
+
+        course.setText(courseData);
+        time.setText(getTime());
+        distance.setText(runDistance+"Km");
+
+        final float[] run_rate = new float[1];      // 러닝 평가 점수
+
+        rate.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            // 별점 선택한 값으로 rating 설정
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                ratingBar.setRating(rating);
+                run_rate[0] = rating;
+            }
+        });
+
+        ok_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // 여기서 달리기 기록 서버로 저장
+                // 넘길 데이터?
+                // courseData
+                // getTime()
+                // runDistance
+                // run_rate
+
+                // run_rate 확인용
+                //Toast.makeText(activity_running.this, "rate: " + run_rate[0], Toast.LENGTH_SHORT).show();
+
+                rDialog.dismiss();
+            }
+        });
     }
 }

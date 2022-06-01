@@ -449,7 +449,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
                     ----------------------
                     Matching2  20:30  1/4
                     ----------------------
-                 */
+                */
                 // 이런 느낌으로 리스트 만들어두면 여기서 선택해도 괜찮을듯
 
                 String matchName = (String)parent.getItemAtPosition(position);
