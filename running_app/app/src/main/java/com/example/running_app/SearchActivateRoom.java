@@ -19,8 +19,8 @@ public class SearchActivateRoom {
     @SerializedName("nickname")
     public String nickname;
 
-//    @SerializedName("departure_time")
-//    public Timestamp departure_time;
+    @SerializedName("departure_time")
+    public String departure_time;
 
     @SerializedName("running_time")
     public int running_time;
@@ -39,7 +39,7 @@ public class SearchActivateRoom {
 
     public int getRoom_id(){return room_id;}
     public String getNickname(){return nickname;}
-//    public Timestamp getDeparture_time(){return departure_time;}
+    public String getDeparture_time(){return departure_time;}
     public int getRunning_time(){return running_time;}
     public String getMate_gender(){return mate_gender;}
     public int getMate_level(){return mate_level;}
