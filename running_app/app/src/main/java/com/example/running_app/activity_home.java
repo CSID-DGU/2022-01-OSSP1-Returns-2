@@ -401,6 +401,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
                 for(int i=0; i< searchData.length; i++){
                     room_id[i] = searchData[i].getRoom_id();
                     departure_time[i] = searchData[i].getDeparture_time();
+                    mate_gender[i] = searchData[i].getMate_gender();
                 }
             }
 
@@ -532,7 +533,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         List<String> list = new ArrayList<>();
 //        list.add("matching1");
         for(int i=0; i<room_length; i++){
-            String addStr = "RoomID:"+String.valueOf(room_id[i]);
+            String addStr = "RoomID:"+String.valueOf(room_id[i])+" 시작:"+departure_time[i]+","+mate_gender[i];
             list.add(addStr);
         }
         // ~더미 매칭 리스트
@@ -779,16 +780,6 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         woman = womanCheck.getText().toString();
         both = bothCheck.getText().toString();
 
-        if (manCheck.isChecked()){
-            gender = "남자만";
-        }
-        if (womanCheck.isChecked()){
-            gender = "여자만";
-        }
-        if (bothCheck.isChecked()){
-            gender = "";
-        }
-
 //        int year, month, day, hour, min;
         DatePicker datePicker = (DatePicker)rDialog.findViewById(R.id.datePicker);
         TimePicker timePicker = (TimePicker)rDialog.findViewById(R.id.timePicker);
@@ -845,6 +836,16 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
                 sMin = Integer.toString(min);
 
                 String ts = sYear+"-"+sMonth+"-"+sDay+" "+sHour+":"+sMin+":00";
+
+                if (manCheck.isChecked()){
+                    gender = "남자만";
+                }
+                if (womanCheck.isChecked()){
+                    gender = "여자만";
+                }
+                if (bothCheck.isChecked()){
+                    gender = "";
+                }
 
                 // 여기서 데이터 값 api로 보내주면 됨
                 SharedPreferences auto = getSharedPreferences("auto", Activity.MODE_PRIVATE);
