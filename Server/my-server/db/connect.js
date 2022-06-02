@@ -1,4 +1,5 @@
 //DB연결
+const { stringify } = require("jade/lib/utils");
 var db = require("mysql");
 
 //import dotenv from 'dotenv'
@@ -11,6 +12,7 @@ module.exports.conn = function (){
     database: process.env.DATABASE_NAME,
     password: process.env.DATABASE_PASSWORD,
     port: 3306,
+    dateStrings: 'date'
   });
   conn.connect(function(err){
     if(err){
