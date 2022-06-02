@@ -5,4 +5,5 @@ const matching = require('./matching.controller');
 router.post('/create',matching.create);
 router.get('/searchActivate',matching.load);
 router.get('/courseActivate',matching.objActivate);
+router.post("/inputdata", matching.input);
 module.exports = router;

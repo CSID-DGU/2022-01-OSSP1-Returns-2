@@ -1,5 +1,5 @@
 var db = require('../../db/connect');
-
+const matchingData = require("../../argorithms/matchingDataPreprocessing");
 
 /**
  * 매칭방 생성 API
@@ -118,3 +118,34 @@ module.exports.objActivate = (req,res) => {
   });
 
 }
+
+
+/*
+매칭 정보 입력 API 
+*/
+module.exports.input = (res) => {
+  const conn = db.conn();
+  matchingDataSet = matchingData;
+  var list = matchingDataSet;
+  var list2 = [];
+  for (let i = 0; i < list.length; i++) {
+    list2[i] = Object.values(list[i]);
+    matching_number = (i+1).toString();
+    list2[i].push(matching_number);
+  }
+  
+  var sql =
+    "insert into Matching_Rating (user_id, matching_user_id, rating, matching_number) values ?";
+
+  conn.query(sql, [list2], function (err, result) {
+    if (err) {
+      console.log(err);
+      db.conn();
+    } else {
+      res.json({
+        result: true,
+        msg: "매칭 데이터 입력 완료",
+      });
+    }
+  });
+};
