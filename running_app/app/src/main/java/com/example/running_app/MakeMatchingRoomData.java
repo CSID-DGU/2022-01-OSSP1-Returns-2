@@ -9,7 +9,7 @@ public class MakeMatchingRoomData {
     public String nickname;
 
     @SerializedName("departure_time")
-    public Timestamp departure_time;
+    public String departure_time;
 
     @SerializedName("running_time")
     public int running_time;
@@ -26,7 +26,7 @@ public class MakeMatchingRoomData {
     @SerializedName("start_longitude")
     public double start_longitude;
 
-    public MakeMatchingRoomData(String nickname, Timestamp departure_time, int running_time, String mate_gender, double start_latitude, double start_longitude){
+    public MakeMatchingRoomData(String nickname, String departure_time, int running_time, String mate_gender, double start_latitude, double start_longitude){
         this.nickname = nickname;
         this.departure_time = departure_time;
         this.running_time = running_time;

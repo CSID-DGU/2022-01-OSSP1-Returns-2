@@ -58,6 +58,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
     Button logout_btn;
     String inputNickname;
     RetrofitInterface service;
+    public static String ts = "2022-05-28 18:00:00.0";
 
     public static double[] lat = new double[19];
     public static double[] lon = new double[19];
@@ -65,8 +66,10 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
     public static String[] course_loc = new String[19];
     public static int room_length;
     public static int[] room_id = new int[10];
-    public static Timestamp[] departure_time = new Timestamp[10];
+    public static String[] departure_time = new String[10];
+    public static String[] mate_gender = new String[10];
     public static boolean flag = false;
+    public static String gender = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -397,7 +400,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
 
                 for(int i=0; i< searchData.length; i++){
                     room_id[i] = searchData[i].getRoom_id();
-//                    departure_time[i] = searchData[i].getDeparture_time();
+                    departure_time[i] = searchData[i].getDeparture_time();
                 }
             }
 
@@ -494,7 +497,8 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
 
                     for(int i=0; i< searchData.length; i++){
                         room_id[i] = searchData[i].getRoom_id();
-//                    departure_time[i] = searchData[i].getDeparture_time();
+                        departure_time[i] = searchData[i].getDeparture_time();
+                        mate_gender[i] = searchData[i].getMate_gender();
                     }
                 }
 
@@ -528,7 +532,8 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         List<String> list = new ArrayList<>();
 //        list.add("matching1");
         for(int i=0; i<room_length; i++){
-            list.add(String.valueOf(room_id[i]));
+            String addStr = "RoomID:"+String.valueOf(room_id[i]);
+            list.add(addStr);
         }
         // ~더미 매칭 리스트
 
@@ -623,7 +628,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         String gender, man, woman, both;
         man = mDialog.findViewById(R.id.signMan).toString();
         woman = mDialog.findViewById(R.id.signWoman).toString();
-        //both = mDialog.findViewById(R.id.signBoth).toString();
+        both = mDialog.findViewById(R.id.signBoth).toString();
 
         if(man.isEmpty()){
             if(woman.isEmpty()) { gender = null;}
@@ -673,7 +678,15 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
                 calendar.set(Calendar.MINUTE, min);
                 calendar.set(Calendar.SECOND, 0);
 
+                String sYear, sMonth, sDay, sHour, sMin;
                 Log.i("Get Year", Integer.toString(calendar.get(Calendar.DAY_OF_MONTH)));
+                sYear = Integer.toString(year);
+                sMonth = Integer.toString(month);
+                sDay = Integer.toString(day);
+                sHour = Integer.toString(hour);
+                sMin = Integer.toString(min);
+
+                String ts = sYear+"-"+sMonth+"-"+sDay+" "+sHour+":"+sMin+":00";
 
                 // 여기서 api 로 runTime, timestamp 넘겨주면 됨
 
@@ -684,7 +697,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
 
     public void rDialog(@NonNull Dialog rDialog) {
         rDialog.show();
-        CheckBox manCheck, womanCheck;
+        CheckBox manCheck, womanCheck, bothCheck;
         Button recommend, select;
 
         //이런 형식으로
@@ -757,20 +770,24 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
             }
         });
 
-        String gender, man, woman;
+        String man, woman, both;
         manCheck = rDialog.findViewById(R.id.signMan);
         womanCheck = rDialog.findViewById(R.id.signWoman);
-        //bothCheck = rDialog.findViewById(R.id.signBoth);      // gender
+        bothCheck = rDialog.findViewById(R.id.signBoth);      // gender
 
         man = manCheck.getText().toString();
         woman = womanCheck.getText().toString();
-        //both = bothCheck.getText().toString();
+        both = bothCheck.getText().toString();
 
-        if(man.isEmpty()){
-            if(woman.isEmpty()) { gender = null;}
-            else { gender = woman; }
+        if (manCheck.isChecked()){
+            gender = "남자만";
         }
-        else{ gender = man; }
+        if (womanCheck.isChecked()){
+            gender = "여자만";
+        }
+        if (bothCheck.isChecked()){
+            gender = "";
+        }
 
 //        int year, month, day, hour, min;
         DatePicker datePicker = (DatePicker)rDialog.findViewById(R.id.datePicker);
@@ -798,9 +815,6 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
 //        Log.i("testCode", ""+timestamp);
 //        timestamp.toString();
 
-        String ts = "2022-05-28 18:00:00.0";
-        java.sql.Timestamp realTs = java.sql.Timestamp.valueOf(ts);
-
         newRunningBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -822,7 +836,15 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
                 calendar.set(Calendar.MINUTE, min);
                 calendar.set(Calendar.SECOND, 0);
 
-                Log.i("Get Year", Integer.toString(calendar.get(Calendar.DAY_OF_MONTH)));
+                String sYear, sMonth, sDay, sHour, sMin;
+                Log.i("Get Hour", Integer.toString(calendar.get(Calendar.HOUR_OF_DAY)));
+                sYear = Integer.toString(year);
+                sMonth = Integer.toString(month);
+                sDay = Integer.toString(day);
+                sHour = Integer.toString(hour);
+                sMin = Integer.toString(min);
+
+                String ts = sYear+"-"+sMonth+"-"+sDay+" "+sHour+":"+sMin+":00";
 
                 // 여기서 데이터 값 api로 보내주면 됨
                 SharedPreferences auto = getSharedPreferences("auto", Activity.MODE_PRIVATE);
@@ -830,7 +852,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
                 String str_cno = courseName.getText().toString().substring(0,2);
                 int cNo = Integer.parseInt(str_cno); // 위도, 경도 배열에 접근하기 위한 인덱스
 
-                service.Create(new MakeMatchingRoomData(auto.getString("inputNickname", null), realTs, Integer.parseInt(runTime), gender, lat[cNo-1],lon[cNo-1])).enqueue(new Callback<MakeMatchingRoomResponse>() {
+                service.Create(new MakeMatchingRoomData(auto.getString("inputNickname", null), ts, Integer.parseInt(runTime), gender, lat[cNo-1],lon[cNo-1])).enqueue(new Callback<MakeMatchingRoomResponse>() {
                     @Override
                     public void onResponse(Call<MakeMatchingRoomResponse> call, Response<MakeMatchingRoomResponse> response) {
                         MakeMatchingRoomResponse result = response.body();
