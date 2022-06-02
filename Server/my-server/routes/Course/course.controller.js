@@ -10,24 +10,26 @@ module.exports.input = (res) => {
   const conn = db.conn();
   var SeoulRunningCourse = JSON.parse(courseJSON);
   var list = Object.values(SeoulRunningCourse);
-  var list2 =[];
+  var list2 = [];
   for (let i = 0; i < list.length; i++) {
     list2[i] = Object.values(list[i]);
-  }
-  var sql = "insert into RunningCourseAndTrack (course_no,course_location,course_name,course_length,course_start_latitude,course_start_longitude,course_final_latitude,course_final_longitude,course_level,course_time,course_match_count) values ?"
+    var sql =
+      "insert into RunningCourseAndTrack (course_no,course_location,course_name,course_length,course_start_latitude,course_start_longitude,course_final_latitude,course_final_longitude,course_level,course_time,course_match_count) values ?";
 
-  conn.query(sql,[list2],function(err,result){
-    if (err) {
-      console.log(err);
-      db.conn();
-    }else {
-      res.json({
-        result: true,
-        msg: "러닝 코스 입력 완료",
-      });
-    }
-  });
+    conn.query(sql, [list2], function (err, result) {
+      if (err) {
+        console.log(err);
+        db.conn();
+      } else {
+        res.json({
+          result: true,
+          msg: "러닝 코스 입력 완료",
+        });
+      }
+    });
+  }
 };
+  
 
 /**
  * 모든 러닝코스 출발 좌표값 가져오는 API
