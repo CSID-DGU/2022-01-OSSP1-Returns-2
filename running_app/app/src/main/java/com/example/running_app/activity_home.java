@@ -213,11 +213,11 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
     public void onMapReady(@NonNull GoogleMap googleMap) {
         this.googleMap = googleMap;
         //37.5582876,127.0001671 동국대
-        LatLng latLng0 = new LatLng(37.5582876,127.0001671);
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng0,11));
-        MarkerOptions markerOptions0 = new MarkerOptions().position(latLng0).title("동국대");
-        markerOptions0.snippet("위도 : 37.5582876, 경도 : 127.0001671");
-        googleMap.addMarker(markerOptions0);
+//        LatLng latLng0 = new LatLng(37.5582876,127.0001671);
+//        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng0,11));
+//        MarkerOptions markerOptions0 = new MarkerOptions().position(latLng0).title("동국대");
+//        markerOptions0.snippet("위도 : 37.5582876, 경도 : 127.0001671");
+//        googleMap.addMarker(markerOptions0);
 
 //        //자동 마커 추가 기능
 //        for(int i=0; i<19; i++){

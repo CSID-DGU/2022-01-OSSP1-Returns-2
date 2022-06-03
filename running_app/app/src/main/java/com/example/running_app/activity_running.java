@@ -1,10 +1,12 @@
 package com.example.running_app;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.icu.util.Calendar;
 import android.location.LocationRequest;
@@ -82,6 +84,7 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
     private static LatLng latLng;
     private static Marker[] markers = new Marker[2];
     private static boolean flag = false;
+    public static String nickname;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstaceState) {
@@ -91,6 +94,9 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.running);
         mapFragment.getMapAsync(this);
 
+        SharedPreferences auto = getSharedPreferences("auto", Activity.MODE_PRIVATE);
+
+        nickname = auto.getString("inputNickname", null);
 
         //거리 초기화
         runDistance = 0.0;
@@ -393,10 +399,11 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
 
         // 서버에서 지금 참여하고 있는 러닝 코스 받아서 course로 저장해주기
 
+        double temp = runDistance/1000;
 
         course.setText(courseData);
         time.setText(getTime());
-        distance.setText(runDistance+"Km");
+        distance.setText(String.format("%.3f"+"KM",temp));
 
         final float[] run_rate = new float[1];      // 러닝 평가 점수
 
@@ -422,8 +429,12 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
                 // run_rate 확인용
 //                Toast.makeText(activity_running.this, "rate: " + run_rate[0], Toast.LENGTH_SHORT).show();
 
+                //course 이름 서버에서 받아와야함..
+                int temp = 13;
+                String courseNo = String.valueOf(temp);
+
                 service = RetrofitClient.getClient().create(RetrofitInterface.class);
-                service.RunResult(new RunningResultData(courseData, getTime(),runDistance/1000, run_rate[0])).enqueue(new Callback<RunningResultResponse>() {
+                service.RunResult(new RunningResultData(nickname, courseNo, getTime(),runDistance/1000, run_rate[0], run_rate[0])).enqueue(new Callback<RunningResultResponse>() {
                     @Override
                     public void onResponse(Call<RunningResultResponse> call, Response<RunningResultResponse> response) {
                         RunningResultResponse result = response.body();
