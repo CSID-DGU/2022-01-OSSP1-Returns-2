@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.icu.util.Calendar;
 import android.location.LocationRequest;
 import android.os.Bundle;
@@ -48,6 +49,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.util.ArrayList;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -68,6 +71,8 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
     public static final int PAUSE = 2; //정지
     public static final int END = 3; //러닝 끝 + 초기화
 
+    private PolylineOptions polylineOptions = new PolylineOptions();
+
     //상태값을 저장하는 변수
     //INIT은 초기값이다. 그걸 status 안에 넣는다. (0을 넣은 것)
     public static int status = INIT;
@@ -84,7 +89,11 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
     private static LatLng latLng;
     private static Marker[] markers = new Marker[2];
     private static boolean flag = false;
+    private static boolean polyFlag = false;
     public static String nickname;
+
+    private static LatLng startLng = new LatLng(0,0);
+    private static LatLng endLng = new LatLng(0,0);
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstaceState) {
@@ -185,6 +194,7 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
 
                 //상태 변환
                 status = RUN;
+                polyFlag = true;
                 break;
             case RUN:
                 //핸들러 정지
@@ -197,6 +207,7 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
 
                 //상태 변환
                 status = PAUSE;
+                polyFlag = false;
                 break;
             case PAUSE:
                 long reStart = SystemClock.elapsedRealtime();
@@ -207,6 +218,7 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
                 start_btn.setText("일시 중단");
 
                 status = RUN;
+                polyFlag = true;
                 break;
         }
     }
@@ -322,16 +334,49 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
 
             double latitude = location.getLatitude();
             double longitude = location.getLongitude();
+
+            if(!polyFlag){
+                latLng = new LatLng(latitude, longitude);
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
+                if (flag){
+                    markers[0] = googleMap.addMarker(new MarkerOptions().position(latLng).title("현재 내 위치"));
+                    markers[1].remove();
+                    flag = false;
+                }else{ // 시작시 여기부터임
+                    markers[1] = googleMap.addMarker(new MarkerOptions().position(latLng).title("현재 내 위치"));
+                    if (markers[0] != null){
+                        markers[0].remove();
+                    }else{
+
+                    }
+                    flag = true;
+                }
+                return;
+            }
+
             double distance;
             if(beforeLat == 0.0){
                 beforeLat = latitude;
             }
             if(beforeLon == 0.0){
                 beforeLon = longitude;
+                startLng = new LatLng(latitude, longitude);
+                endLng = new LatLng(latitude, longitude);
+                if(polyFlag){
+                    polylineOptions.add(startLng).add(endLng).width(15).color(Color.RED).geodesic(true);
+                    googleMap.addPolyline(polylineOptions);
+                }
             }
             //마커 여기서 찍어주기
 //            googleMap.clear();
             latLng = new LatLng(latitude, longitude);
+
+//            polylineOptions.color(Color.RED);
+//            polylineOptions.width(15);
+//            arrayPoints.add(latLng);
+//            polylineOptions.addAll(arrayPoints);
+//            googleMap.addPolyline(polylineOptions);
+
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
             if (flag){
                 markers[0] = googleMap.addMarker(new MarkerOptions().position(latLng).title("현재 내 위치"));
@@ -365,10 +410,18 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
             current.setLatitude(latitude);
             current.setLongitude(longitude);
             distance = before.distanceTo(current);
-            runDistance += distance;
+            endLng = new LatLng(current.getLatitude(), current.getLongitude());
+            if (polyFlag){
+                runDistance += distance;
+                polylineOptions.add(startLng).add(endLng).width(15).color(Color.RED).geodesic(true);
+                googleMap.addPolyline(polylineOptions);
+                startLng = new LatLng(current.getLatitude(), current.getLongitude());
+            }
+
 //            Log.i("testCode2", "누적 거리 : "+runDistance);
             double mtokm = runDistance / 1000;
             runningDistance.setText(String.format("%.3f"+"KM", mtokm));
+
             beforeLat = latitude;
             beforeLon = longitude;
         }
@@ -447,7 +500,10 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
                      }
                 });
 
+                Intent intent = new Intent(getApplicationContext(),activity_running.class);
+                startActivity(intent);
                 rDialog.dismiss();
+                finish();
             }
         });
     }
