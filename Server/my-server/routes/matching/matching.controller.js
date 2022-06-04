@@ -1,7 +1,7 @@
 var db = require("../../db/connect");
 const matchingData = require("../../argorithms/matchingDataPreprocessing");
-const mysql = require("mysql2/promise");
 const return_departure_time = require("./departure_time");
+const matching_start = require("../../argorithms/matching");
 
 /**
  * 매칭방 생성 API
@@ -171,6 +171,7 @@ module.exports.matching = (req, res) => {
   let sql2 = "";
   let params1 = [];
   let params2 = [];
+  let recommend_user_nickname = "";
 
   //running_time 하한,상한 (+-30분)
   let lower_running_time = (running_time - 30).toString();
@@ -204,27 +205,68 @@ module.exports.matching = (req, res) => {
     if (err) {
       console.log(err);
       conn.end();
-    } else {
-      var arr = [];
-      for (var i = 0; i < result.length; i++) {
-        arr.push({
-          nickname: result[i].nickname,
-          room_id: result[i].room_id,
-          running_time: result[i].running_time,
-        });
-      }
-      if (result.length === 0) {
-        res.json({
-          result: false,
-          msg: "필수 조건을 만족하는 방이 없습니다",
-        });
-      } else {
-        res.json({
-          result: true,
-          msg: "추천 가능한 닉네임 조회",
-          data: arr,
-        });
+    }
+    // else {
+    //   var arr = []; //나중에 매칭방 정보 리턴해줄 때 사용
+    //   var total_nickname = []; //매칭 가능한 닉네임들 저장
+    //   for (var i = 0; i < result.length; i++) {
+    //     arr.push({
+    //       nickname: result[i].nickname,
+    //       room_id: result[i].room_id,
+    //       running_time: result[i].running_time,
+    //     });
+    //     total_nickname.push(result[i].nickname);
+    //   }
+    //   if (result.length === 0) {
+    //     res.json({
+    //       result: false,
+    //       msg: "필수 조건을 만족하는 방이 없습니다",
+    //     });
+    //   } else {
+    //     res.json({
+    //       result: true,
+    //       msg: "추천 가능한 닉네임 조회",
+    //       data: arr,
+    //     });
+    //   }
+    // }
+    var arr = []; //나중에 매칭방 정보 리턴해줄 때 사용
+    var total_nickname = []; //매칭 가능한 닉네임들 저장
+    for (var i = 0; i < result.length; i++) {
+      arr.push({
+        nickname: result[i].nickname,
+        room_id: result[i].room_id,
+        running_time: result[i].running_time,
+      });
+      total_nickname.push(result[i].nickname);
+    }
+    if (result.length === 0) {
+      res.json({
+        result: false,
+        msg: "필수 조건을 만족하는 방이 없습니다",
+      });
+      return;
+    }
+    let recommend_list = matching_start(nickname);
+
+    //추천리스트에 1순위부터 차례대로 돌면서 현재 Activating_Room에 있는 유저가 있는지 확인
+    for (let i = 0; i < recommend_list.length; i++) {
+      for (let j = 0; j < total_nickname.length; j++) {
+        if (recommend_list[i] == total_nickname[j]) {
+          recommend_user_nickname = recommend_list[i];
+        } else {
+          res.json({
+            result: false,
+            msg: "조건을 만족하는 유저가 존재하지 않습니다",
+          });
+          return;
+        }
       }
     }
+    res.json({
+      result: true,
+      recommend_user: recommend_user_nickname,
+      msg: "매칭 성공!",
+    });
   });
 };
