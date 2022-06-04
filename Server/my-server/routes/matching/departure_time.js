@@ -147,8 +147,8 @@ function departure_time(departure_time) {
   return result;
 }
 
-time = "2022-03-01 00:59:00";
-result = departure_time(time);
-console.log(result);
+// time = "2022-03-01 00:59:00";
+// result = departure_time(time);
+// console.log(result);
 
 module.exports = departure_time;
