@@ -9,8 +9,7 @@ function avg_face(total_distance,total_time) {
     var avg_face =  time / total_distance;
     var faceString = convertNumToTime(avg_face);
     var arr = faceString.split(':');
-    console.log(arr[1]);
-    console.log(typeof arr[1]);
+
     if (arr[0]>= 60){
         var hourAndMinutes = parseInt(faceString.split(':',1));
         console.log(hourAndMinutes);
@@ -26,8 +25,11 @@ function avg_face(total_distance,total_time) {
         }
         
     }
+    else if (arr[0] >= 10){
+        return "00:"+ faceString;
+    }
     else {
-        return "00:"+faceString;
+        return "00:0"+ faceString;
     }
 }  
 
