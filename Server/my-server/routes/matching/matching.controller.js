@@ -1,7 +1,7 @@
 var db = require("../../db/connect");
-const matchingData = require("../../argorithms/matchingDataPreprocessing");
+const matchingData = require("../../algorithms/matchingDataPreprocessing");
 const return_departure_time = require("./departure_time");
-const matching_start = require("../../argorithms/matching");
+const matching_start = require("../../algorithms/matching");
 
 /**
  * 매칭방 생성 API
