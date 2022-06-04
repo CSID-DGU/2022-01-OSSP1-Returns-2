@@ -39,8 +39,6 @@ module.exports.login = (req, res) => {
           activity_place: result[0].activity_place,
           average_face: result[0].average_face,
           running_type: result[0].running_type,
-          match_with_course: result[0].match_with_course,
-          match_with_track: result[0].match_with_track,
           id: result[0].id,
         });
       }

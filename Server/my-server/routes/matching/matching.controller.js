@@ -249,24 +249,30 @@ module.exports.matching = (req, res) => {
     }
     let recommend_list = matching_start(nickname);
 
+    console.log(total_nickname);
+
     //추천리스트에 1순위부터 차례대로 돌면서 현재 Activating_Room에 있는 유저가 있는지 확인
     for (let i = 0; i < recommend_list.length; i++) {
       for (let j = 0; j < total_nickname.length; j++) {
-        if (recommend_list[i] == total_nickname[j]) {
+        if (recommend_list[i] === total_nickname[j]) {
           recommend_user_nickname = recommend_list[i];
-        } else {
+          //추천할 유저가 존재하면
           res.json({
-            result: false,
-            msg: "조건을 만족하는 유저가 존재하지 않습니다",
+            result: true,
+            recommend_user: recommend_user_nickname,
+            msg: "매칭 성공!",
           });
           return;
         }
       }
     }
-    res.json({
-      result: true,
-      recommend_user: recommend_user_nickname,
-      msg: "매칭 성공!",
-    });
+    //추천할 유저가 존재하지 않으면
+    if (recommend_user_nickname.length === 0) {
+      res.json({
+        result: false,
+        msg: "조건을 만족하는 유저가 존재하지 않습니다",
+      });
+      return;
+    }
   });
 };
