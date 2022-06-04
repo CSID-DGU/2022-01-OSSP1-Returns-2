@@ -12,7 +12,9 @@ module.exports.conn = function (){
     database: process.env.DATABASE_NAME,
     password: process.env.DATABASE_PASSWORD,
     port: 3306,
-    dateStrings: 'date'
+    dateStrings: 'date',
+    multipleStatements: true
+    
   });
   conn.connect(function(err){
     if(err){
