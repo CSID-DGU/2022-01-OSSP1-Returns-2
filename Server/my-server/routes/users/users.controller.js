@@ -39,8 +39,6 @@ module.exports.login = (req, res) => {
           activity_place: result[0].activity_place,
           average_face: result[0].average_face,
           running_type: result[0].running_type,
-          match_with_course: result[0].match_with_course,
-          match_with_track: result[0].match_with_track,
           id: result[0].id,
         });
       }
@@ -64,14 +62,12 @@ module.exports.join = (req, res) => {
   var gender = req.body.gender;
   var career = req.body.career;
   var activity_place = req.body.activity_place;
-  var average_face = null;
+  var average_face = "00:00:00";
   var running_type = null;
-  var match_with_course = null;
-  var match_with_track = null;
   var id = req.body.id;
 
   var sql =
-    "INSERT INTO Users (nickname, email, password, user_location_latitude, user_location_longitude, gender, career, activity_place, average_face, running_type, match_with_course, match_with_track, id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    "INSERT INTO Users (nickname, email, password, user_location_latitude, user_location_longitude, gender, career, activity_place, average_face, running_type, id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
   var params = [
     nickname,
     email,
@@ -83,8 +79,6 @@ module.exports.join = (req, res) => {
     activity_place,
     average_face,
     running_type,
-    match_with_course,
-    match_with_track,
     id,
   ];
 
