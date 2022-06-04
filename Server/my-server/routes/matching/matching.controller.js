@@ -213,11 +213,18 @@ module.exports.matching = (req, res) => {
           running_time: result[i].running_time,
         });
       }
-      res.json({
-        result: true,
-        msg: "추천 가능한 닉네임 조회",
-        data: arr,
-      });
+      if (result.length === 0) {
+        res.json({
+          result: false,
+          msg: "필수 조건을 만족하는 방이 없습니다",
+        });
+      } else {
+        res.json({
+          result: true,
+          msg: "추천 가능한 닉네임 조회",
+          data: arr,
+        });
+      }
     }
   });
 };
