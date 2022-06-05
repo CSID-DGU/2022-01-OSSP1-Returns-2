@@ -2,18 +2,11 @@ package com.example.running_app;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +20,7 @@ import retrofit2.Response;
 public class activity_profile extends AppCompatActivity{
     TextView userNickname, runCountKr, runCountNum, averPaceKr, averPaceNum, averKmKr, averKmNum;
 //    EditText introduce;
+    Button logout_btn;
     Button running_btn, home_btn, profile_btn;
     RetrofitInterface service;
     String userId;
@@ -71,6 +65,23 @@ public class activity_profile extends AppCompatActivity{
 //        //기입 항목
 //        introduce = (EditText) findViewById(R.id.introduce);
 //        introduce.setText("EditText is changed.");
+
+        logout_btn = findViewById(R.id.logoutButton);
+        logout_btn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(activity_profile.this, activity_login.class);
+                startActivity(intent);
+
+                SharedPreferences auto = getSharedPreferences("auto", Activity.MODE_PRIVATE);
+                SharedPreferences.Editor editor = auto.edit();
+                editor.clear();
+                editor.commit();
+
+                Toast.makeText(activity_profile.this, "로그아웃", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
 
 
         // 하단 버튼 구성
