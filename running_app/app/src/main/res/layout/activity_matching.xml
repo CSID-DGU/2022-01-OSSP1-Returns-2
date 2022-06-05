@@ -7,7 +7,7 @@
     android:layout_gravity="center_horizontal">
 
     <TextView
-        android:id="@+id/tv_title"
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="매칭 정보"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_course"
+        android:id="@+id/courseData"
         android:layout_width="360dp"
         android:layout_height="wrap_content"
         android:background="#2B45D3"
@@ -29,36 +29,60 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+        app:layout_constraintTop_toBottomOf="@+id/title" />
 
     <TextView
-        android:id="@+id/tv_courseName"
+        android:id="@+id/course"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
-        android:text="코스 이름"
+        android:text="코스 :"
         android:textColor="@color/black"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_course" />
+        app:layout_constraintTop_toBottomOf="@+id/courseData"/>
 
     <TextView
-        android:id="@+id/tv_startTime"
+        android:id="@+id/tv_course"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:text="Course Name"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/course"
+        app:layout_constraintTop_toBottomOf="@+id/courseData" />
+
+    <TextView
+        android:id="@+id/departure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text="출발 시간: "
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_courseName" />
+        app:layout_constraintEnd_toEndOf="@+id/runTime"
+        app:layout_constraintTop_toBottomOf="@+id/course" />
 
     <TextView
-        android:id="@+id/tv_runTime"
+        android:id="@+id/tv_departure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="00 : 00 "
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/tv_runTime"
+        app:layout_constraintTop_toBottomOf="@+id/tv_course" />
+
+    <TextView
+        android:id="@+id/runTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -68,19 +92,43 @@
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_startTime" />
+        app:layout_constraintTop_toBottomOf="@+id/departure" />
+
+    <TextView
+        android:id="@+id/tv_runTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:text="01 : 00"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/runTime"
+        app:layout_constraintTop_toBottomOf="@+id/tv_departure" />
+
+    <TextView
+        android:id="@+id/gender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="성별 : "
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/runTime"
+        app:layout_constraintTop_toBottomOf="@+id/runTime" />
 
     <TextView
         android:id="@+id/tv_gender"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
-        android:text="성별: "
+        android:text=" gender data "
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tv_runTime"
         app:layout_constraintTop_toBottomOf="@+id/tv_runTime" />
 
     <TextView
@@ -120,9 +168,24 @@
     </androidx.core.widget.NestedScrollView>
 
     <Button
+        android:id="@+id/btn_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="#2B45D3"
+        android:text="매칭취소"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_ok"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView" />
+
+    <Button
         android:id="@+id/btn_ok"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
         android:backgroundTint="#2B45D3"
         android:text="확인"
         android:textSize="20sp"
