@@ -43,7 +43,7 @@
         app:layout_constraintTop_toBottomOf="@+id/runningCourseData" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/nestedScrollView2"
+        android:id="@+id/sv_matchingList"
         android:layout_width="0dp"
         android:layout_height="360dp"
         android:fillViewport="true"
@@ -65,18 +65,18 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-<!--    <Button-->
-<!--        android:id="@+id/btn_ok"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginEnd="10dp"-->
-<!--        android:layout_marginBottom="10dp"-->
-<!--        android:backgroundTint="#2B45D3"-->
-<!--        android:text="확인"-->
-<!--        android:textSize="20sp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toStartOf="@id/btn_exit"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/nestedScrollView2" />-->
+    <Button
+        android:id="@+id/btn_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="#2B45D3"
+        android:text="참여하기"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btn_exit"
+        app:layout_constraintTop_toBottomOf="@+id/sv_matchingList" />
 
     <Button
         android:id="@+id/btn_exit"
@@ -89,6 +89,6 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nestedScrollView2" />
+        app:layout_constraintTop_toBottomOf="@+id/sv_matchingList" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

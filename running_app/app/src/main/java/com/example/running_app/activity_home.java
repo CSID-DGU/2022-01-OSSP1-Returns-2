@@ -1,22 +1,14 @@
 package com.example.running_app;
 
-import android.app.Dialog;
-import android.app.Activity;
-import android.content.Intent;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import android.Manifest;
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.icu.util.Calendar;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,11 +18,17 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -39,9 +37,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.maps.android.clustering.ClusterManager;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,8 +48,8 @@ import retrofit2.Response;
 public class activity_home extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
     static final String[] MachingProfileList = {"해당 매칭 정보"};
     private GoogleMap googleMap;
-    Button matching_btn, newRunning_btn, running_btn, home_btn, profile_btn;
-    Dialog dialogMarker, dialogNewRunning, dialogMatching;
+    Button status_btn, matching_btn, newRunning_btn, running_btn, home_btn, profile_btn;
+    Dialog dialogStatus, dialogMarker, dialogNewRunning, dialogMatching;
 
     Button logout_btn;
     String inputNickname;
@@ -127,7 +123,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
             }
         });
 */
-        //logout버튼 구현
+/*      //logout버튼 구현
         logout_btn = findViewById(R.id.logoutButton);
         logout_btn.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -144,8 +140,12 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
                 finish();
             }
         });
-
+*/
         // dialog 생성
+        dialogStatus = new Dialog(activity_home.this);
+        dialogStatus.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialogStatus.setContentView(R.layout.activity_matching);
+
         dialogMarker = new Dialog(activity_home.this);
         dialogMarker.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialogMarker.setContentView(R.layout.custom_dialog);
@@ -158,6 +158,18 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         dialogMatching.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialogMatching.setContentView(R.layout.matching_dialog);
 
+
+        status_btn = findViewById(R.id.btn_match);
+        status_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { sDialog(dialogStatus); }
+        });
+
+        newRunning_btn = findViewById(R.id.newRunningButton);
+        newRunning_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { rDialog(dialogNewRunning); }
+        });
 
         //매칭 버튼
         matching_btn = findViewById(R.id.matchingButton);
@@ -595,6 +607,16 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
 //            }
 //        });
 
+        // 확인버튼
+        Button ok_btn = dialog01.findViewById(R.id.btn_ok);
+        ok_btn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // 여기서 선택한 리스트 데이터 처리
+                dialog01.dismiss();
+            }
+        });
+
         // 나가기 버튼
         Button exit_btn = dialog01.findViewById(R.id.btn_exit);
         exit_btn.setOnClickListener(new OnClickListener() {
@@ -869,6 +891,62 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
                 });
 
                 rDialog.dismiss();
+            }
+        });
+    }
+
+    public void sDialog(@NonNull Dialog sDialog) {
+        sDialog.show();
+
+        String course, departure, run, gender;
+        TextView tv_course, tv_departure, tv_run, tv_gender;
+        ListView matchingList;
+        Button btn_cancel, btn_ok;
+
+        tv_course = sDialog.findViewById(R.id.tv_course);
+        tv_departure = sDialog.findViewById(R.id.tv_departure);
+        tv_run = sDialog.findViewById(R.id.tv_runTime);
+        tv_gender = sDialog.findViewById(R.id.tv_gender);
+        btn_cancel = sDialog.findViewById(R.id.btn_cancel);
+        btn_ok = sDialog.findViewById(R.id.btn_ok);
+
+        // ==각각의 String 값에 코스이름, 출발시간, 달리기시간, 성별 받아오기==
+        course = "코스이름 : course1";
+        departure = "출발 시간 : 21:00:00";
+        run = "달리기 시간 : 00:30:00";
+        gender = "성별 : only man";
+
+        // Textview 값 변경하기
+        tv_course.setText(course);
+        tv_departure.setText(departure);
+        tv_run.setText(run);
+        tv_gender.setText(gender);
+
+        ListView memberList = sDialog.findViewById(R.id.list_member);
+        // 더미 매칭 리스트
+        List<String> list = new ArrayList<>();
+        list.add("member1");
+        list.add("member2");
+        // ~더미 매칭 리스트
+
+        ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, list);
+        memberList.setAdapter(arrayAdapter);
+
+        btn_cancel.setOnClickListener(new OnClickListener() {
+            // 매칭 취소 버튼 클릭
+            // 참여하고 있는 매칭에서 나오면 됨
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(activity_home.this, "매칭 취소", Toast.LENGTH_SHORT).show();
+                sDialog.dismiss();
+            }
+        });
+
+        btn_ok.setOnClickListener(new OnClickListener() {
+            // 그냥 확인(=나가기) 버튼
+            @Override
+            public void onClick(View v) {
+                sDialog.dismiss();
             }
         });
     }
