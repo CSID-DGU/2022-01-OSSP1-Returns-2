@@ -120,3 +120,26 @@ module.exports.profile = (req, res) => {
     }
   });
 };
+
+
+/**
+ * 매칭 취소 api
+ */
+ module.exports.deleteRoomId = (req, res) => {
+  const conn = db.conn();
+  var id = req.body.id;
+  var sql = "update Users SET room_id = ? WHERE id = ?";
+  var params = [0,id];
+  
+  conn.query(sql, params, (err, result) => {
+    if (err) {
+      console.log(err);
+      conn.end();
+    } else {
+      res.json({
+        result: true,
+        msg: "room_id 삭제 완료",
+      });
+    }
+  });
+};

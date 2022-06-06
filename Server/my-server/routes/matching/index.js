@@ -7,4 +7,5 @@ router.get("/searchActivate", matching.load);
 router.get("/courseActivate", matching.objActivate);
 router.post("/inputdata", matching.input);
 router.post("/matching", matching.matching);
+router.get("/room", matching.room);
 module.exports = router;
