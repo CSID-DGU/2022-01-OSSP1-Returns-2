@@ -31,4 +31,7 @@ public interface RetrofitInterface {
 
     @POST("/result/runningResult")
     Call<RunningResultResponse> RunResult(@Body RunningResultData data);
+
+    @POST("/matching/matching")
+    Call<MatchingResponse> MatchingResult(@Body MatchingData data);
 }
