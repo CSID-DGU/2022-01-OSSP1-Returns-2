@@ -49,6 +49,7 @@ public class activity_profile extends AppCompatActivity{
                 autoLogin.commit();
 
                 userNickname.setText(result.getNickname());
+                String s = result.getNickname();
                 runCountNum.setText(result.getRunning_count()+" 회");
                 averPaceNum.setText(result.getAverage_face());
                 averKmNum.setText(result.getAverage_distance()+" Km");

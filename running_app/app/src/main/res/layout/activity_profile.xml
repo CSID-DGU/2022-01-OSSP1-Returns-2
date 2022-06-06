@@ -120,7 +120,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:background="#2B45D3"
-        android:text="평균 달린 거리"
+        android:text="최근 달린 거리"
         android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold"

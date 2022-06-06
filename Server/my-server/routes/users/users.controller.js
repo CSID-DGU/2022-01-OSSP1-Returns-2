@@ -114,7 +114,7 @@ module.exports.profile = (req, res) => {
         nickname: result[0].nickname,
         running_count: result[0].running_count,
         average_face: result[0].average_face,
-        average_distance: result[0].average_distance,
+        average_distance: result[0].new_run_distance,
       });
     }
   });
