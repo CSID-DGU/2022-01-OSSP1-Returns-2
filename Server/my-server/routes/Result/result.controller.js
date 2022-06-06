@@ -15,6 +15,8 @@ module.exports.input = (req, res) => {
     var course_rating = parseFloat(req.body.run_rate);
     var matching_rating = parseFloat(req.body.run_rate);
     var running_type = preprocessing(total_distance,avg_face);
+
+    console.log(req.body);
     
     var sql1= 'INSERT into User_Running_Records (Record_id, nickname, course_name, total_time, avg_face, total_distance, matching_rating,course_rating) value ((SELECT IFNULL(MAX(Record_id)+1,1) FROM  User_Running_Records u), ?, ?, ?, ?, ?,?,?);';
     

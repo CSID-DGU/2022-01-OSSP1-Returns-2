@@ -18,12 +18,12 @@ public class RunningResultData {
     public double distance;
 
     @SerializedName("run_rate")
-    public float run_rate;
+    public double run_rate;
 
     @SerializedName("course_rate")
-    public float course_rate;
+    public double course_rate;
 
-    public RunningResultData(String nickname, String courseNo, String time, double distance, float run_rate, float course_rate){
+    public RunningResultData(String nickname, String courseNo, String time, double distance, double run_rate, double course_rate){
         this.nickname = nickname;
         this.courseNo = courseNo;
         this.time = time;

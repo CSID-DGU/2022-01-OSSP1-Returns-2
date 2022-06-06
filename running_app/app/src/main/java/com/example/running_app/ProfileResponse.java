@@ -16,7 +16,7 @@ public class ProfileResponse {
     private String average_face;
 
     @SerializedName("average_distance")
-    private String average_distance;
+    private Double average_distance;
 
     public String getNickname() {
         return nickname;
@@ -27,5 +27,5 @@ public class ProfileResponse {
     public String getAverage_face(){
         return average_face;
     }
-    public String getAverage_distance(){ return average_distance; }
+    public Double getAverage_distance(){ return average_distance; }
 }

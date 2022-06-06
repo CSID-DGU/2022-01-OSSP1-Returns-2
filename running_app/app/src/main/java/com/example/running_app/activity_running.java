@@ -86,6 +86,8 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
     private static double beforeLat = 0.0;
     private static double beforeLon = 0.0;
 
+    private static double run_rate = 0.0;
+
     private static LatLng latLng;
     private static Marker[] markers = new Marker[2];
     private static boolean flag = false;
@@ -452,23 +454,21 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
 
         // 서버에서 지금 참여하고 있는 러닝 코스 받아서 course로 저장해주기
 
-        double temp = runDistance/1000;
+        double temp2 = runDistance/1000;
 
         course.setText(courseData);
         time.setText(getTime());
-        distance.setText(String.format("%.3f"+"KM",temp));
-
-        final float[] run_rate = new float[1];      // 러닝 평가 점수
+        distance.setText(String.format("%.3f"+"KM",temp2));
 
         rate.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             // 별점 선택한 값으로 rating 설정
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 ratingBar.setRating(rating);
-                run_rate[0] = rating;
+                run_rate = Double.valueOf(rating);
             }
         });
-
+        Log.i("Ts", ""+run_rate);
         ok_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -487,7 +487,8 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
                 String courseNo = String.valueOf(temp);
 
                 service = RetrofitClient.getClient().create(RetrofitInterface.class);
-                service.RunResult(new RunningResultData(nickname, courseNo, getTime(),runDistance/1000, run_rate[0], run_rate[0])).enqueue(new Callback<RunningResultResponse>() {
+                String time_res = time.getText().toString();
+                service.RunResult(new RunningResultData(nickname, courseNo, time_res,temp2, run_rate, run_rate)).enqueue(new Callback<RunningResultResponse>() {
                     @Override
                     public void onResponse(Call<RunningResultResponse> call, Response<RunningResultResponse> response) {
                         RunningResultResponse result = response.body();
