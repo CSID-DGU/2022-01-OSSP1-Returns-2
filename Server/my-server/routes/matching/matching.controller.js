@@ -135,7 +135,8 @@ module.exports.input = (res) => {
     matching_number = (i+1).toString();
     list2[i].push(matching_number);
   }
-  
+
+
   var sql =
     "insert into Matching_Rating (user_id, matching_user_id, rating, matching_number) values ?";
 
