@@ -482,8 +482,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         TextView courseData;
         courseData = dialog01.findViewById(R.id.runningCourseData);
 
-
-        String courseName = "example course name";
+//        String courseName = "example course name";
         String sniData = snippetData;
         String strLat;
         String strLon;
@@ -537,7 +536,6 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
 //                }
 //            }, 0);
 //        }
-
 
         // matching 리스트 설정
         ListView matchingList = dialog01.findViewById(R.id.list_matching);
