@@ -66,6 +66,8 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
     public static String[] mate_gender = new String[10];
     public static boolean flag = false;
     public static String gender = "";
+    public static int select_room_id = 0;
+    public static int room_flag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -551,24 +553,24 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, list);
         matchingList.setAdapter(arrayAdapter);
 
-        matchingList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView parent, View view, int position, long id) {
-                // 매칭 리스트에서 매칭 클릭 시 실행
-                // ListView에서 버튼 넣기는 힘들어보임
-                // 그냥 매칭 클릭하면 참여하는거로 할지 고민중..
-                /*
-                    Matching1  20:00  2/4
-                    ----------------------
-                    Matching2  20:30  1/4
-                    ----------------------
-                */
-                // 이런 느낌으로 리스트 만들어두면 여기서 선택해도 괜찮을듯
-
-                String matchName = (String)parent.getItemAtPosition(position);
-                Toast.makeText(getApplicationContext(), "select: " + matchName, Toast.LENGTH_SHORT).show();
-            }
-        });
+//        matchingList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView parent, View view, int position, long id) {
+//                // 매칭 리스트에서 매칭 클릭 시 실행
+//                // ListView에서 버튼 넣기는 힘들어보임
+//                // 그냥 매칭 클릭하면 참여하는거로 할지 고민중..
+//                /*
+//                    Matching1  20:00  2/4
+//                    ----------------------
+//                    Matching2  20:30  1/4
+//                    ----------------------
+//                */
+//                // 이런 느낌으로 리스트 만들어두면 여기서 선택해도 괜찮을듯
+//
+//                String matchName = (String)parent.getItemAtPosition(position);
+//                Toast.makeText(getApplicationContext(), "select: " + matchName, Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
         // 기능 구현하기
 
@@ -605,15 +607,20 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
 //            }
 //        });
 
-        // 확인버튼
-        Button ok_btn = dialog01.findViewById(R.id.btn_ok);
-        ok_btn.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // 여기서 선택한 리스트 데이터 처리
-                dialog01.dismiss();
-            }
-        });
+//        // 확인버튼
+//        Button ok_btn = dialog01.findViewById(R.id.btn_ok);
+//        ok_btn.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                // 여기서 선택한 리스트 데이터 처리
+//
+//                Log.i("Ts", ""+select_room_id);
+//
+//
+//                flag=false;
+//                dialog01.dismiss();
+//            }
+//        });
 
         // 나가기 버튼
         Button exit_btn = dialog01.findViewById(R.id.btn_exit);
@@ -895,6 +902,26 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
 
     public void sDialog(@NonNull Dialog sDialog) {
         sDialog.show();
+        SharedPreferences auto = getSharedPreferences("auto", Activity.MODE_PRIVATE);
+        service = RetrofitClient.getClient().create(RetrofitInterface.class);
+        String userId = auto.getString("inputId", null);
+
+
+        service.Profile(new ProfileData(userId)).enqueue(new Callback<ProfileResponse>(){
+            //통신 성공시 호출
+            @Override
+            public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response){
+                ProfileResponse result = response.body();
+                Toast.makeText(activity_home.this, ""+result.getRoom_id(), Toast.LENGTH_SHORT).show();
+                room_flag = result.getRoom_id();
+            }
+            //통신 실패시 호출
+            @Override
+            public void onFailure(Call<ProfileResponse> call, Throwable t) {
+                Toast.makeText(activity_home.this, "로드 에러 발생", Toast.LENGTH_SHORT).show();
+                Log.e("로드 에러 발생", t.getMessage());
+            }
+        });
 
         String course, departure, run, gender;
         TextView tv_course, tv_departure, tv_run, tv_gender;
@@ -907,6 +934,10 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         tv_gender = sDialog.findViewById(R.id.tv_gender);
         btn_cancel = sDialog.findViewById(R.id.btn_cancel);
         btn_ok = sDialog.findViewById(R.id.btn_ok);
+
+        if(room_flag==0){
+            
+        }
 
         // ==각각의 String 값에 코스이름, 출발시간, 달리기시간, 성별 받아오기==
         course = "코스이름 : course1";

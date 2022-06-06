@@ -18,6 +18,9 @@ public class ProfileResponse {
     @SerializedName("average_distance")
     private Double average_distance;
 
+    @SerializedName("room_id")
+    private int room_id;
+
     public String getNickname() {
         return nickname;
     }
@@ -28,4 +31,5 @@ public class ProfileResponse {
         return average_face;
     }
     public Double getAverage_distance(){ return average_distance; }
+    public int getRoom_id(){return room_id;}
 }
