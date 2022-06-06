@@ -84,7 +84,7 @@ module.exports.load = (req,res) => {
 
 module.exports.objActivate = (req,res) => {
   const conn = db.conn();
-  var courseNo = req.body.courseNo;
+  var courseNo = req.query.courseNo;
   console.log(courseNo);
   var sql = "SELECT * FROM Activating_Room as a inner JOIN RunningCourseAndTrack as r on (a.start_latitude = r.course_start_latitude and a.start_longitude = r.course_start_longitude AND a.flag = 0 AND r.course_no = ?)";
   var params = [courseNo];
@@ -176,6 +176,8 @@ module.exports.matching = (req, res) => {
   let params2 = [];
   let recommend_user_nickname = "";
 
+  console.log(req.body);
+
   //running_time 하한,상한 (+-30분)
   let lower_running_time = (running_time - 30).toString();
   let upper_running_time = (running_time + 30).toString();
@@ -184,7 +186,7 @@ module.exports.matching = (req, res) => {
   departure_time_range = return_departure_time(departure_time);
 
   //gender가 상관없음이면 조건검색에서 gender 삭제, 상관없음이 아니면 조건검색에 포함.
-  if (mate_gender === "상관없음") {
+  if (mate_gender === "") {
     sql1 =
       "SELECT * FROM Activating_Room Where running_time >= ? AND running_time <= ? AND departure_time >= ? AND departure_time <= ?";
     params1 = [
