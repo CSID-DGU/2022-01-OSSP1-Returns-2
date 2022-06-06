@@ -83,10 +83,10 @@ module.exports.load = (req, res) => {
 
 module.exports.objActivate = (req, res) => {
   const conn = db.conn();
-  var courseNo = req.body.courseNo;
+  var courseNo = req.query.courseNo;
   console.log(courseNo);
   var sql =
-    "SELECT * FROM Activating_Room as a inner JOIN RunningCourseAndTrack as r on (a.start_latitude = r.course_start_latitude and a.start_longitude = r.course_start_longitude AND a.flag = 0 AND r.course_no = ?)";
+    "SELECT a.* FROM Activating_Room as a inner JOIN RunningCourseAndTrack as r on (a.start_latitude = r.course_start_latitude and a.start_longitude = r.course_start_longitude AND a.flag = 0 AND r.course_no = ?)";
   var params = [courseNo];
 
   //Activating_Room 의 start_latitude, start_longitude 와 RunningCourseAndTrack의 course_start_longitude 와 course_start_latitude의 정보가 동일 한 것을 다 가져옴
@@ -99,7 +99,7 @@ module.exports.objActivate = (req, res) => {
       var arr = [];
       for (var i = 0; i < result.length; i++) {
         arr.push({
-          rome_id: result[i].rome_id,
+          room_id: result[i].room_id,
           nickname: result[i].nickname,
           departure_time: result[i].departure_time,
           running_time: result[i].running_time,
