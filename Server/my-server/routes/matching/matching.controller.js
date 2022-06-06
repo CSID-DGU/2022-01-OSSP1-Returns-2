@@ -252,6 +252,8 @@ module.exports.matching = (req, res) => {
     }
     let recommend_list = matching_start(nickname);
 
+    console.log(total_nickname);
+
     // console.log(total_nickname);
     // console.log(recommend_list);
 
@@ -261,15 +263,32 @@ module.exports.matching = (req, res) => {
         if (recommend_list[i] === total_nickname[j]) {
           recommend_user_nickname = recommend_list[i];
           //추천할 유저가 존재하면
-          res.json({
-            result: true,
-            recommend_user: recommend_user_nickname,
-            msg: "매칭 성공!",
-          });
+          recommend_room_id = result[j].room_id;
+
+          sql2 = 'UPDATE Users SET room_id = ? WHERE nickname = ?';
+
+          params2 = [recommend_room_id, nickname];  
+          
+          console.log("체크");
+          conn.query(sql2, params2, (err, result) => {
+            if (err) {
+              console.log(err);
+              conn.end();
+            } else {
+              res.json({
+                result: true,
+                recommend_user: recommend_user_nickname,
+                room_id: recommend_room_id,
+                msg: "매칭 성공!",
+              });
+              return;
+            }
+          }); 
           return;
         }
       }
     }
+      
     //추천할 유저가 존재하지 않으면
     if (recommend_user_nickname.length === 0) {
       res.json({
