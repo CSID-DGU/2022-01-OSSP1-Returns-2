@@ -703,7 +703,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
                 String sYear, sMonth, sDay, sHour, sMin;
                 Log.i("Get Year", Integer.toString(calendar.get(Calendar.DAY_OF_MONTH)));
                 sYear = Integer.toString(year);
-                sMonth = Integer.toString(month);
+                sMonth = Integer.toString(month+1);
                 sDay = Integer.toString(day);
                 sHour = Integer.toString(hour);
                 sMin = Integer.toString(min);
@@ -931,7 +931,6 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         service = RetrofitClient.getClient().create(RetrofitInterface.class);
         String userId = auto.getString("inputId", null);
 
-
         service.Profile(new ProfileData(userId)).enqueue(new Callback<ProfileResponse>(){
             //통신 성공시 호출
             @Override
@@ -961,30 +960,25 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         btn_ok = sDialog.findViewById(R.id.btn_ok);
 
         if(room_flag==0){
+            tv_course.setText("아직 매칭 안됐습니다.");
+            tv_departure.setText("아직 매칭 안됐습니다.");
+            tv_run.setText("아직 매칭 안됐습니다.");
+            tv_gender.setText("아직 매칭 안됐습니다.");
+        } else{
 
+            // ==각각의 String 값에 코스이름, 출발시간, 달리기시간, 성별 받아오기==
+            course = "코스이름 : course1";
+            departure = "출발 시간 : 21:00:00";
+            run = "달리기 시간 : 00:30:00";
+            gender = "성별 : only man";
+
+            // Textview 값 변경하기
+            tv_course.setText(course);
+            tv_departure.setText(departure);
+            tv_run.setText(run);
+            tv_gender.setText(gender);
         }
 
-        // ==각각의 String 값에 코스이름, 출발시간, 달리기시간, 성별 받아오기==
-        course = "코스이름 : course1";
-        departure = "출발 시간 : 21:00:00";
-        run = "달리기 시간 : 00:30:00";
-        gender = "성별 : only man";
-
-        // Textview 값 변경하기
-        tv_course.setText(course);
-        tv_departure.setText(departure);
-        tv_run.setText(run);
-        tv_gender.setText(gender);
-
-        ListView memberList = sDialog.findViewById(R.id.list_member);
-        // 더미 매칭 리스트
-        List<String> list = new ArrayList<>();
-        list.add("member1");
-        list.add("member2");
-        // ~더미 매칭 리스트
-
-        ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, list);
-        memberList.setAdapter(arrayAdapter);
 
         btn_cancel.setOnClickListener(new OnClickListener() {
             // 매칭 취소 버튼 클릭
