@@ -650,19 +650,13 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
 
     public void mDialog(@NonNull Dialog mDialog) {
         mDialog.show();
-
+        CheckBox manCheck, womanCheck, bothCheck;
         int runTime = mDialog.findViewById(R.id.runTime).getId();   // 소요 시간
 
-        String gender, man, woman, both;
-        man = mDialog.findViewById(R.id.signMan).toString();
-        woman = mDialog.findViewById(R.id.signWoman).toString();
-        both = mDialog.findViewById(R.id.signBoth).toString();
+        manCheck = mDialog.findViewById(R.id.signMan);
+        womanCheck = mDialog.findViewById(R.id.signWoman);
+        bothCheck = mDialog.findViewById(R.id.signBoth);
 
-        if(man.isEmpty()){
-            if(woman.isEmpty()) { gender = null;}
-            else { gender = woman; }
-        }
-        else{ gender = man; }                           // gender : 성별 값
 
 //        int year, month, day, hour, min;
         DatePicker datePicker = (DatePicker)mDialog.findViewById(R.id.datePicker);
@@ -716,7 +710,38 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
 
                 String ts = sYear+"-"+sMonth+"-"+sDay+" "+sHour+":"+sMin+":00";
 
+                EditText et_runTime = mDialog.findViewById(R.id.runTime);// 소요 시간
+                String runTime = et_runTime.getText().toString();
+
+                if (manCheck.isChecked()){
+                    gender = "남자만";
+                }
+                if (womanCheck.isChecked()){
+                    gender = "여자만";
+                }
+                if (bothCheck.isChecked()){
+                    gender = "";
+                }
+
                 // 여기서 api 로 runTime, timestamp 넘겨주면 됨
+                SharedPreferences auto = getSharedPreferences("auto", Activity.MODE_PRIVATE);
+                service = RetrofitClient.getClient().create(RetrofitInterface.class);
+                service.MatchingResult(new MatchingData(inputNickname,ts,Integer.parseInt(runTime),gender)).enqueue(new Callback<MatchingResponse>() {
+                    @Override
+                    public void onResponse(Call<MatchingResponse> call, Response<MatchingResponse> response) {
+                        MatchingResponse result = response.body();
+                        Toast.makeText(activity_home.this, result.getMsg(), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(Call<MatchingResponse> call, Throwable t) {
+                        Toast.makeText(activity_home.this, "매칭 에러 발생", Toast.LENGTH_SHORT).show();
+                        Log.e("매칭 에러 발생", t.getMessage());
+                    }
+                });
+
+
+
 
                 mDialog.dismiss();
             }
@@ -936,7 +961,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         btn_ok = sDialog.findViewById(R.id.btn_ok);
 
         if(room_flag==0){
-            
+
         }
 
         // ==각각의 String 값에 코스이름, 출발시간, 달리기시간, 성별 받아오기==
