@@ -96,6 +96,7 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
 
     private static LatLng startLng = new LatLng(0,0);
     private static LatLng endLng = new LatLng(0,0);
+    private static int room_flag=0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstaceState) {
@@ -108,6 +109,26 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
         SharedPreferences auto = getSharedPreferences("auto", Activity.MODE_PRIVATE);
 
         nickname = auto.getString("inputNickname", null);
+
+        service = RetrofitClient.getClient().create(RetrofitInterface.class);
+        String userId = auto.getString("inputId", null);
+
+        service.Profile(new ProfileData(userId)).enqueue(new Callback<ProfileResponse>(){
+            //통신 성공시 호출
+            @Override
+            public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response){
+                ProfileResponse result = response.body();
+                Toast.makeText(activity_running.this, ""+result.getRoom_id(), Toast.LENGTH_SHORT).show();
+                room_flag = result.getRoom_id();
+                Log.i("Ts", ""+room_flag);
+            }
+            //통신 실패시 호출
+            @Override
+            public void onFailure(Call<ProfileResponse> call, Throwable t) {
+                Toast.makeText(activity_running.this, "로드 에러 발생", Toast.LENGTH_SHORT).show();
+                Log.e("로드 에러 발생", t.getMessage());
+            }
+        });
 
         //거리 초기화
         runDistance = 0.0;
@@ -488,7 +509,7 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
 
                 service = RetrofitClient.getClient().create(RetrofitInterface.class);
                 String time_res = time.getText().toString();
-                service.RunResult(new RunningResultData(nickname, courseNo, time_res,temp2, run_rate, run_rate)).enqueue(new Callback<RunningResultResponse>() {
+                service.RunResult(new RunningResultData(nickname, room_flag, courseNo, time_res,temp2, run_rate, run_rate)).enqueue(new Callback<RunningResultResponse>() {
                     @Override
                     public void onResponse(Call<RunningResultResponse> call, Response<RunningResultResponse> response) {
                         RunningResultResponse result = response.body();

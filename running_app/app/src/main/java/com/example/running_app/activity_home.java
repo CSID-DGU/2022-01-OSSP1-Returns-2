@@ -67,7 +67,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
     public static boolean flag = false;
     public static String gender = "";
     public static int select_room_id = 0;
-    public static int room_flag;
+    public static int room_flag = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +79,26 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
 
         SharedPreferences auto = getSharedPreferences("auto", Activity.MODE_PRIVATE);
         inputNickname = auto.getString("inputNickname", null);
+
+        service = RetrofitClient.getClient().create(RetrofitInterface.class);
+        String userId = auto.getString("inputId", null);
+
+        service.Profile(new ProfileData(userId)).enqueue(new Callback<ProfileResponse>(){
+            //통신 성공시 호출
+            @Override
+            public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response){
+                ProfileResponse result = response.body();
+                Toast.makeText(activity_home.this, ""+result.getRoom_id(), Toast.LENGTH_SHORT).show();
+                room_flag = result.getRoom_id();
+                Log.i("Ts", ""+room_flag);
+            }
+            //통신 실패시 호출
+            @Override
+            public void onFailure(Call<ProfileResponse> call, Throwable t) {
+                Toast.makeText(activity_home.this, "로드 에러 발생", Toast.LENGTH_SHORT).show();
+                Log.e("로드 에러 발생", t.getMessage());
+            }
+        });
 
         service = RetrofitClient.getClient().create(RetrofitInterface.class);
         service.GetCourse().enqueue(new Callback<CourseResponse>() {
@@ -708,7 +728,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
                 sHour = Integer.toString(hour);
                 sMin = Integer.toString(min);
 
-                String ts = sYear+"-"+sMonth+"-"+sDay+" "+sHour+":"+sMin+":00";
+                String ts = sYear+"-"+0+sMonth+"-"+sDay+" "+sHour+":"+sMin+":00";
 
                 EditText et_runTime = mDialog.findViewById(R.id.runTime);// 소요 시간
                 String runTime = et_runTime.getText().toString();
@@ -927,25 +947,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
 
     public void sDialog(@NonNull Dialog sDialog) {
         sDialog.show();
-        SharedPreferences auto = getSharedPreferences("auto", Activity.MODE_PRIVATE);
-        service = RetrofitClient.getClient().create(RetrofitInterface.class);
-        String userId = auto.getString("inputId", null);
 
-        service.Profile(new ProfileData(userId)).enqueue(new Callback<ProfileResponse>(){
-            //통신 성공시 호출
-            @Override
-            public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response){
-                ProfileResponse result = response.body();
-                Toast.makeText(activity_home.this, ""+result.getRoom_id(), Toast.LENGTH_SHORT).show();
-                room_flag = result.getRoom_id();
-            }
-            //통신 실패시 호출
-            @Override
-            public void onFailure(Call<ProfileResponse> call, Throwable t) {
-                Toast.makeText(activity_home.this, "로드 에러 발생", Toast.LENGTH_SHORT).show();
-                Log.e("로드 에러 발생", t.getMessage());
-            }
-        });
 
         String course, departure, run, gender;
         TextView tv_course, tv_departure, tv_run, tv_gender;
@@ -958,7 +960,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         tv_gender = sDialog.findViewById(R.id.tv_gender);
         btn_cancel = sDialog.findViewById(R.id.btn_cancel);
         btn_ok = sDialog.findViewById(R.id.btn_ok);
-
+        Log.i("Ts", ""+room_flag);
         if(room_flag==0){
             tv_course.setText("아직 매칭 안됐습니다.");
             tv_departure.setText("아직 매칭 안됐습니다.");
@@ -986,6 +988,9 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
             @Override
             public void onClick(View v) {
                 Toast.makeText(activity_home.this, "매칭 취소", Toast.LENGTH_SHORT).show();
+                // 이 유저의 룸 아이디 지워버림
+
+
                 sDialog.dismiss();
             }
         });

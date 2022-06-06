@@ -115,6 +115,7 @@ module.exports.profile = (req, res) => {
         running_count: result[0].running_count,
         average_face: result[0].average_face,
         average_distance: result[0].new_run_distance,
+        room_id: result[0].room_id,
       });
     }
   });

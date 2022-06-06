@@ -23,7 +23,11 @@ public class RunningResultData {
     @SerializedName("course_rate")
     public double course_rate;
 
-    public RunningResultData(String nickname, String courseNo, String time, double distance, double run_rate, double course_rate){
+    @SerializedName("room_id")
+    public int room_id;
+
+    public RunningResultData(String nickname, int room_id, String courseNo, String time, double distance, double run_rate, double course_rate){
+        this.room_id = room_id;
         this.nickname = nickname;
         this.courseNo = courseNo;
         this.time = time;
