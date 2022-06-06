@@ -130,7 +130,6 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
                 Log.e("코스 로드 에러 발생", t.getMessage());
             }
         });
-
 //
 //        for (int i=0; i<19; i++){
 //            Log.i("testCode",lat[i]+" "+lon[i]+" "+course_name_String[i]);
@@ -764,11 +763,10 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
                         Log.e("매칭 에러 발생", t.getMessage());
                     }
                 });
-
-
-
-
                 mDialog.dismiss();
+                Intent intent = new Intent(getApplicationContext(),activity_home.class);
+                startActivity(intent);
+                finish();
             }
         });
     }
@@ -955,7 +953,6 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
 
         String course, departure, run, gender;
         TextView tv_course, tv_departure, tv_run, tv_gender;
-        ListView matchingList;
         Button btn_cancel, btn_ok;
 
         tv_course = sDialog.findViewById(R.id.tv_course);
@@ -981,6 +978,24 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
                         room_departure_time = result.getDeparture_time();
                         room_running_time = result.getRunning_time();
                         room_mate_gender = result.getMate_gender();
+                        // ==각각의 String 값에 코스이름, 출발시간, 달리기시간, 성별 받아오기==
+//                        course = ""+room_courseNo;
+//                        departure = room_departure_time;
+//                        run = room_running_time+"분";
+//                        gender = room_mate_gender;
+
+                        // Textview 값 변경하기
+                        tv_course.setText(""+room_courseNo+" (Room ID : "+room_flag+")");
+                        tv_departure.setText(room_departure_time);
+                        tv_run.setText(room_running_time+"분");
+                        Log.i("Ts", room_mate_gender);
+                        if(room_mate_gender == "남자만"){
+                            tv_gender.setText(room_mate_gender);
+                        }else if(room_mate_gender == "여자만"){
+                            tv_gender.setText(room_mate_gender);
+                        }else{
+                            tv_gender.setText("상관없음");
+                        }
                         Toast.makeText(activity_home.this, result.getMsg(), Toast.LENGTH_SHORT).show();
                     }
 
@@ -993,17 +1008,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
             } catch (Exception e){
 
             }
-            // ==각각의 String 값에 코스이름, 출발시간, 달리기시간, 성별 받아오기==
-            course = ""+room_courseNo;
-            departure = room_departure_time;
-            run = room_running_time+"분";
-            gender = room_mate_gender;
 
-            // Textview 값 변경하기
-            tv_course.setText(course);
-            tv_departure.setText(departure);
-            tv_run.setText(run);
-            tv_gender.setText(gender);
         }
 
 
