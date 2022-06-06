@@ -2,7 +2,7 @@
 departure_time을 인자로 받아서 시간부분만 -1시간 +1시간 두개 구해서
 리턴해줌
 */
-function departure_time(departure_time) {
+function return_departure_time(departure_time) {
   //결과를 담을 배열 선언
   let result = [];
 
@@ -148,7 +148,9 @@ function departure_time(departure_time) {
 }
 
 // time = "2022-03-01 00:59:00";
-// result = departure_time(time);
+// result = return_departure_time(time);
 // console.log(result);
 
-module.exports = departure_time;
+module.exports = return_departure_time;
+
+

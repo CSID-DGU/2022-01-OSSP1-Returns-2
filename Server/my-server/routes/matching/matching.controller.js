@@ -1,4 +1,4 @@
-var db = require("../../db/connect");
+var db = require('../../db/connect');
 const matchingData = require("../../algorithms/matchingDataPreprocessing");
 const return_departure_time = require("./departure_time");
 const matching_start = require("../../algorithms/matching");
@@ -7,7 +7,7 @@ const matching_start = require("../../algorithms/matching");
  * 매칭방 생성 API
  */
 
-module.exports.create = (req, res) => {
+module.exports.create = (req,res) =>{
   const conn = db.conn();
   var nickname = req.body.nickname;
   var departure_time = req.body.departure_time;
@@ -34,90 +34,93 @@ module.exports.create = (req, res) => {
     if (err) {
       console.log(err);
       db.conn();
-    } else {
+    }else {
       res.json({
         result: true,
         msg: "매칭방 생성 완료",
       });
     }
   });
-};
+}
+
 
 /**
  * 활성화된 매칭방 전체 조회 API
  */
 
-module.exports.load = (req, res) => {
+module.exports.load = (req,res) => {
   const conn = db.conn();
   var sql = "SELECT * FROM Activating_Room where flag = 0";
-  conn.query(sql, function (err, result) {
-    if (err) {
+  conn.query(sql,function(err,result){
+    if(err){
       console.log(err);
       conn.end();
-    } else {
-      var arr = [];
-      for (var i = 0; i < result.length; i++) {
+    }else{
+      var arr =[];
+      for (var i =0; i<result.length;i++){
         arr.push({
-          room_id: result[i].room_id,
-          nickname: result[i].nickname,
-          departure_time: result[i].departure_time,
-          running_time: result[i].running_time,
-          mate_gender: result[i].mate_gender,
-          mate_level: result[i].mate_level,
-          start_latitude: result[i].start_latitude,
-          start_longitude: result[i].start_longitude,
+          rome_id : result[i].rome_id,
+          nickname : result[i].nickname,
+          departure_time : result[i].departure_time,
+          running_time : result[i].running_time,
+          mate_gender : result[i]. mate_gender,
+          mate_level : result[i].mate_level,
+          start_latitude : result[i].start_latitude,
+          start_longitude : result[i].start_longitude
         });
         res.json({
-          msg: "활성화된 매칭방 전체 조회 완료",
-          data: arr,
-          result: true,
+          msg : "활성화된 매칭방 전체 조회 완료",
+          data : arr,
+          result : true
         });
       }
     }
   });
-};
+}
 
 /**
  * 코스 이름을 불러와 매칭방 가져오기
  */
 
-module.exports.objActivate = (req, res) => {
+module.exports.objActivate = (req,res) => {
   const conn = db.conn();
-  var courseNo = req.query.courseNo;
+  var courseNo = req.body.courseNo;
   console.log(courseNo);
-  var sql =
-    "SELECT a.* FROM Activating_Room as a inner JOIN RunningCourseAndTrack as r on (a.start_latitude = r.course_start_latitude and a.start_longitude = r.course_start_longitude AND a.flag = 0 AND r.course_no = ?)";
+  var sql = "SELECT * FROM Activating_Room as a inner JOIN RunningCourseAndTrack as r on (a.start_latitude = r.course_start_latitude and a.start_longitude = r.course_start_longitude AND a.flag = 0 AND r.course_no = ?)";
   var params = [courseNo];
-
-  //Activating_Room 의 start_latitude, start_longitude 와 RunningCourseAndTrack의 course_start_longitude 와 course_start_latitude의 정보가 동일 한 것을 다 가져옴
-  conn.query(sql, params, function (err, result) {
+  
+  //Activating_Room 의 start_latitude, start_longitude 와 RunningCourseAndTrack의 course_start_longitude 와 course_start_latitude의 정보가 동일 한 것을 다 가져옴 
+  conn.query(sql,params, function(err, result){
     if (err) {
       console.log(err);
       conn.end();
-    } else {
+    }else{
       console.log(result);
       var arr = [];
-      for (var i = 0; i < result.length; i++) {
+      for (var i =0; i<result.length;i++){
         arr.push({
-          room_id: result[i].room_id,
-          nickname: result[i].nickname,
-          departure_time: result[i].departure_time,
-          running_time: result[i].running_time,
-          mate_gender: result[i].mate_gender,
-          mate_level: result[i].mate_level,
-          start_latitude: result[i].start_latitude,
-          start_longitude: result[i].start_longitude,
+          rome_id : result[i].rome_id,
+          nickname : result[i].nickname,
+          departure_time : result[i].departure_time,
+          running_time : result[i].running_time,
+          mate_gender : result[i].mate_gender,
+          mate_level : result[i].mate_level,
+          start_latitude : result[i].start_latitude,
+          start_longitude : result[i].start_longitude
         });
       }
       console.log(arr);
       res.json({
-        msg: "코스 에 해당 하는 매칭방 정보 조회 완료",
-        data: arr,
-        result: true,
+        msg : "코스 에 해당 하는 매칭방 정보 조회 완료",
+        data : arr,
+        result : true
       });
     }
+    
   });
-};
+
+}
+
 
 /*
 매칭 정보 입력 API 
@@ -129,10 +132,10 @@ module.exports.input = (res) => {
   var list2 = [];
   for (let i = 0; i < list.length; i++) {
     list2[i] = Object.values(list[i]);
-    matching_number = (i + 1).toString();
+    matching_number = (i+1).toString();
     list2[i].push(matching_number);
   }
-
+  
   var sql =
     "insert into Matching_Rating (user_id, matching_user_id, rating, matching_number) values ?";
 
@@ -249,7 +252,8 @@ module.exports.matching = (req, res) => {
     }
     let recommend_list = matching_start(nickname);
 
-    console.log(total_nickname);
+    // console.log(total_nickname);
+    // console.log(recommend_list);
 
     //추천리스트에 1순위부터 차례대로 돌면서 현재 Activating_Room에 있는 유저가 있는지 확인
     for (let i = 0; i < recommend_list.length; i++) {
