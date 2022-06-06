@@ -34,7 +34,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="#2B45D3"
-        android:text="매칭리스트"
+        android:text="생성된 방 리스트"
         android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -65,18 +65,18 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <Button
-        android:id="@+id/btn_ok"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        android:backgroundTint="#2B45D3"
-        android:text="참여하기"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/btn_exit"
-        app:layout_constraintTop_toBottomOf="@+id/sv_matchingList" />
+<!--    <Button-->
+<!--        android:id="@+id/btn_ok"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginEnd="10dp"-->
+<!--        android:layout_marginBottom="10dp"-->
+<!--        android:backgroundTint="#2B45D3"-->
+<!--        android:text="참여하기"-->
+<!--        android:textSize="20sp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toStartOf="@id/btn_exit"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/sv_matchingList" />-->
 
     <Button
         android:id="@+id/btn_exit"
