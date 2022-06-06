@@ -2,9 +2,6 @@ package com.example.running_app;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-
 public class ProfileResponse {
     @SerializedName("nickname")
     private String nickname;
@@ -21,6 +18,9 @@ public class ProfileResponse {
     @SerializedName("room_id")
     private int room_id;
 
+    @SerializedName("msg")
+    private String msg;
+
     public String getNickname() {
         return nickname;
     }
@@ -32,4 +32,5 @@ public class ProfileResponse {
     }
     public Double getAverage_distance(){ return average_distance; }
     public int getRoom_id(){return room_id;}
+    public String getMsg(){return msg;}
 }

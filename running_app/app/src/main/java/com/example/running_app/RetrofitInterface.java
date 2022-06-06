@@ -34,4 +34,10 @@ public interface RetrofitInterface {
 
     @POST("/matching/matching")
     Call<MatchingResponse> MatchingResult(@Body MatchingData data);
+
+    @POST("/user/delete")
+    Call<ProfileResponse> DeleteRoomId(@Body ProfileData data);
+
+    @GET("/matching/room")
+    Call<GetRoomResponse> GetByRoomId(@Query("room_id") int room_id);
 }

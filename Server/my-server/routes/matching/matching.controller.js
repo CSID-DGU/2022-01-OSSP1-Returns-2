@@ -121,6 +121,41 @@ module.exports.objActivate = (req,res) => {
 
 }
 
+/**
+ * room_id로 방 정보 가져오기
+ */
+
+ module.exports.room = (req,res) => {
+  const conn = db.conn();
+  var id = req.query.room_id;
+  console.log(id);
+  var sql = "SELECT * FROM Activating_Room as a inner JOIN RunningCourseAndTrack as r on (a.start_latitude = r.course_start_latitude and a.start_longitude = r.course_start_longitude AND a.flag = 0 AND a.room_id = ?)";
+  var params = [id];
+  
+  //Activating_Room 의 start_latitude, start_longitude 와 RunningCourseAndTrack의 course_start_longitude 와 course_start_latitude의 정보가 동일 한 것을 다 가져옴 
+  conn.query(sql,params, function(err, result){
+    if (err) {
+      console.log(err);
+      conn.end();
+    }else{
+      console.log(result);
+      res.json({
+        msg : "룸넘버에 해당 하는 매칭방 정보 조회 완료",
+        result : true,
+        courseNo: result[0].course_no,
+        departure_time: result[0].departure_time,
+        running_time: result[0].running_time,
+        mate_gender: result[0].mate_gender,
+      });
+    }
+    
+  });
+
+}
+
+
+
+
 
 /*
 매칭 정보 입력 API 

@@ -65,9 +65,14 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
     public static String[] departure_time = new String[10];
     public static String[] mate_gender = new String[10];
     public static boolean flag = false;
+    public static boolean sDialogFlag = false;
     public static String gender = "";
     public static int select_room_id = 0;
     public static int room_flag = 0;
+    public static String room_departure_time="";
+    public static int room_courseNo = 0;
+    public static int room_running_time = 0;
+    public static String room_mate_gender = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -948,7 +953,6 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
     public void sDialog(@NonNull Dialog sDialog) {
         sDialog.show();
 
-
         String course, departure, run, gender;
         TextView tv_course, tv_departure, tv_run, tv_gender;
         ListView matchingList;
@@ -966,13 +970,34 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
             tv_departure.setText("아직 매칭 안됐습니다.");
             tv_run.setText("아직 매칭 안됐습니다.");
             tv_gender.setText("아직 매칭 안됐습니다.");
-        } else{
+        } else{ // 여기서 api호출. room_id로 방 정보 가져오기
+            try{
+                service = RetrofitClient.getClient().create(RetrofitInterface.class);
+                service.GetByRoomId(room_flag).enqueue(new Callback<GetRoomResponse>() {
+                    @Override
+                    public void onResponse(Call<GetRoomResponse> call, Response<GetRoomResponse> response) {
+                        GetRoomResponse result = response.body();
+                        room_courseNo = result.getCourseNo();
+                        room_departure_time = result.getDeparture_time();
+                        room_running_time = result.getRunning_time();
+                        room_mate_gender = result.getMate_gender();
+                        Toast.makeText(activity_home.this, result.getMsg(), Toast.LENGTH_SHORT).show();
+                    }
 
+                    @Override
+                    public void onFailure(Call<GetRoomResponse> call, Throwable t) {
+                        Toast.makeText(activity_home.this, "매칭방 로드 에러 발생", Toast.LENGTH_SHORT).show();
+                        Log.e("매칭방 로드 에러 발생", t.getMessage());
+                    }
+                });
+            } catch (Exception e){
+
+            }
             // ==각각의 String 값에 코스이름, 출발시간, 달리기시간, 성별 받아오기==
-            course = "코스이름 : course1";
-            departure = "출발 시간 : 21:00:00";
-            run = "달리기 시간 : 00:30:00";
-            gender = "성별 : only man";
+            course = ""+room_courseNo;
+            departure = room_departure_time;
+            run = room_running_time+"분";
+            gender = room_mate_gender;
 
             // Textview 값 변경하기
             tv_course.setText(course);
@@ -989,9 +1014,33 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
             public void onClick(View v) {
                 Toast.makeText(activity_home.this, "매칭 취소", Toast.LENGTH_SHORT).show();
                 // 이 유저의 룸 아이디 지워버림
+                SharedPreferences auto = getSharedPreferences("auto", Activity.MODE_PRIVATE);
+                service = RetrofitClient.getClient().create(RetrofitInterface.class);
+                String userId = auto.getString("inputId", null);
 
+                service.DeleteRoomId(new ProfileData(userId)).enqueue(new Callback<ProfileResponse>(){
+                    //통신 성공시 호출
+                    @Override
+                    public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response){
+                        ProfileResponse result = response.body();
+                        Toast.makeText(activity_home.this, result.getMsg(), Toast.LENGTH_SHORT).show();
+                    }
+                    //통신 실패시 호출
+                    @Override
+                    public void onFailure(Call<ProfileResponse> call, Throwable t) {
+                        Toast.makeText(activity_home.this, "삭제 에러 발생", Toast.LENGTH_SHORT).show();
+                        Log.e("삭제 에러 발생", t.getMessage());
+                    }
+                });
+                if(room_flag==0){
+                    sDialog.dismiss();
+                }else{
+                    sDialog.dismiss();
+                    Intent intent = new Intent(getApplicationContext(),activity_home.class);
+                    startActivity(intent);
+                    finish();
+                }
 
-                sDialog.dismiss();
             }
         });
 
@@ -1000,6 +1049,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
             @Override
             public void onClick(View v) {
                 sDialog.dismiss();
+
             }
         });
     }
