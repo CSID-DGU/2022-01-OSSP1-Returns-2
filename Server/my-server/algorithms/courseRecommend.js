@@ -1,20 +1,20 @@
 //const tokenizing = require('./ff');
-const courseDataset = require('../dataset/runninCourseDataset.json');
-const userRatingData = require('../dataset/courseVectorDataset.json');
+const courseDataset = require('./runningCourseDataset.json');
+const userRatingData = require('./courseVectorDataset.json');
 var similarity = require( 'compute-cosine-similarity' );
 var mecab = require('mecab-ya');
-
+var dcg = require('node-dcg');
 /**
  * 전체 Flow
  * 1. 유저 평점을 기반으로 제일 높은 러닝 코스 정보 가져오기
  * 2. 러닝 코스 데이터 설명 tf-idf
  * 3. 코사인 유사도로 러닝 코스 유사도 측정 
- * 5. 머신러닝 이용하여 정확도 검사 
+ * 4. 추천 
  */
 
 
 /**
- * 1. 유저 레이팅 평점 순으로 코스 정렬한 리스트 imdb를 통한 가중치? 부여 ? 
+ * 1. 유저 레이팅 평점 순으로 코스 정렬한 리스트
  */
 
 var ratingData;
@@ -62,7 +62,7 @@ var tokenizing = async function() {
 // })
 
 /**
- * 2-2. 공원 키워드 에 대한 tf- idf
+ * 2-2. tf- idf
  */
 
 var Tfidf = async function() {
@@ -125,7 +125,7 @@ var Tfidf = async function() {
  */
 // console.log(similarity([tfidf[0].tfidf],[tfidf[1].tfidf]));
 
-var main = async function(){
+var sim = async function(){
     // console.log('token : ', await tokenizing());
     //console.log('tfidf : ', await tfidf());
     var tfidf = await Tfidf();
@@ -142,8 +142,30 @@ var main = async function(){
     }
     return simArray;
 }
-main().then(function(result){
-    console.log('유사도: '+result);
+var main = async function(ratingData){
+    const simArr = await sim();
+    var most = simArr[ratingData[0].id - 1]; //1차원 배열
+    var self = most[ratingData[0].id -1]; // 평점이 제일 높은 코스에 대한 유사도 값 
+
+    // 유사도 높은 순으로 정렬 
+    most.sort(function(a, b)  {
+        return b - a;
+    });
+    
+    if (most[0] != self)
+        if (simArr[ratingData[0].id -1].indexOf(most[0]) == -1)
+            return "해당 값을 찾지 못함"
+        else
+            return "코스 " + String(simArr[ratingData[0].id -1].indexOf(most[0]) + 1)
+    else if (most[0] == self)
+        if (simArr[ratingData[0].id -1].indexOf(most[1]) == -1)
+            return "해당 값을 찾지 못함"
+        else
+            return "코스 " + String(simArr[ratingData[0].id -1].indexOf(most[1]) + 1)
+    
+}
+main(ratingData).then(function(result){
+    console.log(result)
 });
 
 
