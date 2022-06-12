@@ -146,6 +146,8 @@ module.exports.objActivate = (req,res) => {
         departure_time: result[0].departure_time,
         running_time: result[0].running_time,
         mate_gender: result[0].mate_gender,
+        start_latitude: result[0].start_latitude,
+        start_longitude: result[0].start_longitude,
       });
     }
     

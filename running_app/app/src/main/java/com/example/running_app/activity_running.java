@@ -59,7 +59,7 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
 
     //멤버 변수화
     TextView runningTime, runningDistance;
-    Button start_btn, end_btn, running_btn, home_btn, profile_btn;
+    Button status_btn, start_btn, end_btn, running_btn, home_btn, profile_btn;
     private GoogleMap googleMap;
     RetrofitInterface service;
 
@@ -97,6 +97,15 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
     private static LatLng startLng = new LatLng(0,0);
     private static LatLng endLng = new LatLng(0,0);
     private static int room_flag=0;
+    public static boolean btn_flag = false;
+
+    public static double latitude = 0.0;
+    public static double longitude =0.0;
+    public static double room_latitude = 0.0;
+    public static double room_longitude =0.0;
+    public static int course_no=0;
+    public static boolean first_move=true;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstaceState) {
@@ -121,6 +130,20 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
                 Toast.makeText(activity_running.this, ""+result.getRoom_id(), Toast.LENGTH_SHORT).show();
                 room_flag = result.getRoom_id();
                 Log.i("Ts", ""+room_flag);
+
+                service.GetByRoomId(room_flag).enqueue(new Callback<GetRoomResponse>() {
+                    @Override
+                    public void onResponse(Call<GetRoomResponse> call, Response<GetRoomResponse> response) {
+                        GetRoomResponse result = response.body();
+                        room_latitude = result.getStart_latitude();
+                        room_longitude = result.getStart_longitude();
+                        course_no = result.getCourseNo();
+                    }
+                    @Override
+                    public void onFailure(Call<GetRoomResponse> call, Throwable t) {
+                        Toast.makeText(activity_running.this, "조회 실패", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
             //통신 실패시 호출
             @Override
@@ -132,6 +155,33 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
 
         //거리 초기화
         runDistance = 0.0;
+
+        status_btn = findViewById(R.id.btn_match);
+        status_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //default는 매칭 코스 위치
+                if(btn_flag==false){
+                    if(room_flag == 0){
+                        Toast.makeText(activity_running.this, "매칭되지 않았습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        btn_flag=true;
+                        status_btn.setText("내위치");
+
+                        LatLng latLng = new LatLng(room_latitude, room_longitude);
+                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
+                        googleMap.addMarker(new MarkerOptions().position(latLng).title("코스 위치").snippet("Course"+course_no));
+                    }
+                }
+                else{
+                    btn_flag=false;
+                    status_btn.setText("코스위치");
+                    LatLng latLng = new LatLng(latitude, longitude);
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
+                }
+            }
+        });
 
         // 하단 버튼 구성
         //본인 자신은 안 떠도 됨.
@@ -285,9 +335,6 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
     @Override // 우선은 동국대로 해놨는데, 자기 위치로 하게 바꿔야함.
     public void onMapReady(@NonNull GoogleMap googleMap) {
         this.googleMap = googleMap;
-        //37.5582876,127.0001671 동국대
-        LatLng latLng = new LatLng(37.5582876, 127.0001671);
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
         startLocationService();
     }
 
@@ -355,12 +402,16 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
     private class GPSListener implements LocationListener{
         public void onLocationChanged(Location location){
 
-            double latitude = location.getLatitude();
-            double longitude = location.getLongitude();
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
 
             if(!polyFlag){
                 latLng = new LatLng(latitude, longitude);
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
+                if(first_move){
+                    first_move = false;
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
+                }
+
                 if (flag){
                     markers[0] = googleMap.addMarker(new MarkerOptions().position(latLng).title("현재 내 위치"));
                     markers[1].remove();
@@ -400,7 +451,10 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
 //            polylineOptions.addAll(arrayPoints);
 //            googleMap.addPolyline(polylineOptions);
 
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
+            if(btn_flag){
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
+            }
+
             if (flag){
                 markers[0] = googleMap.addMarker(new MarkerOptions().position(latLng).title("현재 내 위치"));
                 markers[1].remove();
