@@ -9,7 +9,7 @@ public class RunningResultData {
     public String nickname;
 
     @SerializedName("courseNo")
-    public String courseNo;
+    public int course_no;
 
     @SerializedName("time")
     public String time;
@@ -26,10 +26,10 @@ public class RunningResultData {
     @SerializedName("room_id")
     public int room_id;
 
-    public RunningResultData(String nickname, int room_id, String courseNo, String time, double distance, double run_rate, double course_rate){
+    public RunningResultData(String nickname, int room_id, int course_no, String time, double distance, double run_rate, double course_rate){
         this.room_id = room_id;
         this.nickname = nickname;
-        this.courseNo = courseNo;
+        this.course_no = course_no;
         this.time = time;
         this.distance = distance;
         this.run_rate = run_rate;
