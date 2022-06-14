@@ -130,20 +130,22 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
                 Toast.makeText(activity_running.this, ""+result.getRoom_id(), Toast.LENGTH_SHORT).show();
                 room_flag = result.getRoom_id();
                 Log.i("Ts", ""+room_flag);
+                if(room_flag != 0){
+                    service.GetByRoomId(room_flag).enqueue(new Callback<GetRoomResponse>() {
+                        @Override
+                        public void onResponse(Call<GetRoomResponse> call, Response<GetRoomResponse> response) {
+                            GetRoomResponse result = response.body();
+                            room_latitude = result.getStart_latitude();
+                            room_longitude = result.getStart_longitude();
+                            course_no = result.getCourseNo();
+                        }
+                        @Override
+                        public void onFailure(Call<GetRoomResponse> call, Throwable t) {
+                            Toast.makeText(activity_running.this, "조회 실패", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
 
-                service.GetByRoomId(room_flag).enqueue(new Callback<GetRoomResponse>() {
-                    @Override
-                    public void onResponse(Call<GetRoomResponse> call, Response<GetRoomResponse> response) {
-                        GetRoomResponse result = response.body();
-                        room_latitude = result.getStart_latitude();
-                        room_longitude = result.getStart_longitude();
-                        course_no = result.getCourseNo();
-                    }
-                    @Override
-                    public void onFailure(Call<GetRoomResponse> call, Throwable t) {
-                        Toast.makeText(activity_running.this, "조회 실패", Toast.LENGTH_SHORT).show();
-                    }
-                });
             }
             //통신 실패시 호출
             @Override
