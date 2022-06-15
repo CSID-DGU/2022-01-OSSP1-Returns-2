@@ -452,7 +452,6 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         public void onLocationChanged(Location location) {
             latitude = location.getLatitude();
             longitude = location.getLongitude();
-            Toast.makeText(activity_home.this, ""+latitude, Toast.LENGTH_SHORT).show();
             if (ContextCompat.checkSelfPermission(activity_home.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 googleMap.setMyLocationEnabled(true);
             } else {
