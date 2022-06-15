@@ -2,6 +2,7 @@ var db = require('../../db/connect');
 
 var courseJSON = require('../../dataset/runninCourseDataset.json');
 var courseRecommend = require('../../algorithms/courseRecommend');
+var s2 = require('../../algorithms/s2test');
 /**
  * 코스 정보 입력 API
  */
@@ -71,11 +72,13 @@ module.exports.selectALL = (req, res) => {
 module.exports.courseRecommend = (req,res) =>{
 
   const conn = db.conn();
-  var user_id = req.query.user_id;
+  var nickname = req.body.nickname;
+  var user_lat = parseFloat(req.body.latitude);
+  var user_lng = parseFloat(req.body.longitude);
   // 해당 유저의 러닝 데이터 가저오기 
   var sql = 'SELECT course_name, MAX(course_rating) FROM User_Running_Records where nickname = ?';
   var params = [
-    user_id
+    nickname
   ]
   conn.query(sql,params,function(err, result){
     if(err){
@@ -84,11 +87,32 @@ module.exports.courseRecommend = (req,res) =>{
     }else{
       console.log(result[0].course_name)
       courseRecommend(parseInt(result[0].course_name)).then(function(result){
-        res.json({
-          result :true,
-          msg : "코스 " + String(result) + "을 추천합니다.",
-          data : result
-        })
+        list = s2(user_lat,user_lng);
+        temp = [];
+        for (let i =0; i<result.length;i++){
+          for(let j =0; j<list.length;j++){
+            if(result[i].courseNo == list[j].course_no){
+              temp.push({
+                data: result[i].courseNo
+              })
+            }
+          }
+        }
+        if(temp.length != 0 ){
+          res.json({
+            result :true,
+            msg : "코스 " + String(temp[0].data) + "을 추천합니다.",
+            data : temp[0].data
+          })
+        }
+        else{
+          res.json({
+            result :true,
+            msg : "코스 " + String(list[0].course_no) + "을 추천합니다.",
+            data : list[0].course_no
+          })
+        }
+
       });
       
     }
@@ -98,3 +122,5 @@ module.exports.courseRecommend = (req,res) =>{
   
 
 }
+
+
