@@ -1,9 +1,9 @@
 //const tokenizing = require('./ff');
-const courseDataset = require('./runningCourseDataset.json');
-const userRatingData = require('./courseVectorDataset.json');
+const courseDataset = require('../dataset/runninCourseDataset.json');
+const userRatingData = require('../dataset/courseVectorDataset.json');
 var similarity = require( 'compute-cosine-similarity' );
 var mecab = require('mecab-ya');
-var dcg = require('node-dcg');
+
 /**
  * 전체 Flow
  * 1. 유저 평점을 기반으로 제일 높은 러닝 코스 정보 가져오기
@@ -17,13 +17,13 @@ var dcg = require('node-dcg');
  * 1. 유저 레이팅 평점 순으로 코스 정렬한 리스트
  */
 
-var ratingData;
+// var ratingData;
 
-ratingData = userRatingData.course.sort(function(a,b){
-    return b['코스 평균 평점'] - a['코스 평균 평점'];
-});
+// ratingData = userRatingData.course.sort(function(a,b){
+//     return b['코스 평균 평점'] - a['코스 평균 평점'];
+// });
 
-console.log(ratingData);
+// console.log(ratingData);
 
 /**
  *  2-1. 토크나이징
@@ -142,30 +142,29 @@ var sim = async function(){
     }
     return simArray;
 }
-var main = async function(ratingData){
+var main = async function(courseNo){
     const simArr = await sim();
-    var most = simArr[ratingData[0].id - 1]; //1차원 배열
-    var self = most[ratingData[0].id -1]; // 평점이 제일 높은 코스에 대한 유사도 값 
+    var most = simArr[courseNo-1];
+    console.log(most);
+    return new Promise(function(res,rej){
+     //1차원 배열
 
-    // 유사도 높은 순으로 정렬 
-    most.sort(function(a, b)  {
-        return b - a;
-    });
-    
-    if (most[0] != self)
-        if (simArr[ratingData[0].id -1].indexOf(most[0]) == -1)
-            return "해당 값을 찾지 못함"
-        else
-            return "코스 " + String(simArr[ratingData[0].id -1].indexOf(most[0]) + 1)
-    else if (most[0] == self)
-        if (simArr[ratingData[0].id -1].indexOf(most[1]) == -1)
-            return "해당 값을 찾지 못함"
-        else
-            return "코스 " + String(simArr[ratingData[0].id -1].indexOf(most[1]) + 1)
-    
-}
-main(ratingData).then(function(result){
-    console.log(result)
+    // // 유사도 높은 순으로 정렬 
+    // console.log(mostInitial)
+    // most.sort(function(a, b)  {
+    //     return b - a;
+    // });
+    // console.log(mostInitial)
+    // console.log(most[0])
+   for(let i =0; i<most.length;i++){
+       if(most[i] ==  Math.max.apply(null, most)){
+           res(i+1);
+       }
+   }
 });
-
+}
+// main(5).then(function(result){
+//     console.log(result)
+// });
+module.exports = main;
 
