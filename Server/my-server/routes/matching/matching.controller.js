@@ -2,7 +2,7 @@ var db = require('../../db/connect');
 const matchingData = require("../../algorithms/matchingDataPreprocessing");
 const return_departure_time = require("./departure_time");
 const matching_start = require("../../algorithms/matching");
-
+const main = require('../../algorithms/s2test');
 /**
  * 매칭방 생성 API
  */
@@ -159,9 +159,6 @@ module.exports.objActivate = (req,res) => {
 
 
 
-/*
-매칭 정보 입력 API 
-*/
 module.exports.input = (res) => {
   const conn = db.conn();
   matchingDataSet = matchingData;
@@ -208,13 +205,17 @@ module.exports.matching = (req, res) => {
   let departure_time = req.body.departure_time;
   let running_time = req.body.running_time;
   let mate_gender = req.body.mate_gender;
+  let user_lat = parseFloat(req.body.user_lat);
+  let user_lng = parseFloat(req.body.user_lng);
   let sql1 = "";
   let sql2 = "";
+  let sql3 = "";
   let params1 = [];
   let params2 = [];
   let recommend_user_nickname = "";
 
-  console.log(req.body);
+  //유저주변 5km이내에 포함된 코스들의 코스 넘버 리턴
+  let availableCourse = main(user_lat,user_lng);
 
   //running_time 하한,상한 (+-30분)
   let lower_running_time = (running_time - 30).toString();
@@ -226,8 +227,8 @@ module.exports.matching = (req, res) => {
   //gender가 상관없음이면 조건검색에서 gender 삭제, 상관없음이 아니면 조건검색에 포함.
   if (mate_gender === "") {
     sql1 =
-      "SELECT * FROM Activating_Room Where running_time >= ? AND running_time <= ? AND departure_time >= ? AND departure_time <= ?";
-    params1 = [
+      "SELECT * FROM Activating_Room as a, RunningCourseAndTrack as r Where a.start_latitude = r.course_start_latitude AND a.running_time >= ? AND a.running_time <= ? AND a.departure_time >= ? AND a.departure_time <= ?";
+    params1 = [ 
       lower_running_time,
       upper_running_time,
       departure_time_range[0],
@@ -235,7 +236,7 @@ module.exports.matching = (req, res) => {
     ];
   } else {
     sql1 =
-      "SELECT * FROM Activating_Room Where running_time >= ? AND running_time <= ? AND departure_time <= ? AND departure_time >= ? AND mate_gender = ?";
+      "SELECT * FROM Activating_Room Activating_Room as a, RunningCourseAndTrack as r Where a.start_latitude = r.course_start_latitude AND a.running_time >= ? AND a.running_time <= ? AND a.departure_time <= ? AND a.departure_time >= ? AND a.mate_gender = ?";
     params1 = [
       lower_running_time,
       upper_running_time,
@@ -279,28 +280,53 @@ module.exports.matching = (req, res) => {
       arr.push({
         nickname: result[i].nickname,
         room_id: result[i].room_id,
+        course_no: result[i].course_no,
         running_time: result[i].running_time,
       });
-      total_nickname.push(result[i].nickname);
+      // total_nickname.push(arr[i].nickname);
     }
-    if (result.length === 0) {
-      res.json({
-        result: false,
-        msg: "필수 조건을 만족하는 방이 없습니다",
-      });
-      return;
+    if (result.length == 0) {
+      sql3 =
+        "select * FROM Activating_Room as a, RunningCourseAndTrack as r Where a.start_latitude = r.course_start_latitude ";
+      conn.query(sql3, (err, result) => {
+        if(err){
+           console.log(err);
+           conn.end();
+        } else {
+          for(let i=0; i<availableCourse.length;i++) {
+            for(let j=0; j<result.length;j++){
+              if(availableCourse[i] == result[j].courseNo){
+                res.json({
+                  result: true,
+                  recommend_user: result[j].course_no,
+                  msg: "필수 조건을 만족하는 방이 없어서 가장 가까운 매칭방으로 매칭되었습니다.",
+                });
+              }
+            }
+          }
+      }
+        return;
+      })  
     }
     let recommend_list = matching_start(nickname);
 
-    console.log(total_nickname);
-
     // console.log(total_nickname);
-    // console.log(recommend_list);
+
+    //리턴받은 매칭방 중 유저의 5km이내에 있는 코스들이 있는 매칭방의 user_nickname만 추천 가능한 닉네임으로 추가 
+    for (let i = 0; i < arr.length; i++) {
+      for (let j =0; j < availableCourse.length; j++) {
+        if(arr[i].course_no == availableCourse[j].course_no) {
+            total_nickname.push(arr[i].nickname);
+        }
+      }
+    }
+
+    console.log(total_nickname);
 
     //추천리스트에 1순위부터 차례대로 돌면서 현재 Activating_Room에 있는 유저가 있는지 확인
     for (let i = 0; i < recommend_list.length; i++) {
       for (let j = 0; j < total_nickname.length; j++) {
-        if (recommend_list[i] === total_nickname[j]) {
+        if (recommend_list[i] == total_nickname[j]) {
           recommend_user_nickname = recommend_list[i];
           //추천할 유저가 존재하면
           recommend_room_id = result[j].room_id;
@@ -330,12 +356,29 @@ module.exports.matching = (req, res) => {
     }
       
     //추천할 유저가 존재하지 않으면
-    if (recommend_user_nickname.length === 0) {
-      res.json({
-        result: false,
-        msg: "조건을 만족하는 유저가 존재하지 않습니다",
-      });
-      return;
+    if (recommend_user_nickname.length == 0) {
+            sql3 =
+              "select * FROM Activating_Room as a, RunningCourseAndTrack as r Where a.start_latitude = r.course_start_latitude ";
+            conn.query(sql3, (err, result) => {
+              if (err) {
+                console.log(err);
+                conn.end();
+              } else {
+                for (let i = 0; i < availableCourse.length; i++) {
+                  for (let j = 0; j < result.length; j++) {
+                    if (availableCourse[i].course_no == result[j].course_no) {
+                      res.json({
+                        result: true,
+                        recommend_user: result[j].course_no,
+                        msg: "필수 조건을 만족하는 방이 없어서 가장 가까운 매칭방으로 매칭되었습니다.",
+                      });
+                      return;
+                    }
+                  }
+                }
+              }
+              return;
+            });  
     }
   });
 };
