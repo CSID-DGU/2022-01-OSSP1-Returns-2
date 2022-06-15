@@ -572,6 +572,24 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
                     public void onResponse(Call<RunningResultResponse> call, Response<RunningResultResponse> response) {
                         RunningResultResponse result = response.body();
                         Toast.makeText(activity_running.this, result.getMsg(), Toast.LENGTH_SHORT).show();
+                        SharedPreferences auto = getSharedPreferences("auto", Activity.MODE_PRIVATE);
+                        service = RetrofitClient.getClient().create(RetrofitInterface.class);
+                        String userId = auto.getString("inputId", null);
+
+                        service.DeleteRoomId(new ProfileData(userId)).enqueue(new Callback<ProfileResponse>(){
+                            //통신 성공시 호출
+                            @Override
+                            public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response){
+                                ProfileResponse result = response.body();
+                                Toast.makeText(activity_running.this, result.getMsg(), Toast.LENGTH_SHORT).show();
+                            }
+                            //통신 실패시 호출
+                            @Override
+                            public void onFailure(Call<ProfileResponse> call, Throwable t) {
+                                Toast.makeText(activity_running.this, "삭제 에러 발생", Toast.LENGTH_SHORT).show();
+                                Log.e("삭제 에러 발생", t.getMessage());
+                            }
+                        });
                     }
                     @Override
                     public void onFailure(Call<RunningResultResponse> call, Throwable t) {

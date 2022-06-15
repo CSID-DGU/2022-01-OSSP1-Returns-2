@@ -103,6 +103,10 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
                 Toast.makeText(activity_home.this, ""+result.getRoom_id(), Toast.LENGTH_SHORT).show();
                 room_flag = result.getRoom_id();
                 Log.i("Ts", ""+room_flag);
+
+                SharedPreferences.Editor autoLogin = auto.edit();
+                autoLogin.putString("room_flag", ""+room_flag);
+                autoLogin.commit();
             }
             //통신 실패시 호출
             @Override
