@@ -19,15 +19,15 @@ public class MatchingData {
     public double user_lat;
 
     @SerializedName("user_lon")
-    public double user_lon;
+    public double user_lng;
 
-    public MatchingData(String nickname, String departure_time, int running_time, String mate_gender, double user_lat, double user_lon){
+    public MatchingData(String nickname, String departure_time, int running_time, String mate_gender, double user_lat, double user_lng){
         this.nickname = nickname;
         this.departure_time = departure_time;
         this.running_time = running_time;
         this.mate_gender = mate_gender;
         this.user_lat = user_lat;
-        this.user_lon = user_lon;
+        this.user_lng = user_lng;
 
     }
 }
