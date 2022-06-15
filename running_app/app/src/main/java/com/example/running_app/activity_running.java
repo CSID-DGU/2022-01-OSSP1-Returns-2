@@ -521,7 +521,7 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
         TextView course, time, distance;
         RatingBar rate;
         Button ok_btn;
-        String courseData = "sample course";      // 서버에서 받아올 코스 이름
+        String courseData = "course"+course_no;      // 서버에서 받아올 코스 이름
 
         course = rDialog.findViewById(R.id.course);
         time = rDialog.findViewById(R.id.time);
@@ -560,12 +560,14 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
 //                Toast.makeText(activity_running.this, "rate: " + run_rate[0], Toast.LENGTH_SHORT).show();
 
                 //course 이름 서버에서 받아와야함..
-                int temp = 13;
-                String courseNo = String.valueOf(temp);
 
                 service = RetrofitClient.getClient().create(RetrofitInterface.class);
                 String time_res = time.getText().toString();
-                service.RunResult(new RunningResultData(nickname, room_flag, courseNo, time_res,temp2, run_rate, run_rate)).enqueue(new Callback<RunningResultResponse>() {
+
+                if(room_flag==0){
+                    course_no = 0;
+                }
+                service.RunResult(new RunningResultData(nickname, room_flag, course_no, time_res,temp2, run_rate, run_rate)).enqueue(new Callback<RunningResultResponse>() {
                     @Override
                     public void onResponse(Call<RunningResultResponse> call, Response<RunningResultResponse> response) {
                         RunningResultResponse result = response.body();
