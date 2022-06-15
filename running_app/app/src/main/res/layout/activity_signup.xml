@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#2B45D3"
-        android:text="Back"
+        android:text="뒤로가기"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/signup"
         app:layout_constraintEnd_toStartOf="@+id/signup"
