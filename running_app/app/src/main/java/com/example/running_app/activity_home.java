@@ -813,7 +813,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
                     public void onResponse(Call<MatchingResponse> call, Response<MatchingResponse> response) {
                         MatchingResponse result = response.body();
                         Toast.makeText(activity_home.this, result.getMsg(), Toast.LENGTH_SHORT).show();
-                        sDialog.show();
+                        sDialog(dialogStatus);
                     }
 
                     @Override
