@@ -98,7 +98,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginBottom="10dp"
         android:backgroundTint="#2B45D3"
-        android:text="Running"
+        android:text="러닝"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -109,7 +109,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:backgroundTint="#2B45D3"
-        android:text="Home"
+        android:text="홈"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/profile_btn"
@@ -123,7 +123,7 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:backgroundTint="#2B45D3"
-        android:text="Profile"
+        android:text="프로필"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
