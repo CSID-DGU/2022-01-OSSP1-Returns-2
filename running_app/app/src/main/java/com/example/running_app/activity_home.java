@@ -212,7 +212,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         matching_btn = findViewById(R.id.matchingButton);
         matching_btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) { mDialog(dialogMatching); }
+            public void onClick(View view) { mDialog(dialogMatching, dialogStatus); }
         });
 
         //러닝 생성 버튼
@@ -730,7 +730,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
 */
     }
 
-    public void mDialog(@NonNull Dialog mDialog) {
+    public void mDialog(@NonNull Dialog mDialog, Dialog sDialog) {
         mDialog.show();
         CheckBox manCheck, womanCheck, bothCheck;
         int runTime = mDialog.findViewById(R.id.runTime).getId();   // 소요 시간
@@ -813,6 +813,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
                     public void onResponse(Call<MatchingResponse> call, Response<MatchingResponse> response) {
                         MatchingResponse result = response.body();
                         Toast.makeText(activity_home.this, result.getMsg(), Toast.LENGTH_SHORT).show();
+                        sDialog.show();
                     }
 
                     @Override
