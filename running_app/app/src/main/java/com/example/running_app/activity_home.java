@@ -807,7 +807,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
                 // 여기서 api 로 runTime, timestamp 넘겨주면 됨
                 SharedPreferences auto = getSharedPreferences("auto", Activity.MODE_PRIVATE);
                 service = RetrofitClient.getClient().create(RetrofitInterface.class);
-                service.MatchingResult(new MatchingData(inputNickname,ts,Integer.parseInt(runTime),gender)).enqueue(new Callback<MatchingResponse>() {
+                service.MatchingResult(new MatchingData(inputNickname,ts,Integer.parseInt(runTime),gender, latitude, longitude)).enqueue(new Callback<MatchingResponse>() {
                     @Override
                     public void onResponse(Call<MatchingResponse> call, Response<MatchingResponse> response) {
                         MatchingResponse result = response.body();
