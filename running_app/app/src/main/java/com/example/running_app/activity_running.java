@@ -563,6 +563,10 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
 
                 service = RetrofitClient.getClient().create(RetrofitInterface.class);
                 String time_res = time.getText().toString();
+
+                if(room_flag==0){
+                    course_no = 0;
+                }
                 service.RunResult(new RunningResultData(nickname, room_flag, course_no, time_res,temp2, run_rate, run_rate)).enqueue(new Callback<RunningResultResponse>() {
                     @Override
                     public void onResponse(Call<RunningResultResponse> call, Response<RunningResultResponse> response) {
