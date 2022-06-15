@@ -40,4 +40,7 @@ public interface RetrofitInterface {
 
     @GET("/matching/room")
     Call<GetRoomResponse> GetByRoomId(@Query("room_id") int room_id);
+
+    @POST("/course/courseRecommend")
+    Call<RecommendResponse> GetRecommend(@Body RecommendData data);
 }

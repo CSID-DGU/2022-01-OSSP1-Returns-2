@@ -3,11 +3,15 @@ package com.example.running_app;
 import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.icu.util.Calendar;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -73,6 +77,9 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
     public static int room_courseNo = 0;
     public static int room_running_time = 0;
     public static String room_mate_gender = "";
+    public static double latitude = 0.0;
+    public static double longitude = 0.0;
+    public static int recommendNo = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -409,8 +416,54 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
         // 마커 클릭에 대한 이벤트 설정
        googleMap.setOnMarkerClickListener(this);
 
+        startLocationService();
     }
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+
+    private void startLocationService() {
+        //get manager instance
+        LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        //set listener
+        activity_home.GPSListener gpsListener = new activity_home.GPSListener();
+        long minTime = 5000;
+        float minDistance = 0;
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        manager.requestLocationUpdates(
+                LocationManager.GPS_PROVIDER,
+                minTime, minDistance, gpsListener);
+    }
+
+    private class GPSListener implements LocationListener {
+        public void onLocationChanged(Location location) {
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
+            if (ContextCompat.checkSelfPermission(activity_home.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                googleMap.setMyLocationEnabled(true);
+            } else {
+                checkLocationPermissionWithRationale();
+            }
+        }
+        public void onProviderDisabled(String provider){
+
+        }
+        public void onProviderEnabled(String provider){
+
+        }
+        public void onStatusChanged(String provider, int status, Bundle extras){
+
+        }
+    }
 
     @Override
     public boolean onMarkerClick(@NonNull Marker marker) {
@@ -790,7 +843,27 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
             @Override
             public void onClick(View v) {
                 // 추천 알고리즘으로 해당 유저 기준으로 제일 추천도 높은 코스 바로 올려주면 될듯
-                String course = "sample course";     // 여기에 코스 이름 저장
+                service.GetRecommend(new RecommendData(inputNickname, latitude, longitude)).enqueue(new Callback<RecommendResponse>() {
+                    @Override
+                    public void onResponse(Call<RecommendResponse> call, Response<RecommendResponse> response) {
+                        RecommendResponse result = response.body();
+                        recommendNo = result.getData();
+                    }
+
+                    @Override
+                    public void onFailure(Call<RecommendResponse> call, Throwable t) {
+                        Toast.makeText(activity_home.this, "추천 에러 발생", Toast.LENGTH_SHORT).show();
+                        Log.e("추천 에러 발생", t.getMessage());
+                    }
+                });
+
+                String course = "";     // 여기에 코스 이름 저장
+                if(recommendNo>=10){
+                    course = ""+recommendNo;
+                }else{
+                    course = "0"+recommendNo;
+                }
+
                 courseName.setText(course);
             }
         });
