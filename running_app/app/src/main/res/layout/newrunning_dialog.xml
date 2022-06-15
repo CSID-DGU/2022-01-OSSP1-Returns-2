@@ -43,7 +43,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="#2B45D3"
-                android:text="시작 시간"
+                android:text="시작 시각"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold"
