@@ -146,25 +146,44 @@ var main = async function(courseNo){
     const simArr = await sim();
     var most = simArr[courseNo-1];
     console.log(most);
+    var list =[];
+    var i = 0;
+    while(i < most.length){
+        if((courseNo -1 ) == i){
+            list.push({
+                courseNo : i+2,
+                coursesimilarity : most[i]
+            })
+            i += 2;
+        }else{
+            list.push({
+                courseNo : i+1,
+                coursesimilarity : most[i]
+            })
+            i++;
+        }
+    }
+    console.log(list);
     return new Promise(function(res,rej){
      //1차원 배열
-
+    
     // // 유사도 높은 순으로 정렬 
     // console.log(mostInitial)
-    // most.sort(function(a, b)  {
-    //     return b - a;
-    // });
+    list.sort(function(a, b)  {
+        return b.coursesimilarity - a.coursesimilarity;
+    });
     // console.log(mostInitial)
     // console.log(most[0])
-   for(let i =0; i<most.length;i++){
-       if(most[i] ==  Math.max.apply(null, most)){
-           res(i+1);
-       }
-   }
+//    for(let i =0; i<most.length;i++){
+//        if(most[i] ==  Math.max.apply(null, most)){
+//            res(i+1);
+//        }
+//    }
+    res(list);
 });
 }
 // main(5).then(function(result){
 //     console.log(result)
 // });
-module.exports = main;
+ module.exports = main;
 
