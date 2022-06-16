@@ -115,7 +115,6 @@ public class activity_login extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t){
-                Toast.makeText(activity_login.this, "로그인 에러", Toast.LENGTH_SHORT).show();
                 Log.e("로그인 에러", t.getMessage());
             }
         });
