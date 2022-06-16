@@ -18,7 +18,7 @@ public class MatchingData {
     @SerializedName("user_lat")
     public double user_lat;
 
-    @SerializedName("user_lon")
+    @SerializedName("user_lng")
     public double user_lng;
 
     public MatchingData(String nickname, String departure_time, int running_time, String mate_gender, double user_lat, double user_lng){

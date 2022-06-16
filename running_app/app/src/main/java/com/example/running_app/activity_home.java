@@ -502,7 +502,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
 
             @Override
             public void onFailure(Call<SearchActivateResponse> call, Throwable t) {
-                Toast.makeText(activity_home.this, "매칭방 로드 에러 발생", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(activity_home.this, "매칭방 로드 에러 발생", Toast.LENGTH_SHORT).show();
                 Log.e("매칭방 로드 에러 발생", t.getMessage());
             }
         });
@@ -599,7 +599,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
 
                 @Override
                 public void onFailure(Call<SearchActivateResponse> call, Throwable t) {
-                    Toast.makeText(activity_home.this, "매칭방 로드 에러 발생", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(activity_home.this, "매칭방 로드 에러 발생", Toast.LENGTH_SHORT).show();
                     Log.e("매칭방 로드 에러 발생", t.getMessage());
                 }
             });
@@ -816,7 +816,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
 
                     @Override
                     public void onFailure(Call<MatchingResponse> call, Throwable t) {
-                        Toast.makeText(activity_home.this, "매칭 에러 발생", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(activity_home.this, "매칭 에러 발생", Toast.LENGTH_SHORT).show();
                         Log.e("매칭 에러 발생", t.getMessage());
                     }
                 });
@@ -856,7 +856,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
 
                     @Override
                     public void onFailure(Call<RecommendResponse> call, Throwable t) {
-                        Toast.makeText(activity_home.this, "추천 에러 발생", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(activity_home.this, "추천 에러 발생", Toast.LENGTH_SHORT).show();
                         Log.e("추천 에러 발생", t.getMessage());
                     }
                 });
@@ -1015,7 +1015,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
 
                     @Override
                     public void onFailure(Call<MakeMatchingRoomResponse> call, Throwable t) {
-                        Toast.makeText(activity_home.this, "매칭방 생성 에러 발생", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(activity_home.this, "매칭방 생성 에러 발생", Toast.LENGTH_SHORT).show();
                         Log.e("매칭방 생성 에러 발생", t.getMessage());
                     }
                 });
@@ -1078,7 +1078,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
 
                     @Override
                     public void onFailure(Call<GetRoomResponse> call, Throwable t) {
-                        Toast.makeText(activity_home.this, "매칭방 로드 에러 발생", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(activity_home.this, "매칭방 로드 에러 발생", Toast.LENGTH_SHORT).show();
                         Log.e("매칭방 로드 에러 발생", t.getMessage());
                     }
                 });
@@ -1110,7 +1110,7 @@ public class activity_home extends AppCompatActivity implements OnMapReadyCallba
                     //통신 실패시 호출
                     @Override
                     public void onFailure(Call<ProfileResponse> call, Throwable t) {
-                        Toast.makeText(activity_home.this, "삭제 에러 발생", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(activity_home.this, "삭제 에러 발생", Toast.LENGTH_SHORT).show();
                         Log.e("삭제 에러 발생", t.getMessage());
                     }
                 });

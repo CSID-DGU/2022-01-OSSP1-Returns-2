@@ -10,6 +10,9 @@ public class MatchingResponse {
     @SerializedName("msg")
     private String msg;
 
+    @SerializedName("nickname")
+    private  String nickname;
+
     public boolean getResult(){return result;}
     public String getMsg(){return msg;}
 }
