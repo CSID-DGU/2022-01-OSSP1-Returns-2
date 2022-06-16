@@ -39,8 +39,10 @@ module.exports.create = (req,res) =>{
         result: true,
         msg: "매칭방 생성 완료",
       });
+      return;
     }
   });
+  
 }
 
 
@@ -73,9 +75,11 @@ module.exports.load = (req,res) => {
           data : arr,
           result : true
         });
+        return;
       }
     }
   });
+
 }
 
 /**
@@ -115,10 +119,11 @@ module.exports.objActivate = (req,res) => {
         data : arr,
         result : true
       });
+      return;
     }
     
   });
-
+  
 }
 
 /**
@@ -149,10 +154,11 @@ module.exports.objActivate = (req,res) => {
         start_latitude: result[0].start_latitude,
         start_longitude: result[0].start_longitude,
       });
+      return;
     }
     
   });
-
+  
 }
 
 
@@ -183,8 +189,10 @@ module.exports.input = (res) => {
         result: true,
         msg: "매칭 데이터 입력 완료",
       });
+      return;
     }
   });
+  
 };
 
 /*
@@ -295,6 +303,7 @@ module.exports.matching = (req, res) => {
         } else {
           for(let i=0; i<availableCourse.length;i++) {
             for(let j=0; j<result.length;j++){
+              console.log("반복");
               if(availableCourse[i] == result[j].courseNo){
                 sql2 = "UPDATE Users SET room_id = ? WHERE nickname = ?";
                 params2 = [result[j].room_id, nickname];
@@ -308,12 +317,16 @@ module.exports.matching = (req, res) => {
                       result: true,
                       msg: "필수 조건을 만족하는 방이 없어서 가장 가까운 매칭방으로 매칭되었습니다.",
                     });
+                    res.status(404).end();
                     return;
                   }
                 });
+               
               }
+              
             }
           }
+          
       }
       })  
     }
@@ -359,6 +372,7 @@ module.exports.matching = (req, res) => {
               return;
             }
           }); 
+        
         }
       }
     }
@@ -375,7 +389,7 @@ module.exports.matching = (req, res) => {
                 for (let i = 0; i < availableCourse.length; i++) {
                   for (let j = 0; j < result.length; j++) {
                     if (availableCourse[i].course_no == result[j].course_no) {
-                      console.log(result[j]);
+                      
                       sql2 = "UPDATE Users SET room_id = ? WHERE nickname = ?";
                       params2 = [result[j].room_id, nickname];
 
@@ -388,10 +402,12 @@ module.exports.matching = (req, res) => {
                           res.json({
                             result: true,
                             msg: "필수 조건을 만족하는 방이 없어서 가장 가까운 매칭방으로 매칭되었습니다.",
-                          });     
+                          }); 
+                          
+                          return;   
                         }
                       })
-                      return;
+                      break;
                     }
                   }
                 }
