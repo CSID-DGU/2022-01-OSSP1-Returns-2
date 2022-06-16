@@ -303,7 +303,7 @@ module.exports.matching = (req, res) => {
         } else {
           for(let i=0; i<availableCourse.length;i++) {
             for(let j=0; j<result.length;j++){
-              console.log("반복");
+              
               if(availableCourse[i] == result[j].courseNo){
                 sql2 = "UPDATE Users SET room_id = ? WHERE nickname = ?";
                 params2 = [result[j].room_id, nickname];
@@ -313,15 +313,14 @@ module.exports.matching = (req, res) => {
                     console.log(err);
                     conn.end();
                   } else {
-                    res.json({
+                    res.status(200).json({
                       result: true,
                       msg: "필수 조건을 만족하는 방이 없어서 가장 가까운 매칭방으로 매칭되었습니다.",
                     });
-                    res.status(404).end();
-                    return;
+                    conn.end();
                   }
                 });
-               
+                
               }
               
             }
@@ -329,6 +328,7 @@ module.exports.matching = (req, res) => {
           
       }
       })  
+  
     }
     let recommend_list = matching_start(nickname);
 
@@ -348,7 +348,7 @@ module.exports.matching = (req, res) => {
     //추천리스트에 1순위부터 차례대로 돌면서 현재 Activating_Room에 있는 유저가 있는지 확인
     for (let i = 0; i < recommend_list.length; i++) {
       for (let j = 0; j < total_nickname.length; j++) {
-        if (recommend_list[i] === total_nickname[j]) {
+        if (recommend_list[i] == total_nickname[j]) {
           recommend_user_nickname = recommend_list[i];
           //추천할 유저가 존재하면
           recommend_room_id = result[j].room_id;
@@ -363,7 +363,7 @@ module.exports.matching = (req, res) => {
               console.log(err);
               conn.end();
             } else {
-              res.json({
+              res.status(200).json({
                 result: true,
                 recommend_user: recommend_user_nickname,
                 room_id: recommend_room_id,
@@ -372,11 +372,12 @@ module.exports.matching = (req, res) => {
               return;
             }
           }); 
+          
         
         }
       }
     }
-      
+      console.log("예러ㅓ러ㅓ ")
     //추천할 유저가 존재하지 않으면
     if (recommend_user_nickname.length === 0) {
             sql3 =
@@ -386,33 +387,37 @@ module.exports.matching = (req, res) => {
                 console.log(err);
                 conn.end();
               } else {
-                for (let i = 0; i < availableCourse.length; i++) {
-                  for (let j = 0; j < result.length; j++) {
+                outer:for (let i = 0; i < availableCourse.length; i++) {
+                  inner:for (let j = 0; j < result.length; j++) {
                     if (availableCourse[i].course_no == result[j].course_no) {
-                      
-                      sql2 = "UPDATE Users SET room_id = ? WHERE nickname = ?";
                       params2 = [result[j].room_id, nickname];
+                      break outer;
+                    }
+                  }
+                  
+                }
+                sql2 = "UPDATE Users SET room_id = ? WHERE nickname = ?";
+                      
 
                       conn.query(sql2, params2, (err,result) => {
                         if(err){
                           console.log(err);
                           conn.end();
                         } else {
-
-                          res.json({
+                          console.log("mark");
+                          console.log(result)
+                          res.status(200).json({
                             result: true,
                             msg: "필수 조건을 만족하는 방이 없어서 가장 가까운 매칭방으로 매칭되었습니다.",
+                  
                           }); 
-                          
-                          return;   
+                          return;
                         }
                       })
-                      break;
-                    }
-                  }
-                }
+                      
               }        
             });  
     }
   });
+ 
 };
