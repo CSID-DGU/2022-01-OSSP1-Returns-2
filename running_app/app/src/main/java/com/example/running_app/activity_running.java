@@ -141,7 +141,7 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
                         }
                         @Override
                         public void onFailure(Call<GetRoomResponse> call, Throwable t) {
-                            Toast.makeText(activity_running.this, "조회 실패", Toast.LENGTH_SHORT).show();
+
                         }
                     });
                 }
@@ -150,7 +150,6 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
             //통신 실패시 호출
             @Override
             public void onFailure(Call<ProfileResponse> call, Throwable t) {
-                Toast.makeText(activity_running.this, "로드 에러 발생", Toast.LENGTH_SHORT).show();
                 Log.e("로드 에러 발생", t.getMessage());
             }
         });
@@ -586,14 +585,12 @@ public class activity_running extends AppCompatActivity implements OnMapReadyCal
                             //통신 실패시 호출
                             @Override
                             public void onFailure(Call<ProfileResponse> call, Throwable t) {
-                                Toast.makeText(activity_running.this, "삭제 에러 발생", Toast.LENGTH_SHORT).show();
                                 Log.e("삭제 에러 발생", t.getMessage());
                             }
                         });
                     }
                     @Override
                     public void onFailure(Call<RunningResultResponse> call, Throwable t) {
-                        Toast.makeText(activity_running.this, "러닝 뷰 에러 발생", Toast.LENGTH_SHORT).show();
                         Log.e("러닝 뷰 에러 발생", t.getMessage());
                      }
                 });

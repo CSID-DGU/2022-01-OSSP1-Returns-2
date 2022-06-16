@@ -180,7 +180,6 @@ public class activity_signup extends AppCompatActivity {
             //통신 실패시 호출
             @Override
             public void onFailure(Call<SignupResponse> call, Throwable t) {
-                Toast.makeText(activity_signup.this, "회원가입 에러 발생", Toast.LENGTH_SHORT).show();
                 Log.e("회원가입 에러 발생", t.getMessage());
 
             }

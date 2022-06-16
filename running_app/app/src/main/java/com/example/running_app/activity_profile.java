@@ -57,7 +57,6 @@ public class activity_profile extends AppCompatActivity{
             //통신 실패시 호출
             @Override
             public void onFailure(Call<ProfileResponse> call, Throwable t) {
-                Toast.makeText(activity_profile.this, "프로필 뷰 에러 발생", Toast.LENGTH_SHORT).show();
                 Log.e("프로필 뷰 에러 발생", t.getMessage());
             }
         });
